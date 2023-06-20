@@ -1,0 +1,171 @@
+import { useContext, useEffect, useState } from "react";
+import { BsFillBookmarkHeartFill } from "react-icons/bs";
+import PerkSlot from "./PerkSlot";
+import survivorImg from "../assets/survivor.png";
+import killerImg from "../assets/killer.png";
+import { IBuildPreview, IUser } from "../types/types";
+import axios from "axios";
+import { UserContext } from "./UserContext";
+import { Link } from "react-router-dom";
+
+interface ISavedCountProps {
+  isSaved: boolean;
+  savedCount: number;
+  buildId: number;
+}
+
+const SavedCount = (props: ISavedCountProps) => {
+  const [isSaved, setIsSaved] = useState(props.isSaved);
+
+  const userDetails = useContext(UserContext) as IUser;
+
+  const savePost = async () => {
+    try {
+      await axios.post(
+        "http://localhost:5000/savepost",
+        {
+          postId: props.buildId,
+        },
+        { withCredentials: true }
+      );
+      setIsSaved(true);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const unsavePost = async () => {
+    try {
+      await axios.post(
+        "http://localhost:5000/unsavepost",
+        {
+          postId: props.buildId,
+        },
+        { withCredentials: true }
+      );
+      setIsSaved(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleClickedSaved = () => {
+    if (userDetails._id) {
+      if (isSaved) {
+        unsavePost();
+      } else {
+        savePost();
+      }
+    }
+  };
+
+  return (
+    <div className="absolute top-0 right-0 w-1/3 h-10 overflow-hidden flex justify-end">
+      <p className="text-gray-400 mr-2">{props.savedCount}</p>
+      <BsFillBookmarkHeartFill
+        className={
+          isSaved
+            ? "min-w-fit mt-1 mr-2 text-amber-400 hover:text-red-400"
+            : "min-w-fit mt-1 mr-2 text-gray-300 hover:text-amber-100 hover:rotate-12"
+        }
+        onClick={() => {
+          handleClickedSaved();
+        }}
+      />
+    </div>
+  );
+};
+
+const BuildPreview = (build: IBuildPreview) => {
+  const [authorUser, setAuthorUser] = useState<IUser>();
+
+  const resolveAuthorIDtoUser = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/users/" + build.authorID
+      );
+      setAuthorUser(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const genAuthorString = () => {
+    if (!authorUser) {
+      return "Deleted User";
+    }
+    if (authorUser?.username) {
+      return authorUser.username;
+    }
+    return "Error";
+  };
+
+  useEffect(() => {
+    resolveAuthorIDtoUser();
+  }, []);
+
+  const perkSlots = [];
+  for (let i = 0; i < 4; i++) {
+    perkSlots.push(
+      <PerkSlot
+        perkImage={build.perks[i]}
+        key={i}
+        slotNumber={i}
+        isSelected={false}
+      />
+    );
+  }
+
+  const getBuildTypeImg = () => {
+    if (build.type == "survivor") {
+      return survivorImg;
+    } else {
+      return killerImg;
+    }
+  };
+
+  return (
+    <div className="relative mt-4 ml-2 mr-2 max-w-2xl">
+      <h1 className="ml-2 text-gray-100">{build.name}</h1>
+      <SavedCount
+        isSaved={build.isSaved}
+        buildId={build._id}
+        savedCount={build.saves}
+      />
+
+      <div className="relative h-72 w-full bg-gray-700 rounded-xl shadow-lg">
+        <div className="relative w-full h-1/2 top-0 left-0">
+          <div className="pl-2 pr-2 pt-5 grid gap-2 grid-cols-4">
+            {perkSlots.map((slot) => {
+              return slot;
+            })}
+          </div>
+        </div>
+
+        <div className="absolute w-full h-1/2 left-0 bottom-0 overflow-hidden">
+          <p className="relative text-gray-400 text-sm pl-2">Description: </p>
+          <div className="h-20 overflow-hidden">
+            <p className="text-xs text-gray-100 pl-2 pr-2">
+              {build.description}
+            </p>
+          </div>
+          <p className="absolute text-gray-400 text-sm bottom-1 pl-2">
+            Author:
+          </p>
+          <Link
+            to={"/author/" + authorUser?._id}
+            className="absolute text-gray-300 text-sm bottom-1 left-14 pl-2 hover:text-gray-100"
+          >
+            {genAuthorString()}
+          </Link>
+          <img
+            className="absolute h-8 bottom-2 right-2"
+            src={getBuildTypeImg()}
+          ></img>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BuildPreview;
