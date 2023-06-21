@@ -118,7 +118,7 @@ const CreateNew = () => {
     <div>
       <h1 className="text-center text-gray-200">Create New</h1>
       <div className="pl-2 pr-2 sm:grid sm:grid-cols-2 gap-2">
-        <div className="">
+        <div className="bg-gray-700 rounded-xl shadow-lg p-2 mt-4 m-2 pr-4">
           <p className="pl-2 text-gray-300">Build Name:</p>
           <input
             className="ml-1 bg-gray-600 rounded-xl text-center shadow-md text-gray-300"
@@ -129,7 +129,7 @@ const CreateNew = () => {
               setBuildName(e.target.value);
             }}
           />
-          <div className="mt-2 bg-gray-700 w-full h-64 shadow-xl rounded-lg">
+          <div className="mt-5 pb-2 bg-gray-600 max-w-fit shadow-xl rounded-lg">
             <PerkSelectionViewer
               selectedPerks={selectedPerks}
               insertPoint={perkInsertPoint}
@@ -137,16 +137,24 @@ const CreateNew = () => {
                 setPerkInsertPoint(position);
               }}
             />
-
-            {/* <ItemSelectionViewer></ItemSelectionViewer> */}
           </div>
+
+          <p className="pl-2 pt-5 text-gray-300">Build Description:</p>
+          <textarea
+            className="ml-1 bg-gray-600 rounded-xl w-full h-40 shadow-md text-gray-300"
+            id="description"
+            value={description}
+            onChange={(e) => {
+              setDescription(e.target.value);
+            }}
+          />
         </div>
 
-        <div className="absolute right-2 mt-3">
+        <div className="absolute right-6 mt-5">
           <KSToggle start={buildType} onClick={handleKSToggle} />
         </div>
 
-        <div className="mt-7">
+        <div className="bg-gray-700 rounded-xl shadow-lg p-2 mt-4 m-2 pb-4 h-fit">
           <PerkPicker
             selectedPerks={selectedPerks}
             perkType={buildType}
@@ -156,19 +164,7 @@ const CreateNew = () => {
           />
         </div>
 
-        <div className="mt-5">
-          <p className="pl-1 text-gray-300">Build Description:</p>
-          <textarea
-            className="bg-gray-600 rounded-xl w-full shadow-md"
-            id="description"
-            value={description}
-            onChange={(e) => {
-              setDescription(e.target.value);
-            }}
-          />
-        </div>
-
-        <div className="mt-5">
+        <div className="">
           <div className="mt-5 grid place-items-center">
             <button className="button1" onClick={handleSave}>
               Save
@@ -176,6 +172,7 @@ const CreateNew = () => {
           </div>
         </div>
       </div>
+
       <div className="mt-5">
         {errorShown ? (
           <div className="grid place-items-center absolute top-1/4 w-full">
@@ -211,24 +208,22 @@ const PerkPicker = (props: PerkPickerProps) => {
   };
 
   return (
-    <div className="grid h-full place-items-bottom">
+    <div className="">
       <p className="pl-2 text-gray-300">Select the perks:</p>
-      <div className="mt-2 bg-gray-700 w-full h-64 shadow-xl rounded-lg overflow-y-scroll">
-        <div className="grid h-full place-items-center">
-          <div className="max-w-2xl">
-            <div className="h-43 pl-2 pr-2 grid gap-2 grid-cols-5">
-              {perkList.map((perk, i) => {
-                return (
-                  <PerkSlot
-                    perkImage={perk}
-                    key={i}
-                    slotNumber={i}
-                    isSelected={props.selectedPerks.includes(perk)}
-                    handleClick={perkPicked}
-                  />
-                );
-              })}
-            </div>
+      <div className="">
+        <div className="mt-3 bg-gray-600 shadow-xl rounded-lg h-96 overflow-y-scroll">
+          <div className="p-2 grid gap-2 grid-cols-5">
+            {perkList.map((perk, i) => {
+              return (
+                <PerkSlot
+                  perkImage={perk}
+                  key={i}
+                  slotNumber={i}
+                  isSelected={props.selectedPerks.includes(perk)}
+                  handleClick={perkPicked}
+                />
+              );
+            })}
           </div>
         </div>
       </div>

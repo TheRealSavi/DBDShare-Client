@@ -21,7 +21,7 @@
   }
 
   .site-content-nav {
-    @apply min-h-screen ml-20 font-semibold text-lg relative bg-slate-800 pb-10;
+    @apply min-h-screen ml-16 font-semibold text-lg relative bg-slate-800 pb-10;
   }
 
   .button1 {
