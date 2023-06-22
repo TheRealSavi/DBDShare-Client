@@ -70,7 +70,7 @@ const Randomizer = () => {
     <div className="grid h-full place-items-center">
       <div className="max-w-2xl">
         <h1 className="text-center text-gray-200 mt-2">Perk Randomizer</h1>
-        <div className="bg-gray-700 rounded-xl shadow-lg p-2 mt-4 m-2">
+        <div className="bg-gray-700 rounded-xl shadow-lg p-2 mt-4 m-2 ml-4">
           <div className="grid grid-cols-4 gap-2 md:gap-5 mt-5 md:ml-5 md:mr-5">
             <div>
               <PerkSlot

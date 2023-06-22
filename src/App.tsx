@@ -10,7 +10,7 @@ function App() {
       {navbarShown && <Navbar />}
       <div className={navbarShown ? "site-content-nav" : "site-content"}>
         <AppRouter />
-        <div className="fixed bottom-2 pl-2 w-full sm:invisible">
+        <div className="fixed bottom-2 pl-4 w-full sm:invisible">
           <button
             onClick={() => {
               setNavbarShown(!navbarShown);

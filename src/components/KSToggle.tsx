@@ -38,7 +38,7 @@ const KSToggle = (props: IKSToggleProps) => {
   return (
     <img
       src={selection.img}
-      className="h-10 hover:h-11"
+      className="h-10 hover:h-11 origin-center"
       onClick={handleClick}
     ></img>
   );
