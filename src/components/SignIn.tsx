@@ -2,6 +2,8 @@ import { useContext } from "react";
 import axios from "axios";
 import { IUser } from "../types/types";
 import { UserContext } from "./UserContext";
+import { FcGoogle } from "react-icons/fc";
+import { BsSteam } from "react-icons/bs";
 
 const SignIn = () => {
   const userDetails = useContext(UserContext) as IUser;
@@ -38,36 +40,45 @@ const SignIn = () => {
   };
 
   return (
-    <div className="p-2 relative w-full bg-gray-600 rounded-xl shadow-lg">
-      <div className="text-center">
-        {userDetails._id ? (
-          <p className="text-green-400">
-            Signed in as {userDetails.username} through {signInProvider()}
-          </p>
-        ) : (
-          <p className="text-red-500 text-xl mb-2">Not signed in</p>
-        )}
-      </div>
-      <div className="grid place-items-center">
-        <div className="w-1/2 bg-gray-700 p-5 grid place-items-center gap-6 rounded-xl shadow-lg">
-          <div className="text-center text-gray-200">
-            <button className="button1 object-contain" onClick={googleLogin}>
-              Sign in with Google
-            </button>
-          </div>
-          <div>
-            <button className="button1 object-contain" onClick={steamLogin}>
-              Sign in with Steam{" "}
-            </button>
+    <div className="p-2 relative max-w-fit bg-slate-700 rounded-xl shadow-lg min-w-fit pb-1">
+      {userDetails._id ? (
+        <p className="text-gray-100 text-xl mb-3 ml-3 mr-3">
+          Welcome back, {userDetails.username}!
+        </p>
+      ) : (
+        <p className="text-gray-200 text-xl mb-3 ml-3 mr-3">
+          Sign in through a provider:
+        </p>
+      )}
+
+      {userDetails._id ? (
+        <div></div>
+      ) : (
+        <div className="grid place-items-cente ml-3 mr-3 mb-8">
+          <div className="w-96 bg-slate-600 p-5 pb-7 grid grid-cols-2 place-items-center gap-6 rounded-xl shadow-lg">
+            <div className="text-center text-gray-200">
+              <button className="button1 object-contain" onClick={googleLogin}>
+                {<FcGoogle size={50} />}
+              </button>
+            </div>
+            <div>
+              <button className="button1 object-contain" onClick={steamLogin}>
+                <BsSteam size={50} />
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
-      <div className="mt-8 pb-5 text-center text-red-600">
-        <button className="button1 object-contain" onClick={logout}>
-          Log out
-        </button>
-      </div>
+      {userDetails._id ? (
+        <div className="grid place-items-center pt-3 pb-3">
+          <button className="button1 object-contain" onClick={logout}>
+            Log out
+          </button>
+        </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };
