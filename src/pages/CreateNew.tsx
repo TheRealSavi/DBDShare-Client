@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import emptySlot from "../assets/blank.png";
 import perks from "../components/PerkList";
 import PerkSlot from "../components/PerkSlot";
 import KSToggle from "../components/KSToggle";
@@ -8,10 +7,6 @@ import { UserContext } from "../components/UserContext";
 import SignIn from "../components/SignIn";
 import axios from "axios";
 import { IKSToggleSelectionType, INewBuild, IUser } from "../types/types";
-
-interface ItemSlotProps {
-  type: boolean;
-}
 
 interface PerkPickerProps {
   selectedPerks: Array<string>;
@@ -102,10 +97,12 @@ const CreateNew = () => {
       type: buildType,
     };
 
-    axios.post("http://localhost:5000/newpost", newPost).then((res) => {
-      console.log("saved", res);
-      navigate("/home");
-    });
+    axios
+      .post("http://localhost:5000/newpost", newPost, { withCredentials: true })
+      .then((res) => {
+        console.log("saved", res);
+        navigate("/home");
+      });
   };
 
   const handleKSToggle = (selection: IKSToggleSelectionType) => {
@@ -116,8 +113,8 @@ const CreateNew = () => {
 
   return (
     <div>
-      <h1 className="text-center text-gray-200">Create New</h1>
-      <div className="pl-2 pr-2 sm:grid sm:grid-cols-2 gap-2">
+      <h1 className="text-center text-gray-200 pt-2 mb-4">Make a Post</h1>
+      <div className="pl-2 pr-2 lg:grid lg:grid-cols-2 gap-2 md:mr-5 lg:mr-0 md:ml-5 lg:ml-0">
         <div className="bg-gray-700 rounded-xl shadow-lg p-2 mt-4 m-2 pr-4">
           <p className="pl-2 text-gray-300">Build Name:</p>
           <input
@@ -150,7 +147,7 @@ const CreateNew = () => {
           />
         </div>
 
-        <div className="absolute right-6 mt-5">
+        <div className="absolute right-6 sm:right-6 md:right-11 lg:right-6 mt-3 lg:mt-5">
           <KSToggle start={buildType} onClick={handleKSToggle} />
         </div>
 
@@ -212,7 +209,7 @@ const PerkPicker = (props: PerkPickerProps) => {
       <p className="pl-2 text-gray-300">Select the perks:</p>
       <div className="">
         <div className="mt-3 bg-gray-600 shadow-xl rounded-lg h-96 overflow-y-scroll">
-          <div className="p-2 grid gap-2 grid-cols-5">
+          <div className="p-2 grid gap-2 grid-cols-4 sm:grid-cols-5">
             {perkList.map((perk, i) => {
               return (
                 <PerkSlot
@@ -253,38 +250,12 @@ const PerkSelectionViewer = (props: PerkSelectionViewerProps) => {
   }
 
   return (
-    <div className="grid h-full place-items-top pt-2">
-      <div className="max-w-2xl">
-        <div className="h-43 pl-2 pr-2 grid gap-2 grid-cols-4">
-          {perkSlots.map((slot) => {
-            return slot;
-          })}
-        </div>
+    <div className="grid h-full place-items-top p-2">
+      <div className="h-43 grid gap-2 grid-cols-4">
+        {perkSlots.map((slot) => {
+          return slot;
+        })}
       </div>
-    </div>
-  );
-};
-
-const ItemSelectionViewer = () => {
-  return (
-    <div className="flex max-w-3xl h-36 pl-12 pr-2">
-      <ItemSlot type={false} />
-      <ItemSlot type={true} />
-      <ItemSlot type={true} />
-    </div>
-  );
-};
-
-const ItemSlot = (props: ItemSlotProps) => {
-  return (
-    <div
-      className={
-        props.type
-          ? "relative m-0 mt-6 w-fit-content h-20"
-          : "relative m-0 mt-4 w-fit-content h-28"
-      }
-    >
-      <img className="h-full object-contain rotate-45 " src={emptySlot}></img>
     </div>
   );
 };
