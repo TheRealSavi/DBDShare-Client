@@ -13,11 +13,9 @@ export interface INewBuild {
   type: string;
 }
 
-export interface IUser {
+export interface IUser extends IAuthor {
   googleId?: string;
   steamId?: string;
-  username: string | undefined;
-  _id: string | undefined;
   savedPosts?: string[];
 }
 
