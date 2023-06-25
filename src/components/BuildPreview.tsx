@@ -16,6 +16,7 @@ interface ISavedCountProps {
 
 const SavedCount = (props: ISavedCountProps) => {
   const [isSaved, setIsSaved] = useState(props.isSaved);
+  const [saves, setSaves] = useState(props.savedCount);
 
   const userDetails = useContext(UserContext) as IUser;
 
@@ -29,6 +30,7 @@ const SavedCount = (props: ISavedCountProps) => {
         { withCredentials: true }
       );
       setIsSaved(true);
+      setSaves(saves + 1);
     } catch (err) {
       console.log(err);
     }
@@ -44,6 +46,7 @@ const SavedCount = (props: ISavedCountProps) => {
         { withCredentials: true }
       );
       setIsSaved(false);
+      setSaves(saves - 1);
     } catch (err) {
       console.log(err);
     }
@@ -61,7 +64,7 @@ const SavedCount = (props: ISavedCountProps) => {
 
   return (
     <div className="absolute top-0 right-0 w-1/3 h-10 overflow-hidden flex justify-end">
-      <p className="text-gray-400 mr-2">{props.savedCount}</p>
+      <p className="text-gray-400 mr-2">{saves}</p>
       <BsFillBookmarkHeartFill
         className={
           isSaved
@@ -125,7 +128,7 @@ const BuildPreview = (build: IBuildPreview) => {
   };
 
   return (
-    <div className="relative mt-4 ml-2 mr-2 max-w-2xl">
+    <div className="relative mb-3 mt-1 ml-2 mr-2 min-w-sm max-w-md">
       <h1 className="ml-2 text-gray-100">{build.name}</h1>
       <SavedCount
         isSaved={build.isSaved}
@@ -133,35 +136,34 @@ const BuildPreview = (build: IBuildPreview) => {
         savedCount={build.saves}
       />
 
-      <div className="relative h-72 w-full bg-gray-700 rounded-xl shadow-lg">
-        <div className="relative w-full h-1/2 top-0 left-0">
-          <div className="pl-2 pr-2 pt-5 grid gap-2 grid-cols-4">
+      <div className="relative h-56 w-full bg-gray-700 rounded-xl shadow-lg">
+        <div className="grid grid-rows-2 h-full place-items-top p-2">
+          <div className="grid gap-1 grid-cols-4">
             {perkSlots.map((slot) => {
               return slot;
             })}
           </div>
-        </div>
-
-        <div className="absolute w-full h-1/2 left-0 bottom-0 overflow-hidden">
-          <p className="relative text-gray-400 text-sm pl-2">Description: </p>
-          <div className="h-20 overflow-hidden">
-            <p className="text-xs text-gray-100 pl-2 pr-2">
-              {build.description}
+          <div className="mt-3">
+            <p className="text-gray-400 text-sm pl-2">Description: </p>
+            <div className="overflow-hidden h-12">
+              <p className="text-xs text-gray-100 pl-2 pr-2">
+                {build.description}
+              </p>
+            </div>
+            <p className="absolute text-gray-400 text-sm bottom-1 pl-2">
+              Author:
             </p>
+            <Link
+              to={"/author/" + authorUser?._id}
+              className="absolute text-gray-300 text-sm bottom-1 left-14 pl-2 hover:text-gray-100"
+            >
+              {genAuthorString()}
+            </Link>
+            <img
+              className="absolute h-8 bottom-2 right-2"
+              src={getBuildTypeImg()}
+            ></img>
           </div>
-          <p className="absolute text-gray-400 text-sm bottom-1 pl-2">
-            Author:
-          </p>
-          <Link
-            to={"/author/" + authorUser?._id}
-            className="absolute text-gray-300 text-sm bottom-1 left-14 pl-2 hover:text-gray-100"
-          >
-            {genAuthorString()}
-          </Link>
-          <img
-            className="absolute h-8 bottom-2 right-2"
-            src={getBuildTypeImg()}
-          ></img>
         </div>
       </div>
     </div>
