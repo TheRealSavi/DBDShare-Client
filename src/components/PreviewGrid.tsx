@@ -8,15 +8,19 @@ import { UserContext } from "./UserContext";
 interface IPreviewGrid {
   showMySaved?: boolean;
   showFromAuthorID?: string | undefined;
+  name: string;
+  expandable: boolean;
 }
 
 const PreviewGrid = (props: IPreviewGrid) => {
-  const [gridItems, setGridItems] = useState<[IBuildPreview]>();
+  const [expanded, setExpanded] = useState(!props.expandable);
+  const [contents, setContents] = useState<JSX.Element[]>();
 
   const userDetails = useContext(UserContext) as IUser;
 
   useEffect(() => {
     const getGridItems = async () => {
+      let recieved: IBuildPreview[];
       try {
         let response;
         if (props.showFromAuthorID != undefined) {
@@ -38,41 +42,75 @@ const PreviewGrid = (props: IPreviewGrid) => {
         }
 
         if (props.showMySaved) {
-          setGridItems(
-            response.data.filter((post: IBuildPreview) => post.isSaved === true)
+          recieved = response.data.filter(
+            (post: IBuildPreview) => post.isSaved === true
           );
         } else {
-          setGridItems(response.data);
+          recieved = response.data;
         }
       } catch (err) {
         console.log(err);
+        recieved = [] as IBuildPreview[];
+      }
+
+      if (Object.keys(recieved).length === 0) {
+        setContents([
+          <p key="0" className="text-gray-400 text-lg">
+            Nothing to see here...
+          </p>,
+        ]);
+      } else {
+        setContents(
+          recieved.map((item) => <BuildPreview {...item} key={item._id} />)
+        );
       }
     };
 
     getGridItems();
   }, []);
 
-  const genContent = () => {
-    if (gridItems) {
-      if (Object.keys(gridItems).length === 0) {
-        return (
-          <div className="">
-            <p className="text-gray-400 text-sm mt-3">Nothing to see here...</p>
-          </div>
-        );
-      } else {
-        return gridItems.map((item) => (
-          <BuildPreview {...item} key={item._id} />
-        ));
-      }
-    } else {
-      return <div></div>;
-    }
-  };
-
   return (
-    <div className="mr-2 ml-2 grid-cols-1 grid sm:grid-cols-2 2xl:grid-cols-3 gap-2">
-      {genContent()}
+    <div className="ml-0 mr-0 md:ml-12 md:mr-12 mt-3 ">
+      <div className="flex mr-3">
+        <h1 className="grow text-gray-200 text-2xl pt-3 ml-4 mb-2">
+          {props.name}
+        </h1>
+        {props.expandable ? (
+          <button
+            className="text-gray-200 button2 mt-4 mb-2"
+            onClick={() => {
+              if (expanded) {
+                setExpanded(false);
+              } else {
+                setExpanded(true);
+              }
+            }}
+          >
+            {expanded ? "-" : "+"}
+          </button>
+        ) : (
+          <div></div>
+        )}
+      </div>
+
+      <div className="pl-1 pr-3 pt-1 pb-1 bg-slate-600 rounded-xl shadow-md overflow-x-auto overflow-y-hidden overscroll-contain snap-x snap-mandatory">
+        {expanded ? (
+          <div className="mr-2 ml-2 grid-cols-1 grid sm:grid-cols-2 2xl:grid-cols-4 gap-2 ">
+            {contents}
+          </div>
+        ) : (
+          <div className="">
+            <div className="mr-2 grid grid-rows-2 gap-3">
+              <div className="grid grid-flow-col auto-cols-max gap-3">
+                {contents?.slice(0, Math.ceil(contents.length / 2))}
+              </div>
+              <div className="grid grid-flow-col auto-cols-max gap-3">
+                {contents?.slice(Math.ceil(contents.length / 2))}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

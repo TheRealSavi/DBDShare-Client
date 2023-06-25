@@ -38,16 +38,12 @@ const AuthorPage = () => {
       <h1 className="text-center text-gray-200 pt-2 mb-4">
         {genAuthorString() + "'s Page"}
       </h1>
-      <div className="ml-20 mr-20">
-        <h1 className="text-gray-200 text-2xl pt-3 ml-4 mb-2">
-          Published Builds:
-        </h1>
-        <div className="bg-slate-600 rounded-xl shadow-lg pb-8 p-1">
-          <div className="grid place-items-center">
-            <PreviewGrid showFromAuthorID={id} />
-          </div>
-        </div>
-      </div>
+
+      <PreviewGrid
+        name="Published Builds:"
+        expandable={true}
+        showFromAuthorID={id}
+      />
     </div>
   );
 };
