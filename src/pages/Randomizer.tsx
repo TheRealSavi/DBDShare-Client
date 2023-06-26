@@ -1,59 +1,73 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import perks from "../components/PerkList";
 import PerkSlot from "../components/PerkSlot";
 import KSToggle from "../components/KSToggle";
-import { IKSToggleSelectionType } from "../types/types";
+import { IKSToggleSelectionType, IPerk } from "../types/types";
+import axios from "axios";
 
 const Randomizer = () => {
-  const [randomPerks, setRandomPerks] = useState(["", "", "", ""]);
-  const [lockedPerks, setLockedPerks] = useState([false, false, false, false]);
+  const [randomPerks, setRandomPerks] = useState<IPerk[]>();
+  const [lockedPerks, setLockedPerks] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+  ]);
   const [buildType, setBuildType] = useState("survivor");
+  const [perkList, setPerkList] = useState<IPerk[]>();
 
-  const perkList = ["", "", "", ""];
-  if (buildType == "survivor") {
-    Object.values(perks.survivor).map((perk, i) => {
-      perkList[i] = perk;
-    });
-  } else {
-    Object.values(perks.killer).map((perk, i) => {
-      perkList[i] = perk;
-    });
-  }
+  useEffect(() => {
+    const getPerks = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/perks");
+        setPerkList(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-  const getPerks = () => {
-    const perksToUse = ["", "", "", ""];
-    const perkListCopy = [...perkList];
+    getPerks();
+  }, []);
+
+  const genRandomPerks = () => {
+    const perksToUse = [];
 
     for (let i = 0; i < lockedPerks.length; i++) {
-      if (lockedPerks[i] === true) {
+      if (
+        lockedPerks[i] === true &&
+        randomPerks != undefined &&
+        randomPerks[i] != undefined &&
+        perkList != undefined
+      ) {
         perksToUse[i] = randomPerks[i];
-        const index = perkListCopy.indexOf(randomPerks[i]);
+        const index = perkList.indexOf(randomPerks[i]);
         if (index > -1) {
-          perkListCopy.splice(index, 1);
+          perkList.splice(index, 1);
         }
       }
     }
 
-    for (let i = 0; i < 4; i++) {
-      const toAdd =
-        perkListCopy[Math.floor(Math.random() * perkListCopy.length)];
-      if (lockedPerks[i] === false) {
-        perksToUse[i] = toAdd;
+    if (perkList != undefined) {
+      for (let i = 0; i < 4; i++) {
+        const toAdd = perkList[Math.floor(Math.random() * perkList.length)];
+        if (lockedPerks[i] === false) {
+          perksToUse[i] = toAdd;
+        }
+        const index = perkList.indexOf(toAdd);
+        if (index > -1) {
+          perkList.splice(index, 1);
+        }
       }
-      const index = perkListCopy.indexOf(toAdd);
-      if (index > -1) {
-        perkListCopy.splice(index, 1);
-      }
+      setRandomPerks(perksToUse);
     }
-
-    setRandomPerks(perksToUse);
   };
 
   const perkClicked = (slotNumber: number) => {
-    const newLockedPerks = [...lockedPerks];
-    newLockedPerks[slotNumber] = !newLockedPerks[slotNumber];
-    setLockedPerks(newLockedPerks);
+    if (randomPerks != undefined) {
+      const newLockedPerks = [...lockedPerks];
+      newLockedPerks[slotNumber] = !newLockedPerks[slotNumber];
+      setLockedPerks(newLockedPerks);
+    }
 
     return (event: React.MouseEvent) => {
       event.preventDefault;
@@ -62,7 +76,7 @@ const Randomizer = () => {
 
   const handleKSToggle = (selection: IKSToggleSelectionType) => {
     setBuildType(selection.str);
-    setRandomPerks(["", "", "", ""]);
+    setRandomPerks([]);
     setLockedPerks([false, false, false, false]);
   };
 
@@ -74,7 +88,7 @@ const Randomizer = () => {
           <div className="grid grid-cols-4 gap-2 md:gap-5 mt-5 md:ml-5 md:mr-5">
             <div>
               <PerkSlot
-                perkImage={randomPerks[0]}
+                perk={randomPerks ? randomPerks[0] : undefined}
                 key={0}
                 slotNumber={0}
                 isSelected={lockedPerks[0]}
@@ -83,7 +97,7 @@ const Randomizer = () => {
             </div>
             <div>
               <PerkSlot
-                perkImage={randomPerks[1]}
+                perk={randomPerks ? randomPerks[1] : undefined}
                 key={1}
                 slotNumber={1}
                 isSelected={lockedPerks[1]}
@@ -92,7 +106,7 @@ const Randomizer = () => {
             </div>
             <div>
               <PerkSlot
-                perkImage={randomPerks[2]}
+                perk={randomPerks ? randomPerks[2] : undefined}
                 key={2}
                 slotNumber={2}
                 isSelected={lockedPerks[2]}
@@ -101,7 +115,7 @@ const Randomizer = () => {
             </div>
             <div>
               <PerkSlot
-                perkImage={randomPerks[3]}
+                perk={randomPerks ? randomPerks[3] : undefined}
                 key={3}
                 slotNumber={3}
                 isSelected={lockedPerks[3]}
@@ -114,31 +128,35 @@ const Randomizer = () => {
               <button
                 className="button1 mt-10 w-full object-contain"
                 onClick={() => {
-                  getPerks();
+                  genRandomPerks();
                 }}
               >
                 Randomize
               </button>
             </div>
             <div>
-              <Link
-                to={
-                  "/createnew?perk0=" +
-                  randomPerks[0] +
-                  "&perk1=" +
-                  randomPerks[1] +
-                  "&perk2=" +
-                  randomPerks[2] +
-                  "&perk3=" +
-                  randomPerks[3] +
-                  "&buildType=" +
-                  buildType
-                }
-              >
-                <button className="button1 mt-10 w-full object-contain">
-                  Save to new build
-                </button>
-              </Link>
+              {randomPerks ? (
+                <Link
+                  to={
+                    "/createnew?perk0=" +
+                    randomPerks[0]._id +
+                    "&perk1=" +
+                    randomPerks[1]._id +
+                    "&perk2=" +
+                    randomPerks[2]._id +
+                    "&perk3=" +
+                    randomPerks[3]._id +
+                    "&buildType=" +
+                    buildType
+                  }
+                >
+                  <button className="button1 mt-10 w-full object-contain">
+                    Save to new build
+                  </button>
+                </Link>
+              ) : (
+                <div></div>
+              )}
             </div>
           </div>
           <div className="grid grid-cols-1 place-items-center mt-11">

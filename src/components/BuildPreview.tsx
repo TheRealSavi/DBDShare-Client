@@ -3,7 +3,7 @@ import { BsFillBookmarkHeartFill } from "react-icons/bs";
 import PerkSlot from "./PerkSlot";
 import survivorImg from "../assets/survivor.png";
 import killerImg from "../assets/killer.png";
-import { IBuildPreview, IUser } from "../types/types";
+import { IBuildPreview, IPerk, IUser } from "../types/types";
 import axios from "axios";
 import { UserContext } from "./UserContext";
 import { Link } from "react-router-dom";
@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 interface ISavedCountProps {
   isSaved: boolean;
   savedCount: number;
-  buildId: number;
+  buildId: string;
 }
 
 const SavedCount = (props: ISavedCountProps) => {
@@ -111,7 +111,7 @@ const BuildPreview = (build: IBuildPreview) => {
   for (let i = 0; i < 4; i++) {
     perkSlots.push(
       <PerkSlot
-        perkImage={build.perks[i]}
+        perk={{ _id: build.perkIDs[i] } as IPerk}
         key={i}
         slotNumber={i}
         isSelected={false}

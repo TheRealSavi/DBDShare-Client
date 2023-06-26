@@ -1,27 +1,31 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import perks from "../components/PerkList";
 import PerkSlot from "../components/PerkSlot";
 import KSToggle from "../components/KSToggle";
 import { UserContext } from "../components/UserContext";
 import SignIn from "../components/SignIn";
 import axios from "axios";
-import { IKSToggleSelectionType, INewBuild, IUser } from "../types/types";
+import {
+  IKSToggleSelectionType,
+  INewBuild,
+  IPerk,
+  IUser,
+} from "../types/types";
 
 interface PerkPickerProps {
-  selectedPerks: Array<string>;
+  selectedPerks: IPerk[];
   perkType: string;
-  handlePerkSelect: (perk: string) => void;
+  handlePerkSelect: (perk: IPerk) => void;
 }
 
 interface PerkSelectionViewerProps {
-  selectedPerks: Array<string>;
+  selectedPerks: IPerk[];
   insertPoint: number;
   handleClick: (position: number) => void;
 }
 
 const CreateNew = () => {
-  const [selectedPerks, setSelectedPerks] = useState(["", "", "", ""]);
+  const [selectedPerks, setSelectedPerks] = useState<(IPerk | undefined)[]>([]);
   const [perkInsertPoint, setPerkInsertPoint] = useState(0);
   const [buildName, setBuildName] = useState("Name");
   const [buildType, setBuildType] = useState("survivor");
@@ -34,33 +38,37 @@ const CreateNew = () => {
   const userDetails = useContext(UserContext) as IUser;
 
   useEffect(() => {
-    const newPerks = ["", "", "", ""];
-    const perk0 = queryParameters.get("perk0");
-    const perk1 = queryParameters.get("perk1");
-    const perk2 = queryParameters.get("perk2");
-    const perk3 = queryParameters.get("perk3");
+    const newPerks = [];
+    const perkID0 = queryParameters.get("perk0");
+    const perkID1 = queryParameters.get("perk1");
+    const perkID2 = queryParameters.get("perk2");
+    const perkID3 = queryParameters.get("perk3");
     const queryBuildType = queryParameters.get("buildType");
 
-    if (perk0 && perk1 && perk2 && perk3 && queryBuildType) {
-      newPerks[0] = perk0;
-      newPerks[1] = perk1;
-      newPerks[2] = perk2;
-      newPerks[3] = perk3;
+    if (perkID0 && perkID1 && perkID2 && perkID3 && queryBuildType) {
+      newPerks[0] = { _id: perkID0 } as IPerk;
+      newPerks[1] = { _id: perkID1 } as IPerk;
+      newPerks[2] = { _id: perkID2 } as IPerk;
+      newPerks[3] = { _id: perkID3 } as IPerk;
       setBuildType(queryBuildType);
     }
+
     setSelectedPerks(newPerks);
   }, []);
 
-  const handlePerkSelect = (newPerk: string) => {
+  const handlePerkSelect = (newPerk: IPerk) => {
+    //checks if perk is already in selectedperks
     const existingPosition = selectedPerks.indexOf(newPerk);
-
+    //if it is removes it
     if (existingPosition != -1) {
-      selectedPerks[existingPosition] = "";
-      setSelectedPerks([...selectedPerks]);
+      const newSelPerks = [...selectedPerks];
+      newSelPerks[existingPosition] = undefined;
+
+      setSelectedPerks(newSelPerks);
       setPerkInsertPoint(existingPosition);
       return;
     }
-
+    //if its not ads it at the current insert point
     selectedPerks[perkInsertPoint] = newPerk;
     const newPerks = [...selectedPerks];
 
@@ -69,7 +77,7 @@ const CreateNew = () => {
       if (lastPoint > 3) {
         return 3;
       }
-      if (newPerks[lastPoint] == "") {
+      if (newPerks[lastPoint] == undefined) {
         return lastPoint;
       } else {
         findNewInsertPoint(lastPoint);
@@ -88,10 +96,17 @@ const CreateNew = () => {
       return;
     }
 
+    const selectedPerkIDs: string[] = [];
+    selectedPerks.forEach((perk) => {
+      if (perk) {
+        selectedPerkIDs.push(perk._id);
+      }
+    });
+
     const newPost: INewBuild = {
       name: buildName,
       description: description,
-      perks: selectedPerks,
+      perkIDs: selectedPerkIDs,
       authorID: userDetails._id,
       saves: 0,
       type: buildType,
@@ -107,7 +122,7 @@ const CreateNew = () => {
 
   const handleKSToggle = (selection: IKSToggleSelectionType) => {
     setBuildType(selection.str);
-    setSelectedPerks(["", "", "", ""]);
+    setSelectedPerks([]);
     setPerkInsertPoint(0);
   };
 
@@ -186,16 +201,20 @@ const CreateNew = () => {
 };
 
 const PerkPicker = (props: PerkPickerProps) => {
-  const perkList = [""];
-  if (props.perkType == "survivor") {
-    Object.values(perks.survivor).map((perk, i) => {
-      perkList[i] = perk;
-    });
-  } else {
-    Object.values(perks.killer).map((perk, i) => {
-      perkList[i] = perk;
-    });
-  }
+  const [perkList, setPerkList] = useState<IPerk[]>([]);
+
+  useEffect(() => {
+    const getPerks = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/perks");
+        setPerkList(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    getPerks();
+  }, []);
 
   const perkPicked = (slotNumber: number) => {
     props.handlePerkSelect(perkList[slotNumber]);
@@ -213,7 +232,7 @@ const PerkPicker = (props: PerkPickerProps) => {
             {perkList.map((perk, i) => {
               return (
                 <PerkSlot
-                  perkImage={perk}
+                  perk={perk}
                   key={i}
                   slotNumber={i}
                   isSelected={props.selectedPerks.includes(perk)}
@@ -240,7 +259,7 @@ const PerkSelectionViewer = (props: PerkSelectionViewerProps) => {
   for (let i = 0; i < 4; i++) {
     perkSlots.push(
       <PerkSlot
-        perkImage={props.selectedPerks[i]}
+        perk={props.selectedPerks[i]}
         key={i}
         slotNumber={i}
         isSelected={props.insertPoint == i}
