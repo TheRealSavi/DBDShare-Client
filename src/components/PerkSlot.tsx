@@ -9,13 +9,13 @@ const PerkSlot = (props: IPerkSlot) => {
   const [perkData, setPerkData] = useState(props.perk);
 
   useEffect(() => {
-    if (props.perk && !props.perk.imgUrl) {
+    if (perkData?._id && !perkData.imgUrl) {
       // Fetch the missing data from the database
-      fetchPerkData(props.perk._id).then((data) => {
+      fetchPerkData(perkData._id).then((data) => {
         setPerkData({ ...perkData, ...data });
       });
     }
-  }, [props.perk]);
+  }, [perkData]);
 
   useEffect(() => {
     setPerkData(props.perk);
@@ -43,14 +43,15 @@ const PerkSlot = (props: IPerkSlot) => {
     >
       <img
         className="h-full w-full object-contain"
-        src={perkData ? veryrare : emptySlot}
-        alt={perkData ? perkData.name : "Empty Slot"}
+        src={perkData?.imgUrl ? veryrare : emptySlot}
+        alt={perkData?.name ? perkData.name : "Empty Slot"}
       />
-      {perkData && (
+      {perkData?.imgUrl && (
         <img
           className="absolute top-0 left-0 w-full h-full object-contain"
           src={`http://localhost:5000/perkimg/${perkData.imgUrl}`}
-          alt={perkData.name}
+          alt={perkData?.name ? perkData.name : "No name"}
+          loading="lazy"
         />
       )}
       {props.isSelected && (

@@ -10,15 +10,6 @@ const AuthorPage = () => {
 
   const [authorUser, setAuthorUser] = useState<IUser>();
 
-  const resolveAuthorIDtoUser = async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/users/" + id);
-      setAuthorUser(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const genAuthorString = () => {
     if (!authorUser) {
       return "Deleted User";
@@ -30,8 +21,17 @@ const AuthorPage = () => {
   };
 
   useEffect(() => {
+    const resolveAuthorIDtoUser = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/users/" + id);
+        setAuthorUser(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     resolveAuthorIDtoUser();
-  }, []);
+  }, [id]);
 
   return (
     <div>

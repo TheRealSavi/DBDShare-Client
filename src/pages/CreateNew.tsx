@@ -13,13 +13,13 @@ import {
 } from "../types/types";
 
 interface PerkPickerProps {
-  selectedPerks: IPerk[];
+  selectedPerks: (IPerk | undefined)[];
   perkType: string;
   handlePerkSelect: (perk: IPerk) => void;
 }
 
 interface PerkSelectionViewerProps {
-  selectedPerks: IPerk[];
+  selectedPerks: (IPerk | undefined)[];
   insertPoint: number;
   handleClick: (position: number) => void;
 }
@@ -51,10 +51,9 @@ const CreateNew = () => {
       newPerks[2] = { _id: perkID2 } as IPerk;
       newPerks[3] = { _id: perkID3 } as IPerk;
       setBuildType(queryBuildType);
+      setSelectedPerks(newPerks);
     }
-
-    setSelectedPerks(newPerks);
-  }, []);
+  }, [queryParameters]);
 
   const handlePerkSelect = (newPerk: IPerk) => {
     //checks if perk is already in selectedperks

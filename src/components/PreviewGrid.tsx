@@ -67,7 +67,7 @@ const PreviewGrid = (props: IPreviewGrid) => {
     };
 
     getGridItems();
-  }, []);
+  }, [props.showFromAuthorID, props.showMySaved, userDetails._id]);
 
   return (
     <div className="ml-0 mr-0 md:ml-12 md:mr-12 mt-3 ">

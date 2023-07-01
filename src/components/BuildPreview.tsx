@@ -82,17 +82,6 @@ const SavedCount = (props: ISavedCountProps) => {
 const BuildPreview = (build: IBuildPreview) => {
   const [authorUser, setAuthorUser] = useState<IUser>();
 
-  const resolveAuthorIDtoUser = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:5000/users/" + build.authorID
-      );
-      setAuthorUser(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const genAuthorString = () => {
     if (!authorUser) {
       return "Deleted User";
@@ -104,8 +93,19 @@ const BuildPreview = (build: IBuildPreview) => {
   };
 
   useEffect(() => {
+    const resolveAuthorIDtoUser = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/users/" + build.authorID
+        );
+        setAuthorUser(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     resolveAuthorIDtoUser();
-  }, []);
+  }, [build.authorID]);
 
   const perkSlots = [];
   for (let i = 0; i < 4; i++) {

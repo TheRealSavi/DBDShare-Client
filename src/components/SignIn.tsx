@@ -9,15 +9,15 @@ const SignIn = () => {
   const userDetails = useContext(UserContext) as IUser;
   console.log(userDetails);
 
-  const signInProvider = () => {
-    if (userDetails.steamId) {
-      return "Steam";
-    }
-    if (userDetails.googleId) {
-      return "Google";
-    }
-    return "Unknown";
-  };
+  // const signInProvider = () => {
+  //   if (userDetails.steamId) {
+  //     return "Steam";
+  //   }
+  //   if (userDetails.googleId) {
+  //     return "Google";
+  //   }
+  //   return "Unknown";
+  // };
 
   const googleLogin = () => {
     window.open("http://localhost:5000/auth/google", "_self");
