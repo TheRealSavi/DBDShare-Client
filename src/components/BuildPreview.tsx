@@ -155,7 +155,7 @@ const BuildPreview = (build: IBuildPreview) => {
             </p>
             <Link
               to={"/author/" + authorUser?._id}
-              className="absolute text-gray-300 text-sm bottom-1 left-14 pl-2 hover:text-gray-100"
+              className="absolute text-gray-300 text-sm bottom-1 left-14 pl-5 hover:text-gray-100"
             >
               {genAuthorString()}
             </Link>
