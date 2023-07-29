@@ -19,6 +19,9 @@ export interface IUser extends IAuthor {
   googleId?: string;
   steamId?: string;
   savedPosts?: string[];
+  profilePic?: string;
+  followers?: number;
+  following?: string[];
 }
 
 export interface IAuthor {
