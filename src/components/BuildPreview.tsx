@@ -14,6 +14,51 @@ interface ISavedCountProps {
   buildId: string;
 }
 
+interface IAuthorInfoProps {
+  authorID: string;
+}
+
+const AuthorInfo = (props: IAuthorInfoProps) => {
+  const [authorUser, setAuthorUser] = useState<IUser>();
+
+  useEffect(() => {
+    const resolveAuthorIDtoUser = async () => {
+      try {
+        const response = await axios.get(
+          import.meta.env.VITE_API_URL + "users/" + props.authorID
+        );
+        setAuthorUser(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    resolveAuthorIDtoUser();
+  }, [props.authorID]);
+
+  const genAuthorString = () => {
+    if (!authorUser) {
+      return "...";
+    }
+    if (authorUser?.username) {
+      return authorUser.username;
+    }
+    return "Error";
+  };
+
+  return (
+    <div>
+      <p className="absolute text-gray-400 text-sm bottom-1 pl-2">Author:</p>
+      <Link
+        to={"/author/" + authorUser?._id}
+        className="absolute text-gray-300 text-sm bottom-1 left-14 pl-5 hover:text-gray-100"
+      >
+        {genAuthorString()}
+      </Link>
+    </div>
+  );
+};
+
 const SavedCount = (props: ISavedCountProps) => {
   const [isSaved, setIsSaved] = useState(props.isSaved);
   const [saves, setSaves] = useState(props.savedCount);
@@ -23,7 +68,7 @@ const SavedCount = (props: ISavedCountProps) => {
   const savePost = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/savepost",
+        import.meta.env.VITE_API_URL + "savepost",
         {
           postId: props.buildId,
         },
@@ -39,7 +84,7 @@ const SavedCount = (props: ISavedCountProps) => {
   const unsavePost = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/unsavepost",
+        import.meta.env.VITE_API_URL + "unsavepost",
         {
           postId: props.buildId,
         },
@@ -80,33 +125,6 @@ const SavedCount = (props: ISavedCountProps) => {
 };
 
 const BuildPreview = (build: IBuildPreview) => {
-  const [authorUser, setAuthorUser] = useState<IUser>();
-
-  const genAuthorString = () => {
-    if (!authorUser) {
-      return "Deleted User";
-    }
-    if (authorUser?.username) {
-      return authorUser.username;
-    }
-    return "Error";
-  };
-
-  useEffect(() => {
-    const resolveAuthorIDtoUser = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:5000/users/" + build.authorID
-        );
-        setAuthorUser(response.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    resolveAuthorIDtoUser();
-  }, [build.authorID]);
-
   const perkSlots = [];
   for (let i = 0; i < 4; i++) {
     perkSlots.push(
@@ -150,15 +168,9 @@ const BuildPreview = (build: IBuildPreview) => {
                 {build.description}
               </p>
             </div>
-            <p className="absolute text-gray-400 text-sm bottom-1 pl-2">
-              Author:
-            </p>
-            <Link
-              to={"/author/" + authorUser?._id}
-              className="absolute text-gray-300 text-sm bottom-1 left-14 pl-5 hover:text-gray-100"
-            >
-              {genAuthorString()}
-            </Link>
+            <div>
+              <AuthorInfo authorID={build.authorID} />
+            </div>
             <img
               className="absolute h-8 bottom-2 right-2"
               src={getBuildTypeImg()}
