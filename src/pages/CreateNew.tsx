@@ -112,7 +112,9 @@ const CreateNew = () => {
     };
 
     axios
-      .post("http://localhost:5000/newpost", newPost, { withCredentials: true })
+      .post(import.meta.env.VITE_API_URL + "newpost", newPost, {
+        withCredentials: true,
+      })
       .then((res) => {
         console.log("saved", res);
         navigate("/home");
@@ -205,7 +207,9 @@ const PerkPicker = (props: PerkPickerProps) => {
   useEffect(() => {
     const getPerks = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/perks");
+        const response = await axios.get(
+          import.meta.env.VITE_API_URL + "perks"
+        );
         setPerkList(response.data);
       } catch (err) {
         console.log(err);

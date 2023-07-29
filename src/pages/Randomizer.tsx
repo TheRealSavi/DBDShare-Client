@@ -19,7 +19,9 @@ const Randomizer = () => {
   useEffect(() => {
     const getPerks = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/perks");
+        const response = await axios.get(
+          import.meta.env.VITE_API_URL + "perks"
+        );
         setPerkList(response.data);
       } catch (err) {
         console.log(err);
@@ -82,10 +84,10 @@ const Randomizer = () => {
 
   return (
     <div className="grid h-full place-items-center">
-      <div className="max-w-2xl">
+      <div className="max-w-3xl">
         <h1 className="text-center text-gray-200 mt-2">Perk Randomizer</h1>
-        <div className="bg-gray-700 rounded-xl shadow-lg p-2 mt-4 m-2 ml-4">
-          <div className="grid grid-cols-4 gap-2 md:gap-5 mt-5 md:ml-5 md:mr-5">
+        <div className="bg-gray-700 rounded-xl shadow-lg p-2 mt-4">
+          <div className="bg-gray-600 rounded-xl shadow-lg p-2 grid grid-cols-4 gap-2 md:gap-5 mt-5 md:ml-5 md:mr-5">
             <div>
               <PerkSlot
                 perk={randomPerks ? randomPerks[0] : undefined}
@@ -123,7 +125,7 @@ const Randomizer = () => {
               />
             </div>
           </div>
-          <div className="grid grid-cols-2 pl-1 pr-1 md:pl-5 md:pr-5 gap-5 place-content-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 pl-1 pr-1 md:pl-5 md:pr-5 sm:gap-5 place-content-center">
             <div>
               <button
                 className="button1 mt-10 w-full object-contain"
@@ -159,9 +161,13 @@ const Randomizer = () => {
               )}
             </div>
           </div>
-          <div className="grid grid-cols-1 place-items-center mt-11">
-            <div className="absolute">
-              <KSToggle onClick={handleKSToggle} />
+          <div className="mt-4">
+            <div className="pr-8 grid place-items-center">
+              <div>
+                <div className="absolute">
+                  <KSToggle onClick={handleKSToggle} />
+                </div>
+              </div>
             </div>
           </div>
           <div className="flex justify-center mt-14 text-gray-400 bg-gray-800 rounded-xl shadow-lg ml-3 mr-3 mb-2">

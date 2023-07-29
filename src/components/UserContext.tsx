@@ -13,9 +13,12 @@ const UserProvider = (props: PropsWithChildren) => {
 
   const getUser = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/getuser", {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "getuser",
+        {
+          withCredentials: true,
+        }
+      );
       setUserObj(response.data);
       console.log("Api Getuser call");
     } catch (err) {

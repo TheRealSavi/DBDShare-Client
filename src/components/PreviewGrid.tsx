@@ -25,18 +25,24 @@ const PreviewGrid = (props: IPreviewGrid) => {
         let response;
         if (props.showFromAuthorID != undefined) {
           response = await axios.get(
-            "http://localhost:5000/users/" + props.showFromAuthorID + "/posts",
+            import.meta.env.VITE_API_URL +
+              "users/" +
+              props.showFromAuthorID +
+              "/posts",
             {
               withCredentials: true,
             }
           );
         } else if (props.showMySaved) {
           response = await axios.get(
-            "http://localhost:5000/users/" + userDetails._id + "/savedposts",
+            import.meta.env.VITE_API_URL +
+              "users/" +
+              userDetails._id +
+              "/savedposts",
             { withCredentials: true }
           );
         } else {
-          response = await axios.get("http://localhost:5000/posts", {
+          response = await axios.get(import.meta.env.VITE_API_URL + "posts/", {
             withCredentials: true,
           });
         }
@@ -93,21 +99,24 @@ const PreviewGrid = (props: IPreviewGrid) => {
         )}
       </div>
 
-      <div className="pl-1 pr-3 pt-1 pb-1 bg-slate-600 rounded-xl shadow-md overflow-x-auto overflow-y-hidden overscroll-contain snap-x snap-mandatory">
+      <div className="pl-1 pr-3 pt-1 pb-1 sm:bg-slate-600 rounded-xl shadow-md overflow-x-auto overflow-y-hidden overscroll-contain snap-x snap-mandatory">
         {expanded ? (
           <div className="mr-2 ml-2 grid-cols-1 grid sm:grid-cols-2 2xl:grid-cols-4 gap-2 ">
             {contents}
           </div>
         ) : (
-          <div className="">
-            <div className="mr-2 grid grid-rows-2 gap-3">
-              <div className="grid grid-flow-col auto-cols-max gap-3">
-                {contents?.slice(0, Math.ceil(contents.length / 2))}
-              </div>
-              <div className="grid grid-flow-col auto-cols-max gap-3">
-                {contents?.slice(Math.ceil(contents.length / 2))}
-              </div>
-            </div>
+          // <div className="">
+          //   <div className="mr-2 grid grid-rows-2 gap-3">
+          //     <div className="grid grid-flow-col auto-cols-max gap-3">
+          //       {contents?.slice(0, Math.ceil(contents.length / 2))}
+          //     </div>
+          //     <div className="grid grid-flow-col auto-cols-max gap-3">
+          //       {contents?.slice(Math.ceil(contents.length / 2))}
+          //     </div>
+          //   </div>
+          // </div>
+          <div className="mr-2 ml-2 grid-cols-1 grid sm:grid-cols-2 2xl:grid-cols-4 gap-2 ">
+            {contents?.slice(0, 4)}
           </div>
         )}
       </div>

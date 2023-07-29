@@ -24,7 +24,9 @@ const PerkSlot = (props: IPerkSlot) => {
   const fetchPerkData = async (perkId: string) => {
     try {
       // Make an API call to fetch the missing perk data using the perk._id or any identifier
-      const response = await axios.get(`http://localhost:5000/perk/${perkId}`);
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "perk/" + perkId
+      );
       const data = response.data;
       return data;
     } catch (error) {
@@ -49,7 +51,7 @@ const PerkSlot = (props: IPerkSlot) => {
       {perkData?.imgUrl && (
         <img
           className="absolute top-0 left-0 w-full h-full object-contain"
-          src={`http://localhost:5000/perkimg/${perkData.imgUrl}`}
+          src={import.meta.env.VITE_API_URL + "perkimg/" + perkData.imgUrl}
           alt={perkData?.name ? perkData.name : "No name"}
           loading="lazy"
         />
