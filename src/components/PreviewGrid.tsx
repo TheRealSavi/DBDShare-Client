@@ -14,6 +14,7 @@ interface IPreviewGrid {
 
 const PreviewGrid = (props: IPreviewGrid) => {
   const [expanded, setExpanded] = useState(!props.expandable);
+  const [expandable, setExpandable] = useState(props.expandable);
   const [contents, setContents] = useState<JSX.Element[]>();
 
   const userDetails = useContext(UserContext) as IUser;
@@ -65,6 +66,8 @@ const PreviewGrid = (props: IPreviewGrid) => {
             Nothing to see here...
           </p>,
         ]);
+        setExpandable(false);
+        setExpanded(true);
       } else {
         setContents(
           recieved.map((item) => <BuildPreview {...item} key={item._id} />)
@@ -81,22 +84,6 @@ const PreviewGrid = (props: IPreviewGrid) => {
         <h1 className="grow text-gray-200 text-2xl pt-3 ml-4 mb-2">
           {props.name}
         </h1>
-        {props.expandable ? (
-          <button
-            className="text-gray-200 button2 mt-4 mb-2"
-            onClick={() => {
-              if (expanded) {
-                setExpanded(false);
-              } else {
-                setExpanded(true);
-              }
-            }}
-          >
-            {expanded ? "-" : "+"}
-          </button>
-        ) : (
-          <div></div>
-        )}
       </div>
 
       <div className="pl-1 pr-3 pt-1 pb-1 sm:bg-slate-600 rounded-xl shadow-md overflow-x-auto overflow-y-hidden overscroll-contain snap-x snap-mandatory">
@@ -105,19 +92,29 @@ const PreviewGrid = (props: IPreviewGrid) => {
             {contents}
           </div>
         ) : (
-          // <div className="">
-          //   <div className="mr-2 grid grid-rows-2 gap-3">
-          //     <div className="grid grid-flow-col auto-cols-max gap-3">
-          //       {contents?.slice(0, Math.ceil(contents.length / 2))}
-          //     </div>
-          //     <div className="grid grid-flow-col auto-cols-max gap-3">
-          //       {contents?.slice(Math.ceil(contents.length / 2))}
-          //     </div>
-          //   </div>
-          // </div>
-          <div className="mr-2 ml-2 grid-cols-1 grid sm:grid-cols-2 2xl:grid-cols-4 gap-2 ">
-            {contents?.slice(0, 4)}
+          <div className="flex w-full items-center justify-center">
+            <div className="mr-2 ml-2 grid-cols-1 grid sm:grid-cols-2 2xl:grid-cols-4 gap-2 ">
+              {contents?.slice(0, 4)}
+            </div>
           </div>
+        )}
+        {expandable ? (
+          <div className="pl-5 pr-5">
+            <button
+              className="text-gray-200 button2 mt-4 mb-2 flex items-center justify-center w-full"
+              onClick={() => {
+                if (expanded) {
+                  setExpanded(false);
+                } else {
+                  setExpanded(true);
+                }
+              }}
+            >
+              {expanded ? "Show Less -" : "Show More +"}
+            </button>
+          </div>
+        ) : (
+          <div></div>
         )}
       </div>
     </div>
