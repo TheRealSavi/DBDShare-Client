@@ -9,6 +9,8 @@ const AuthorPage = () => {
   const { id } = match?.params ?? {};
 
   const [authorUser, setAuthorUser] = useState<IUser>();
+  const [followers, setFollowers] = useState(authorUser?.followers);
+  const [followed, setFollowed] = useState<boolean>();
 
   const genAuthorString = () => {
     if (!authorUser) {
@@ -27,6 +29,7 @@ const AuthorPage = () => {
           import.meta.env.VITE_API_URL + "users/" + id
         );
         setAuthorUser(response.data);
+        setFollowers(response.data.followers);
       } catch (err) {
         console.log(err);
       }
@@ -35,19 +38,76 @@ const AuthorPage = () => {
     resolveAuthorIDtoUser();
   }, [id]);
 
-  const handleClickedFollow = async () => {
-    try {
-      const response = await axios.post(
-        import.meta.env.VITE_API_URL + "follow",
-        {
-          authorID: authorUser?._id,
-        },
-        { withCredentials: true }
-      );
+  useEffect(() => {
+    if (authorUser?._id) {
+      if (followed == undefined) {
+        const resolveFollowed = async () => {
+          try {
+            console.log("resolving");
+            const response = await axios.get(
+              import.meta.env.VITE_API_URL + "following/",
+              { withCredentials: true }
+            );
+            const tempfollowing = response.data as Array<string | undefined>;
+            if (tempfollowing.indexOf(authorUser._id) !== -1) {
+              setFollowed(true);
+              console.log("resolving true");
+            } else {
+              setFollowed(false);
+              console.log("resolving false");
+            }
+          } catch (err) {
+            console.log(err);
+          }
+        };
+        resolveFollowed();
+      }
+    }
+  }, [followed, authorUser]);
 
-      console.log(response);
-    } catch (err) {
-      console.log(err);
+  const handleClickedFollow = async () => {
+    if (followed) {
+      try {
+        const response = await axios.post(
+          import.meta.env.VITE_API_URL + "unfollow",
+          {
+            authorID: authorUser?._id,
+          },
+          { withCredentials: true }
+        );
+        if (response.data.message == "unfollowed") {
+          setFollowed(false);
+          if (followers) {
+            setFollowers(followers - 1);
+          } else {
+            setFollowers(0);
+          }
+        }
+        console.log(response);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      try {
+        const response = await axios.post(
+          import.meta.env.VITE_API_URL + "follow",
+          {
+            authorID: authorUser?._id,
+          },
+          { withCredentials: true }
+        );
+        if (response.data.message == "followed") {
+          setFollowed(true);
+          if (followers) {
+            setFollowers(followers + 1);
+          } else {
+            setFollowers(1);
+          }
+        }
+        console.log(response);
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -75,24 +135,26 @@ const AuthorPage = () => {
         )}
       </div>
       <div className="flex items-center justify-center space-x-4">
-        <p className="text-white">Followers: {authorUser?.followers}</p>
+        <p className="text-white">Followers: {followers}</p>
         <p className="text-white">Saves: 105</p>
         <p className="text-white">Posts: 2</p>
       </div>
       <div className="flex items-center justify-center">
         <div className="bg-gray-100 w-fit mt-5 rounded-3xl shadow-lg h-fit">
-          <button
-            className="ml-4 mr-4 mt-1 mb-1 button1"
-            onClick={handleClickedFollow}
-          >
-            Follow
-          </button>
-          <button
-            className="ml-4 mr-4 mt-1 mb-1 button1"
-            onClick={handleClickedShare}
-          >
-            Share
-          </button>
+          <div className="grid grid-cols-2 gap-4 ml-3 mr-3">
+            <button
+              className="mt-1 mb-1 button2 text-white"
+              onClick={handleClickedFollow}
+            >
+              {followed ? "Unfollow" : "Follow"}
+            </button>
+            <button
+              className="mt-1 mb-1 button2 text-white"
+              onClick={handleClickedShare}
+            >
+              Share
+            </button>
+          </div>
         </div>
       </div>
 
