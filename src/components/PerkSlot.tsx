@@ -49,12 +49,17 @@ const PerkSlot = (props: IPerkSlot) => {
         alt={perkData?.name ? perkData.name : "Empty Slot"}
       />
       {perkData?.imgUrl && (
-        <img
-          className="absolute top-0 left-0 w-full h-full object-contain"
-          src={import.meta.env.VITE_API_URL + "perkimg/" + perkData.imgUrl}
-          alt={perkData?.name ? perkData.name : "No name"}
-          loading="lazy"
-        />
+        <div>
+          <img
+            className="absolute top-0 left-0 w-full h-full object-contain"
+            src={import.meta.env.VITE_API_URL + "perkimg/" + perkData.imgUrl}
+            alt={perkData?.name ? perkData.name : "No name"}
+            loading="lazy"
+          />
+          {/* <p className="text-gray-400 -mt-4 text-xs line-clamp-1">
+            {perkData.name}
+          </p> */}
+        </div>
       )}
       {props.isSelected && (
         <img
