@@ -91,6 +91,7 @@ const CreateNew = () => {
 
   const handleSave = () => {
     if (userDetails._id == undefined) {
+      window.scrollTo(0, 0);
       setErrorShown(true);
       return;
     }
@@ -128,69 +129,87 @@ const CreateNew = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-center text-gray-200 pt-2 mb-4">Make a Post</h1>
-      <div className="pl-2 pr-2 lg:grid lg:grid-cols-2 gap-2 md:mr-5 lg:mr-0 md:ml-5 lg:ml-0">
-        <div className="bg-gray-700 rounded-xl shadow-lg p-2 mt-4 m-2 pr-4">
-          <p className="pl-2 text-gray-300">Build Name:</p>
-          <input
-            className="ml-1 bg-gray-600 rounded-xl text-center shadow-md text-gray-300"
-            type="text"
-            id="buildName"
-            value={buildName}
-            onChange={(e) => {
-              setBuildName(e.target.value);
-            }}
-          />
-          <div className="mt-5 pb-2 bg-gray-600 max-w-fit shadow-xl rounded-lg">
-            <PerkSelectionViewer
-              selectedPerks={selectedPerks}
-              insertPoint={perkInsertPoint}
-              handleClick={(position) => {
-                setPerkInsertPoint(position);
+    <div className="">
+      <div
+        className={
+          errorShown
+            ? " z-10 blur-sm top-0 bottom-0 left-0 right-0"
+            : " z-10 blur-none top-0 bottom-0 left-0 right-0"
+        }
+      >
+        <h1 className="text-center text-gray-200 pt-2 mb-4">Make a Post</h1>
+        <div className="pl-2 pr-2 lg:grid lg:grid-cols-2 gap-2 md:mr-5 lg:mr-0 md:ml-5 lg:ml-0">
+          <div className="bg-gray-700 rounded-xl shadow-lg p-2 mt-4 m-2 pr-4">
+            <p className="pl-2 text-gray-300">Build Name:</p>
+            <input
+              className="ml-1 bg-gray-600 rounded-xl text-center shadow-md text-gray-300"
+              type="text"
+              id="buildName"
+              value={buildName}
+              onChange={(e) => {
+                setBuildName(e.target.value);
+              }}
+            />
+            <div className="mt-5 pb-2 bg-gray-600 max-w-fit shadow-xl rounded-lg">
+              <PerkSelectionViewer
+                selectedPerks={selectedPerks}
+                insertPoint={perkInsertPoint}
+                handleClick={(position) => {
+                  setPerkInsertPoint(position);
+                }}
+              />
+            </div>
+
+            <p className="pl-2 pt-5 text-gray-300">Build Description:</p>
+            <textarea
+              className="ml-1 bg-gray-600 rounded-xl w-full h-40 shadow-md text-gray-300"
+              id="description"
+              value={description}
+              onChange={(e) => {
+                setDescription(e.target.value);
               }}
             />
           </div>
 
-          <p className="pl-2 pt-5 text-gray-300">Build Description:</p>
-          <textarea
-            className="ml-1 bg-gray-600 rounded-xl w-full h-40 shadow-md text-gray-300"
-            id="description"
-            value={description}
-            onChange={(e) => {
-              setDescription(e.target.value);
-            }}
-          />
-        </div>
+          <div className="absolute right-6 sm:right-6 md:right-11 lg:right-6 mt-3 lg:mt-5">
+            <KSToggle start={buildType} onClick={handleKSToggle} />
+          </div>
 
-        <div className="absolute right-6 sm:right-6 md:right-11 lg:right-6 mt-3 lg:mt-5">
-          <KSToggle start={buildType} onClick={handleKSToggle} />
-        </div>
+          <div className="bg-gray-700 rounded-xl shadow-lg p-2 mt-4 m-2 pb-4 h-fit">
+            <PerkPicker
+              selectedPerks={selectedPerks}
+              perkType={buildType}
+              handlePerkSelect={(perk) => {
+                handlePerkSelect(perk);
+              }}
+            />
+          </div>
 
-        <div className="bg-gray-700 rounded-xl shadow-lg p-2 mt-4 m-2 pb-4 h-fit">
-          <PerkPicker
-            selectedPerks={selectedPerks}
-            perkType={buildType}
-            handlePerkSelect={(perk) => {
-              handlePerkSelect(perk);
-            }}
-          />
-        </div>
-
-        <div className="">
-          <div className="mt-5 grid place-items-center">
-            <button className="button1" onClick={handleSave}>
-              Save
-            </button>
+          <div className="">
+            <div className="mt-5 grid place-items-center">
+              <button className="button1" onClick={handleSave}>
+                Save
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="mt-5">
+      <div className="">
         {errorShown ? (
-          <div className="grid place-items-center absolute top-1/4 w-full">
-            <div className="w-1/2">
-              <SignIn />
+          <div className="absolute top-0 w-full h-screen z-20">
+            <div className="flex items-center h-full justify-center">
+              <div className="flex flex-col">
+                <button
+                  className="button2 text-red-500 bg-gray-800 pl-3 pr-3 pt-2 pb-2 hover:text-white hover:bg-red-500 w-fit"
+                  onClick={() => {
+                    setErrorShown(false);
+                  }}
+                >
+                  X
+                </button>
+                <SignIn />
+              </div>
             </div>
           </div>
         ) : (
