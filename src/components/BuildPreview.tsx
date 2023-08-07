@@ -7,6 +7,9 @@ import { IBuildPreview, IPerk, IUser } from "../types/types";
 import axios from "axios";
 import { UserContext } from "./UserContext";
 import { Link } from "react-router-dom";
+import Tooltip from "./Tooltip";
+
+import AuthorPreview from "./AuthorPreview";
 
 interface ISavedCountProps {
   isSaved: boolean;
@@ -168,8 +171,13 @@ const BuildPreview = (build: IBuildPreview) => {
                 {build.description}
               </p>
             </div>
-            <div>
+            <div className="group">
               <AuthorInfo authorID={build.authorID} />
+              <div className="mt-10">
+                <Tooltip requireHover={true}>
+                  <AuthorPreview authorID={build.authorID}></AuthorPreview>
+                </Tooltip>
+              </div>
             </div>
             <img
               className="absolute h-8 bottom-2 right-2"
