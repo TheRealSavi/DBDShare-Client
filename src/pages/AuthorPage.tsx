@@ -3,6 +3,7 @@ import PreviewGrid from "../components/PreviewGrid";
 import { useMatch } from "react-router-dom";
 import { IUser } from "../types/types";
 import axios from "axios";
+import Tooltip from "../components/Tooltip";
 
 const AuthorPage = () => {
   const match = useMatch("/author/:id");
@@ -11,6 +12,7 @@ const AuthorPage = () => {
   const [authorUser, setAuthorUser] = useState<IUser>();
   const [followers, setFollowers] = useState(authorUser?.followers);
   const [followed, setFollowed] = useState<boolean>();
+  const [shareSuccess, setShareSuccess] = useState<boolean>();
 
   const genAuthorString = () => {
     if (!authorUser) {
@@ -115,13 +117,18 @@ const AuthorPage = () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
       console.log("Content copied to clipboard!");
+      setShareSuccess(true);
+      setTimeout(() => {
+        setShareSuccess(false);
+      }, 1300);
     } catch (err) {
       console.error("Failed to copy to clipboard:", err);
+      setShareSuccess(false);
     }
   };
 
   return (
-    <div>
+    <div className="">
       <h1 className="text-center text-gray-200 pt-2 mb-4">
         {genAuthorString() + "'s Page"}
       </h1>
@@ -148,12 +155,21 @@ const AuthorPage = () => {
             >
               {followed ? "Unfollow" : "Follow"}
             </button>
-            <button
-              className="mt-1 mb-1 button2 text-white"
-              onClick={handleClickedShare}
-            >
-              Share
-            </button>
+            <div className="">
+              <button
+                className="mt-1 mb-1 button2 text-white"
+                onClick={handleClickedShare}
+              >
+                Share
+              </button>
+              {shareSuccess ? (
+                <Tooltip requireHover={false}>
+                  <p>Copied to clipboard!</p>
+                </Tooltip>
+              ) : (
+                <div></div>
+              )}
+            </div>
           </div>
         </div>
       </div>
