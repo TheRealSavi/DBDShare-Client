@@ -4,6 +4,7 @@ import selected from "../assets/selected.png";
 import emptySlot from "../assets/blank.png";
 import axios from "axios";
 import { IPerkSlot } from "../types/types";
+import Tooltip from "./Tooltip";
 
 const PerkSlot = (props: IPerkSlot) => {
   const [perkData, setPerkData] = useState(props.perk);
@@ -49,16 +50,16 @@ const PerkSlot = (props: IPerkSlot) => {
         alt={perkData?.name ? perkData.name : "Empty Slot"}
       />
       {perkData?.imgUrl && (
-        <div>
+        <div className="group flex justify-center">
           <img
             className="absolute top-0 left-0 w-full h-full object-contain"
             src={import.meta.env.VITE_API_URL + "perkimg/" + perkData.imgUrl}
             alt={perkData?.name ? perkData.name : "No name"}
             loading="lazy"
           />
-          {/* <p className="text-gray-400 -mt-4 text-xs line-clamp-1">
-            {perkData.name}
-          </p> */}
+          <Tooltip requireHover={true}>
+            <p>{perkData.name}</p>
+          </Tooltip>
         </div>
       )}
       {props.isSelected && (
