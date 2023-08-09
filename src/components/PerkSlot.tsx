@@ -37,7 +37,7 @@ const PerkSlot = (props: IPerkSlot) => {
 
   return (
     <div
-      className="relative w-full h-28"
+      className="relative w-full h-28 group"
       onClick={() => {
         if (props.handleClick) {
           props.handleClick(props.slotNumber);
@@ -50,16 +50,13 @@ const PerkSlot = (props: IPerkSlot) => {
         alt={perkData?.name ? perkData.name : "Empty Slot"}
       />
       {perkData?.imgUrl && (
-        <div className="group flex justify-center">
+        <div className="flex justify-center">
           <img
             className="absolute top-0 left-0 w-full h-full object-contain"
             src={import.meta.env.VITE_API_URL + "perkimg/" + perkData.imgUrl}
             alt={perkData?.name ? perkData.name : "No name"}
             loading="lazy"
           />
-          <Tooltip requireHover={true}>
-            <p>{perkData.name}</p>
-          </Tooltip>
         </div>
       )}
       {props.isSelected && (
@@ -69,6 +66,13 @@ const PerkSlot = (props: IPerkSlot) => {
           alt="Selected"
         />
       )}
+      <div className="flex justify-center">
+        {perkData?.name && (
+          <Tooltip requireHover={true}>
+            <p>{perkData?.name}</p>
+          </Tooltip>
+        )}
+      </div>
     </div>
   );
 };
