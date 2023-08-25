@@ -3,9 +3,9 @@ import killerImg from "../assets/killer.png";
 import { useState } from "react";
 import { IKSToggleSelectionType } from "../types/types";
 
-const Selection = {
-  surivor: { str: "survivor", img: survivorImg },
-  killer: { str: "killer", img: killerImg },
+const Selections = {
+  surivor: { str: "survivor", img: survivorImg } as IKSToggleSelectionType,
+  killer: { str: "killer", img: killerImg } as IKSToggleSelectionType,
 };
 
 interface IKSToggleProps {
@@ -14,21 +14,22 @@ interface IKSToggleProps {
 }
 
 const KSToggle = (props: IKSToggleProps) => {
-  const [selection, setSelection] = useState(Selection.surivor);
+  const [selection, setSelection] = useState(Selections.surivor);
 
   const handleClick = () => {
     props.onClick(toggleSelection());
   };
 
   const toggleSelection = () => {
-    if (selection == Selection.surivor) {
-      setSelection(Selection.killer);
-      return Selection.killer;
+    if (selection == Selections.surivor) {
+      setSelection(Selections.killer);
+      return Selections.killer;
     } else {
-      setSelection(Selection.surivor);
-      return Selection.surivor;
+      setSelection(Selections.surivor);
+      return Selections.surivor;
     }
   };
+
   if (props.start) {
     if (props.start != selection.str) {
       setSelection(toggleSelection());
@@ -38,7 +39,7 @@ const KSToggle = (props: IKSToggleProps) => {
   return (
     <img
       src={selection.img}
-      className="h-10 hover:h-11 origin-center"
+      className="h-10 hover:h-11"
       onClick={handleClick}
     ></img>
   );
