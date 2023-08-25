@@ -38,10 +38,10 @@ const AuthorPreview = (props: IAuthorPreview) => {
         )}
         <p className="pl-2 overflow-clip ">{authorUser?.username}</p>
       </div>
-      <div className="flex items-center justify-center w-full pt-2">
+      <div className="flex items-center justify-center w-full pt-2 gap-2">
         <p className="text-white">Followers: {followers}</p>
-        <p className="text-white">Saves: 105</p>
-        <p className="text-white">Posts: 2</p>
+        <p className="text-white">Saves: {authorUser?.saveCount}</p>
+        <p className="text-white">Posts: {authorUser?.postCount}</p>
       </div>
     </div>
   );

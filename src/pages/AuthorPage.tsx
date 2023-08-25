@@ -143,8 +143,8 @@ const AuthorPage = () => {
       </div>
       <div className="flex items-center justify-center space-x-4">
         <p className="text-white">Followers: {followers}</p>
-        <p className="text-white">Saves: 105</p>
-        <p className="text-white">Posts: 2</p>
+        <p className="text-white">Saves: {authorUser?.saveCount}</p>
+        <p className="text-white">Posts: {authorUser?.postCount}</p>
       </div>
       <div className="flex items-center justify-center">
         <div className="bg-gray-100 w-fit mt-5 rounded-3xl shadow-lg h-fit">
