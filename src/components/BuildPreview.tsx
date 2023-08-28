@@ -51,10 +51,10 @@ const AuthorInfo = (props: IAuthorInfoProps) => {
 
   return (
     <div>
-      <p className="absolute text-gray-400 text-sm bottom-1 pl-2">Author:</p>
+      <p className="absolute text-gray-400 text-sm bottom-2 pl-1">Author:</p>
       <Link
         to={"/author/" + authorUser?._id}
-        className="absolute text-gray-300 text-sm bottom-1 left-14 pl-5 hover:text-gray-100"
+        className="absolute text-gray-300 text-sm bottom-2 left-12 pl-4  hover:text-gray-100"
       >
         {genAuthorString()}
       </Link>
@@ -157,17 +157,17 @@ const BuildPreview = (build: IBuildPreview) => {
         savedCount={build.saves}
       />
 
-      <div className="relative h-56 w-full bg-gray-700 rounded-xl shadow-lg">
+      <div className="relative h-56 w-full bg-gradient-to-br  from-gray-600 to-gray-700 rounded-xl shadow-lg">
         <div className="grid grid-rows-2 h-full place-items-top p-2">
-          <div className="grid gap-1 grid-cols-4">
+          <div className="flex gap-2 pl-1 pr-1 grid-cols-4 rounded-lg justify-center place-items-center">
             {perkSlots.map((slot) => {
               return slot;
             })}
           </div>
-          <div className="mt-3">
-            <p className="text-gray-400 text-sm pl-2">Description: </p>
+          <div className="pt-2">
+            <p className="text-gray-400 text-sm pl-1">Description: </p>
             <div className="overflow-hidden h-12">
-              <p className="text-xs text-gray-100 pl-2 pr-2">
+              <p className="text-xs text-gray-100 pl-1 pr-1">
                 {build.description}
               </p>
             </div>

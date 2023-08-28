@@ -3,15 +3,15 @@ import { MouseEventHandler } from "react";
 export interface IBuildPreview extends INewBuild {
   _id: string;
   isSaved: boolean;
+  saves: number;
   author?: IAuthor;
 }
 
 export interface INewBuild {
   name: string;
   perkIDs: string[];
-  description: string;
+  description: string | undefined;
   authorID: string;
-  saves: number;
   type: string;
 }
 
@@ -21,6 +21,8 @@ export interface IUser extends IAuthor {
   savedPosts?: string[];
   profilePic?: string;
   followers?: number;
+  saveCount?: number;
+  postCount?: number;
   following?: string[];
 }
 

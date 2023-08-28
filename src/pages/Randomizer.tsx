@@ -15,6 +15,7 @@ const Randomizer = () => {
   ]);
   const [buildType, setBuildType] = useState("survivor");
   const [perkList, setPerkList] = useState<IPerk[]>();
+  const [masterPerkList, setMasterPerkList] = useState<IPerk[]>();
 
   useEffect(() => {
     const getPerks = async () => {
@@ -23,6 +24,7 @@ const Randomizer = () => {
           import.meta.env.VITE_API_URL + "perks"
         );
         setPerkList(response.data);
+        setMasterPerkList(response.data);
       } catch (err) {
         console.log(err);
       }
@@ -33,6 +35,11 @@ const Randomizer = () => {
 
   const genRandomPerks = () => {
     const perksToUse = [];
+    if (masterPerkList) {
+      setPerkList([...masterPerkList]);
+    } else {
+      setPerkList(undefined);
+    }
 
     for (let i = 0; i < lockedPerks.length; i++) {
       if (
@@ -78,109 +85,122 @@ const Randomizer = () => {
 
   const handleKSToggle = (selection: IKSToggleSelectionType) => {
     setBuildType(selection.str);
-    setRandomPerks([]);
+    setRandomPerks(undefined);
     setLockedPerks([false, false, false, false]);
   };
 
   return (
-    <div className="grid h-full place-items-center">
-      <div className="max-w-3xl">
-        <h1 className="text-center text-gray-200 mt-2">Perk Randomizer</h1>
-        <div className="bg-gray-700 rounded-xl shadow-lg p-2 mt-4">
-          <div className="bg-gray-600 rounded-xl shadow-lg p-2 grid grid-cols-4 gap-2 md:gap-5 mt-5 md:ml-5 md:mr-5">
-            <div>
-              <PerkSlot
-                perk={randomPerks ? randomPerks[0] : undefined}
-                key={0}
-                slotNumber={0}
-                isSelected={lockedPerks[0]}
-                handleClick={perkClicked}
-              />
+    <div>
+      <h1 className="text-center text-gray-200 pt-2">Perk Randomizer</h1>
+      <div className="flex gap-4 justify-center">
+        <div className="max-w-3xl">
+          <div className="bg-gray-700 rounded-xl shadow-lg p-2 mt-4">
+            <div className="bg-gray-600 rounded-xl shadow-lg m-2">
+              <p className="text-white text-md pl-5 pr-5 text-center">
+                Settings
+              </p>
             </div>
-            <div>
-              <PerkSlot
-                perk={randomPerks ? randomPerks[1] : undefined}
-                key={1}
-                slotNumber={1}
-                isSelected={lockedPerks[1]}
-                handleClick={perkClicked}
-              />
-            </div>
-            <div>
-              <PerkSlot
-                perk={randomPerks ? randomPerks[2] : undefined}
-                key={2}
-                slotNumber={2}
-                isSelected={lockedPerks[2]}
-                handleClick={perkClicked}
-              />
-            </div>
-            <div>
-              <PerkSlot
-                perk={randomPerks ? randomPerks[3] : undefined}
-                key={3}
-                slotNumber={3}
-                isSelected={lockedPerks[3]}
-                handleClick={perkClicked}
-              />
-            </div>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 pl-1 pr-1 md:pl-5 md:pr-5 sm:gap-5 place-content-center">
-            <div>
-              <button
-                className="button1 mt-10 w-full object-contain"
-                onClick={() => {
-                  genRandomPerks();
-                }}
-              >
-                Randomize
+            <div className="grid grid-flow-row">
+              <button className="button1 text-sm m-1 p-1">
+                Dont show perk again after it has been seen
               </button>
-            </div>
-            <div>
-              {randomPerks ? (
-                <Link
-                  to={
-                    "/createnew?perk0=" +
-                    randomPerks[0]._id +
-                    "&perk1=" +
-                    randomPerks[1]._id +
-                    "&perk2=" +
-                    randomPerks[2]._id +
-                    "&perk3=" +
-                    randomPerks[3]._id +
-                    "&buildType=" +
-                    buildType
-                  }
-                >
-                  <button className="button1 mt-10 w-full object-contain">
-                    Save to new build
-                  </button>
-                </Link>
-              ) : (
-                <div></div>
-              )}
+              <button className="button1 text-sm m-1 p-1">Save State</button>
             </div>
           </div>
-          <div className="mt-4">
-            <div className="pr-8 grid place-items-center">
+        </div>
+        <div className="max-w-3xl">
+          <div className="bg-gray-700 rounded-xl shadow-lg p-2 mt-4">
+            <div className="bg-gray-600 rounded-xl shadow-lg p-2 grid grid-cols-4 gap-2 md:gap-5 mt-5 md:ml-5 md:mr-5">
               <div>
-                <div className="absolute">
-                  <KSToggle onClick={handleKSToggle} />
-                </div>
+                <PerkSlot
+                  perk={randomPerks ? randomPerks[0] : undefined}
+                  key={0}
+                  slotNumber={0}
+                  isSelected={lockedPerks[0]}
+                  handleClick={perkClicked}
+                />
+              </div>
+              <div>
+                <PerkSlot
+                  perk={randomPerks ? randomPerks[1] : undefined}
+                  key={1}
+                  slotNumber={1}
+                  isSelected={lockedPerks[1]}
+                  handleClick={perkClicked}
+                />
+              </div>
+              <div>
+                <PerkSlot
+                  perk={randomPerks ? randomPerks[2] : undefined}
+                  key={2}
+                  slotNumber={2}
+                  isSelected={lockedPerks[2]}
+                  handleClick={perkClicked}
+                />
+              </div>
+              <div>
+                <PerkSlot
+                  perk={randomPerks ? randomPerks[3] : undefined}
+                  key={3}
+                  slotNumber={3}
+                  isSelected={lockedPerks[3]}
+                  handleClick={perkClicked}
+                />
               </div>
             </div>
-          </div>
-          <div className="flex justify-center mt-14 text-gray-400 bg-gray-800 rounded-xl shadow-lg ml-3 mr-3 mb-2">
-            <div className="grid grid-cols-1">
-              <p className="text-sm md:text-lg p-4">
-                Tip: You can press a perk to "Lock it in" and then press
-                "Randomize" again to reroll the other perks.
-              </p>
-              <p className="text-sm md:text-lg mt-1 p-4">
-                This is useful in the scenario where you dont have a perk, you
-                can lock in all the other perks, press randomize again, and
-                reroll for just the perk that you dont have.
-              </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 pl-1 pr-1 md:pl-5 md:pr-5 sm:gap-5 place-content-center">
+              <div>
+                <button
+                  className="button1 mt-10 w-full object-contain"
+                  onClick={() => {
+                    genRandomPerks();
+                  }}
+                >
+                  Randomize
+                </button>
+              </div>
+              <div>
+                {randomPerks ? (
+                  <Link
+                    to={
+                      "/createnew?perk0=" +
+                      randomPerks[0]._id +
+                      "&perk1=" +
+                      randomPerks[1]._id +
+                      "&perk2=" +
+                      randomPerks[2]._id +
+                      "&perk3=" +
+                      randomPerks[3]._id +
+                      "&buildType=" +
+                      buildType
+                    }
+                  >
+                    <button className="button1 mt-10 w-full object-contain">
+                      Save to new build
+                    </button>
+                  </Link>
+                ) : (
+                  <div></div>
+                )}
+              </div>
+            </div>
+            <div className="mt-4">
+              <div className="flex place-items-center justify-center">
+                <KSToggle onClick={handleKSToggle} />
+              </div>
+            </div>
+            <div className="flex justify-center mt-14 text-gray-400 bg-gray-800 rounded-xl shadow-lg ml-3 mr-3 mb-2">
+              <div className="grid grid-cols-1">
+                <p className="text-sm md:text-lg p-4">
+                  Tip: You can press a perk to "Lock it in" and then press
+                  "Randomize" again to reroll the other perks.
+                </p>
+                <p className="text-sm md:text-lg mt-1 p-4">
+                  This is useful in the scenario where you dont have a perk, you
+                  can lock in all the other perks, press randomize again, and
+                  reroll for just the perk that you dont have.
+                </p>
+              </div>
             </div>
           </div>
         </div>

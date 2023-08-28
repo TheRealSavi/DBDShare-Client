@@ -24,7 +24,7 @@ const CreateNew = () => {
   const [perkInsertPoint, setPerkInsertPoint] = useState(0);
   const [buildName, setBuildName] = useState("Name");
   const [buildType, setBuildType] = useState("survivor");
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState<string>();
   const [errorShown, setErrorShown] = useState(false);
   const [queryParameters] = useSearchParams();
 
@@ -93,17 +93,22 @@ const CreateNew = () => {
 
     const selectedPerkIDs: string[] = [];
     selectedPerks.forEach((perk) => {
-      if (perk) {
+      if (perk && perk._id != "") {
         selectedPerkIDs.push(perk._id);
       }
     });
+
+    if (selectedPerkIDs.length < 2) {
+      //Must have at least 2 perks in a build
+      console.log("LS2 error");
+      return;
+    }
 
     const newPost: INewBuild = {
       name: buildName,
       description: description,
       perkIDs: selectedPerkIDs,
       authorID: userDetails._id,
-      saves: 0,
       type: buildType,
     };
 

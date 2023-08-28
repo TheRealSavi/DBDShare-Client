@@ -42,8 +42,8 @@ const AuthorPreview = (props: IAuthorPreview) => {
         </div>
         <div className="flex grid-flow-col grid-cols-3 place-content-between w-full pb-4 text-center p-2 text-sm">
           <p className="text-white">Followers: {followers}</p>
-          <p className="text-white">Saves: 105</p>
-          <p className="text-white">Posts: 2</p>
+          <p className="text-white">Saves: {authorUser?.saveCount}</p>
+          <p className="text-white">Posts: {authorUser?.postCount}</p>
         </div>
         <div className="pb-1 pl-1">
           <p className="text-xs opacity-40">Member since: Aug 1st, 2023</p>
