@@ -135,19 +135,19 @@ const AuthorPage = () => {
       <div className="flex items-center justify-center w-full">
         {authorUser?.profilePic && (
           <img
-            className="w-16 h-16 rounded-full object-cover"
+            className="w-24 h-24 rounded-full object-cover"
             src={authorUser?.profilePic}
             loading="lazy"
           />
         )}
       </div>
-      <div className="flex items-center justify-center space-x-4">
-        <p className="text-white">Followers: {followers}</p>
-        <p className="text-white">Saves: 105</p>
-        <p className="text-white">Posts: 2</p>
+      <div className="flex items-center justify-center space-x-4 pt-2 text-center">
+        <p className="text-white w-32 min-w-fit">Followers: {followers}</p>
+        <p className="text-white w-32">Saves: 105</p>
+        <p className="text-white w-32">Posts: 2</p>
       </div>
-      <div className="flex items-center justify-center">
-        <div className="bg-gray-100 w-fit mt-5 rounded-3xl shadow-lg h-fit">
+      <div className="flex items-center justify-center text-center">
+        <div className="bg-gradient-to-r from-cyan-900 to-blue-900 w-fit mt-5 rounded-3xl shadow-lg h-fit">
           <div className="grid grid-cols-2 gap-4 ml-3 mr-3">
             <button
               className="mt-1 mb-1 button2 text-white"
