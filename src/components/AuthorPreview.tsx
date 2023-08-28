@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { IUser } from "../types/types";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 interface IAuthorPreview {
   authorID: string;
@@ -27,22 +28,27 @@ const AuthorPreview = (props: IAuthorPreview) => {
   }, [props.authorID]);
 
   return (
-    <div className="w-40">
-      <div className="flex items-center justify-left w-full">
-        {authorUser?.profilePic && (
-          <img
-            className="w-8 h-8 rounded-full object-cover"
-            src={authorUser?.profilePic}
-            loading="lazy"
-          />
-        )}
-        <p className="pl-2 overflow-clip ">{authorUser?.username}</p>
-      </div>
-      <div className="flex items-center justify-center w-full pt-2">
-        <p className="text-white">Followers: {followers}</p>
-        <p className="text-white">Saves: 105</p>
-        <p className="text-white">Posts: 2</p>
-      </div>
+    <div className="flex w-60 flex-col ring-2 ring-slate-100 rounded-md opacity">
+      <Link to={"/author/" + authorUser?._id}>
+        <div className="flex items-center justify-left w-full ">
+          {authorUser?.profilePic && (
+            <img
+              className="m-3 w-12 h-12 rounded-full object-cover"
+              src={authorUser?.profilePic}
+              loading="lazy"
+            />
+          )}
+          <p className="m-3 overflow-clip text-base ">{authorUser?.username}</p>
+        </div>
+        <div className="flex grid-flow-col grid-cols-3 place-content-between w-full pb-4 text-center p-2 text-sm">
+          <p className="text-white">Followers: {followers}</p>
+          <p className="text-white">Saves: 105</p>
+          <p className="text-white">Posts: 2</p>
+        </div>
+        <div className="pb-1 pl-1">
+          <p className="text-xs opacity-40">Member since: Aug 1st, 2023</p>
+        </div>
+      </Link>
     </div>
   );
 };
