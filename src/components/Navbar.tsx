@@ -1,6 +1,6 @@
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
 import { AiOutlineHome } from "react-icons/ai";
-import { BsFillBookmarkHeartFill } from "react-icons/bs";
+import { BsFillBookmarkHeartFill, BsFillCalculatorFill } from "react-icons/bs";
 import { GiCardRandom } from "react-icons/gi";
 import { IoMdAdd } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
@@ -49,6 +49,11 @@ const Navbar = () => {
           to="/randomizer"
           icon={<GiCardRandom size="28" />}
           text="Perk Randomizer"
+        />
+        <SideBarButton
+          to="/calc/gen"
+          icon={<BsFillCalculatorFill size="28" />}
+          text="Calculators"
         />
       </div>
     </div>
