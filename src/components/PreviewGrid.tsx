@@ -67,7 +67,7 @@ const PreviewGrid = (props: IPreviewGrid) => {
           </p>,
         ]);
         setExpandable(false);
-        setExpanded(true);
+        setExpanded(false);
       } else {
         setContents(
           recieved.map((item) => <BuildPreview {...item} key={item._id} />)
@@ -78,24 +78,34 @@ const PreviewGrid = (props: IPreviewGrid) => {
     getGridItems();
   }, [props.showFromAuthorID, props.showMySaved, userDetails._id]);
 
+  useEffect(() => {
+    if (contents) {
+      if (contents.length > 4) {
+        setExpandable(true);
+      } else {
+        setExpandable(false);
+      }
+    } else {
+      setExpandable(false);
+    }
+  }, [contents]);
+
   return (
-    <div className="ml-0 mr-0 md:ml-12 md:mr-12 mt-3 ">
-      <div className="flex mr-3">
-        <h1 className="grow text-gray-200 text-2xl pt-3 ml-4 mb-2">
-          {props.name}
-        </h1>
+    <div className="p-3">
+      <div className="flex">
+        <h1 className="grow text-gray-200 text-2xl">{props.name}</h1>
       </div>
 
-      <div className="pl-1 pr-3 pt-1 pb-1  rounded-xl shadow-md overflow-x-auto overscroll-contain snap-x snap-mandatory">
+      <div className="pl-1 pr-3 pt-1 pb-1 rounded-xl shadow-md ">
         {expanded ? (
-          <div className="flex w-full items-center justify-center">
+          <div className="flex w-full">
             <div className="mr-2 ml-2 grid-cols-1 grid sm:grid-cols-2 2xl:grid-cols-4 gap-2 ">
               {contents}
             </div>
           </div>
         ) : (
-          <div className="flex w-full items-center justify-center">
-            <div className="mr-2 ml-2 grid-cols-1 grid sm:grid-cols-2 2xl:grid-cols-4 gap-2 ">
+          <div className="">
+            <div className="mr-2 ml-2 flex flex-wrap place-content-center">
               {contents?.slice(0, 4)}
             </div>
           </div>
