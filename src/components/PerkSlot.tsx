@@ -8,21 +8,24 @@ import Tooltip from "./Tooltip";
 
 const PerkSlot = (props: IPerkSlot) => {
   const [perkData, setPerkData] = useState(props.perk);
+  const [attemptedResolve, setAttemptedResolve] = useState(false);
 
   useEffect(() => {
-    if (perkData?._id && !perkData.imgUrl) {
+    if (perkData?._id && !perkData.imgUrl && !attemptedResolve) {
       // Fetch the missing data from the database
       fetchPerkData(perkData._id).then((data) => {
         setPerkData({ ...perkData, ...data });
       });
     }
-  }, [perkData]);
+  }, [attemptedResolve, perkData]);
 
   useEffect(() => {
     setPerkData(props.perk);
+    setAttemptedResolve(false);
   }, [props.perk]);
 
   const fetchPerkData = async (perkId: string) => {
+    setAttemptedResolve(true);
     try {
       // Make an API call to fetch the missing perk data using the perk._id or any identifier
       const response = await axios.get(
