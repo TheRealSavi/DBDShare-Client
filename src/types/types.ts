@@ -31,8 +31,12 @@ export interface IAuthor {
   username: string | undefined;
 }
 
+export enum RoleENUM {
+  Survivor = "Survivor",
+  Killer = "Killer",
+}
 export interface IKSToggleSelectionType {
-  str: string;
+  role: RoleENUM;
   img: string;
 }
 

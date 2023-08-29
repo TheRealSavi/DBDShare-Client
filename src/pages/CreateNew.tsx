@@ -10,6 +10,7 @@ import {
   INewBuild,
   IPerk,
   IUser,
+  RoleENUM,
 } from "../types/types";
 import PerkPicker from "../components/PerkPicker";
 
@@ -23,7 +24,7 @@ const CreateNew = () => {
   const [selectedPerks, setSelectedPerks] = useState<(IPerk | undefined)[]>([]);
   const [perkInsertPoint, setPerkInsertPoint] = useState(0);
   const [buildName, setBuildName] = useState("Name");
-  const [buildType, setBuildType] = useState("survivor");
+  const [buildType, setBuildType] = useState(RoleENUM.Survivor);
   const [description, setDescription] = useState<string>();
   const [errorShown, setErrorShown] = useState(false);
   const [queryParameters] = useSearchParams();
@@ -38,7 +39,7 @@ const CreateNew = () => {
     const perkID1 = queryParameters.get("perk1");
     const perkID2 = queryParameters.get("perk2");
     const perkID3 = queryParameters.get("perk3");
-    const queryBuildType = queryParameters.get("buildType");
+    const queryBuildType = queryParameters.get("buildType") as RoleENUM;
 
     if (perkID0 && perkID1 && perkID2 && perkID3 && queryBuildType) {
       newPerks[0] = { _id: perkID0 } as IPerk;
@@ -123,7 +124,7 @@ const CreateNew = () => {
   };
 
   const handleKSToggle = (selection: IKSToggleSelectionType) => {
-    setBuildType(selection.str);
+    setBuildType(selection.role);
     setSelectedPerks([]);
     setPerkInsertPoint(0);
   };
@@ -175,10 +176,10 @@ const CreateNew = () => {
             <KSToggle start={buildType} onClick={handleKSToggle} />
           </div>
 
-          <div className="bg-gray-700 rounded-xl shadow-lg p-2 mt-4 m-2 pb-4 h-fit">
+          <div className="bg-gray-700 rounded-xl shadow-lg mt-4 m-2 max-h-96 overflow-y-scroll">
             <PerkPicker
               selectedPerks={selectedPerks}
-              perkType={buildType}
+              role={buildType}
               handlePerkSelect={(perk) => {
                 handlePerkSelect(perk);
               }}

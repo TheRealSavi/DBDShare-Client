@@ -1,6 +1,6 @@
 import genImg from "../assets/gen.png";
 import PerkPicker from "../components/PerkPicker";
-import { IPerk } from "../types/types";
+import { IPerk, RoleENUM } from "../types/types";
 
 const GenCalcPage = () => {
   return (
@@ -47,7 +47,7 @@ const GenCalcPage = () => {
       <div className="text-white bg-gray-600 fixed bottom-2 right-2 rounded-md ">
         <PerkPicker
           selectedPerks={[]}
-          perkType="survivor"
+          role={RoleENUM.Survivor}
           handlePerkSelect={function (perk: IPerk): void {
             throw new Error("Function not implemented.");
           }}

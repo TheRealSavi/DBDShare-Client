@@ -86,7 +86,7 @@ const PreviewGrid = (props: IPreviewGrid) => {
         </h1>
       </div>
 
-      <div className="pl-1 pr-3 pt-1 pb-1  rounded-xl shadow-md overflow-x-auto overflow-y-hidden overscroll-contain snap-x snap-mandatory">
+      <div className="pl-1 pr-3 pt-1 pb-1  rounded-xl shadow-md overflow-x-auto overscroll-contain snap-x snap-mandatory">
         {expanded ? (
           <div className="flex w-full items-center justify-center">
             <div className="mr-2 ml-2 grid-cols-1 grid sm:grid-cols-2 2xl:grid-cols-4 gap-2 ">

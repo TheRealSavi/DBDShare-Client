@@ -2,18 +2,18 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import PerkSlot from "../components/PerkSlot";
 import KSToggle from "../components/KSToggle";
-import { IKSToggleSelectionType, IPerk } from "../types/types";
+import { IKSToggleSelectionType, IPerk, RoleENUM } from "../types/types";
 import axios from "axios";
 
 const Randomizer = () => {
-  const [randomPerks, setRandomPerks] = useState<IPerk[]>();
+  const [randomPerks, setRandomPerks] = useState<IPerk[]>([]);
   const [lockedPerks, setLockedPerks] = useState<boolean[]>([
     false,
     false,
     false,
     false,
   ]);
-  const [buildType, setBuildType] = useState("survivor");
+  const [buildType, setBuildType] = useState<RoleENUM>(RoleENUM.Survivor);
   const [perkList, setPerkList] = useState<IPerk[]>();
   const [masterPerkList, setMasterPerkList] = useState<IPerk[]>();
 
@@ -23,8 +23,12 @@ const Randomizer = () => {
         const response = await axios.get(
           import.meta.env.VITE_API_URL + "perks"
         );
-        setPerkList(response.data);
         setMasterPerkList(response.data);
+        const copyPerkList = response.data.filter(
+          (perk: IPerk) => perk.role === buildType
+        );
+
+        setPerkList(copyPerkList);
       } catch (err) {
         console.log(err);
       }
@@ -35,11 +39,6 @@ const Randomizer = () => {
 
   const genRandomPerks = () => {
     const perksToUse = [];
-    if (masterPerkList) {
-      setPerkList([...masterPerkList]);
-    } else {
-      setPerkList(undefined);
-    }
 
     for (let i = 0; i < lockedPerks.length; i++) {
       if (
@@ -84,9 +83,16 @@ const Randomizer = () => {
   };
 
   const handleKSToggle = (selection: IKSToggleSelectionType) => {
-    setBuildType(selection.str);
-    setRandomPerks(undefined);
+    setBuildType(selection.role);
+    setRandomPerks([]);
     setLockedPerks([false, false, false, false]);
+    if (masterPerkList) {
+      const copyPerkList = masterPerkList.filter(
+        (perk) => perk.role === selection.role
+      );
+
+      setPerkList(copyPerkList);
+    }
   };
 
   return (
@@ -160,7 +166,7 @@ const Randomizer = () => {
                 </button>
               </div>
               <div>
-                {randomPerks ? (
+                {randomPerks.length > 0 ? (
                   <Link
                     to={
                       "/createnew?perk0=" +

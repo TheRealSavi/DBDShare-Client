@@ -1,11 +1,14 @@
 import survivorImg from "../assets/survivor.png";
 import killerImg from "../assets/killer.png";
 import { useState } from "react";
-import { IKSToggleSelectionType } from "../types/types";
+import { IKSToggleSelectionType, RoleENUM } from "../types/types";
 
 const Selections = {
-  surivor: { str: "survivor", img: survivorImg } as IKSToggleSelectionType,
-  killer: { str: "killer", img: killerImg } as IKSToggleSelectionType,
+  surivor: {
+    role: RoleENUM.Survivor,
+    img: survivorImg,
+  } as IKSToggleSelectionType,
+  killer: { role: RoleENUM.Killer, img: killerImg } as IKSToggleSelectionType,
 };
 
 interface IKSToggleProps {
@@ -31,7 +34,7 @@ const KSToggle = (props: IKSToggleProps) => {
   };
 
   if (props.start) {
-    if (props.start != selection.str) {
+    if (props.start != selection.role) {
       setSelection(toggleSelection());
     }
   }

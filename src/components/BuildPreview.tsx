@@ -3,7 +3,7 @@ import { BsFillBookmarkHeartFill } from "react-icons/bs";
 import PerkSlot from "./PerkSlot";
 import survivorImg from "../assets/survivor.png";
 import killerImg from "../assets/killer.png";
-import { IBuildPreview, IPerk, IUser } from "../types/types";
+import { IBuildPreview, IPerk, IUser, RoleENUM } from "../types/types";
 import axios from "axios";
 import { UserContext } from "./UserContext";
 import { Link } from "react-router-dom";
@@ -111,7 +111,7 @@ const SavedCount = (props: ISavedCountProps) => {
   };
 
   return (
-    <div className="absolute top-0 right-0 w-1/3 h-10 overflow-hidden flex justify-end">
+    <div className="absolute top-0 right-0 w-1/3 h-10 flex justify-end">
       <p className="text-gray-400 mr-2">{saves}</p>
       <BsFillBookmarkHeartFill
         className={
@@ -141,7 +141,7 @@ const BuildPreview = (build: IBuildPreview) => {
   }
 
   const getBuildTypeImg = () => {
-    if (build.type == "survivor") {
+    if (build.type == RoleENUM.Survivor) {
       return survivorImg;
     } else {
       return killerImg;
@@ -173,7 +173,7 @@ const BuildPreview = (build: IBuildPreview) => {
             </div>
             <div className="group">
               <AuthorInfo authorID={build.authorID} />
-              <div className="mt-10">
+              <div className="relative z-[100]">
                 <Tooltip requireHover={true}>
                   <AuthorPreview authorID={build.authorID}></AuthorPreview>
                 </Tooltip>

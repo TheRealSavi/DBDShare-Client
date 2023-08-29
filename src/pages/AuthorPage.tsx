@@ -141,12 +141,12 @@ const AuthorPage = () => {
           />
         )}
       </div>
-      <div className="flex items-center justify-center space-x-4">
-        <p className="text-white">Followers: {followers}</p>
-        <p className="text-white">Saves: {authorUser?.saveCount}</p>
-        <p className="text-white">Posts: {authorUser?.postCount}</p>
+      <div className="flex justify-center items-center space-x-10">
+        <p className="text-white text-center">Followers: {followers}</p>
+        <p className="text-white text-center">Saves: {authorUser?.saveCount}</p>
+        <p className="text-white text-center">Posts: {authorUser?.postCount}</p>
       </div>
-      <div className="flex items-center justify-center text-center">
+      <div className="flex items-center justify-evenly text-center">
         <div className="bg-gradient-to-r from-cyan-900 to-blue-900 w-fit mt-5 rounded-3xl shadow-lg h-fit">
           <div className="grid grid-cols-2 gap-4 ml-3 mr-3">
             <button
