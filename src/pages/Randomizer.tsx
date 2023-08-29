@@ -98,22 +98,7 @@ const Randomizer = () => {
   return (
     <div>
       <h1 className="text-center text-gray-200 pt-2">Perk Randomizer</h1>
-      <div className="flex gap-4 justify-center">
-        <div className="max-w-3xl">
-          <div className="bg-gray-700 rounded-xl shadow-lg p-2 mt-4">
-            <div className="bg-gray-600 rounded-xl shadow-lg m-2">
-              <p className="text-white text-md pl-5 pr-5 text-center">
-                Settings
-              </p>
-            </div>
-            <div className="grid grid-flow-row">
-              <button className="button1 text-sm m-1 p-1">
-                Dont show perk again after it has been seen
-              </button>
-              <button className="button1 text-sm m-1 p-1">Save State</button>
-            </div>
-          </div>
-        </div>
+      <div className="flex justify-center">
         <div className="max-w-3xl">
           <div className="bg-gray-700 rounded-xl shadow-lg p-2 mt-4">
             <div className="bg-gray-600 rounded-xl shadow-lg p-2 grid grid-cols-4 gap-2 md:gap-5 mt-5 md:ml-5 md:mr-5">
@@ -166,17 +151,17 @@ const Randomizer = () => {
                 </button>
               </div>
               <div>
-                {randomPerks.length > 0 ? (
+                {randomPerks ? (
                   <Link
                     to={
                       "/createnew?perk0=" +
-                      randomPerks[0]._id +
+                      randomPerks[0]?._id +
                       "&perk1=" +
-                      randomPerks[1]._id +
+                      randomPerks[1]?._id +
                       "&perk2=" +
-                      randomPerks[2]._id +
+                      randomPerks[2]?._id +
                       "&perk3=" +
-                      randomPerks[3]._id +
+                      randomPerks[3]?._id +
                       "&buildType=" +
                       buildType
                     }
