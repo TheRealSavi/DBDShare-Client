@@ -3,8 +3,9 @@ import veryrare from "../assets/very-rare.png";
 import selected from "../assets/selected.png";
 import emptySlot from "../assets/blank.png";
 import axios from "axios";
-import { IPerkSlot } from "../types/types";
+import { IPerk, IPerkSlot } from "../types/types";
 import Tooltip from "./Tooltip";
+import PerkInfo from "./PerkInfo";
 
 const PerkSlot = (props: IPerkSlot) => {
   const [perkData, setPerkData] = useState(props.perk);
@@ -70,9 +71,10 @@ const PerkSlot = (props: IPerkSlot) => {
         />
       )}
       <div className="flex justify-center">
-        {perkData?.name && (
+        {perkData?.imgUrl && props.allowHover && (
           <Tooltip requireHover={true}>
-            <p>{perkData?.name}</p>
+            {/* <p>{perkData?.name}</p> */}
+            <PerkInfo perkData={perkData} />
           </Tooltip>
         )}
       </div>

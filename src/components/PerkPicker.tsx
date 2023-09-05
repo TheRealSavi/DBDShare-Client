@@ -56,6 +56,7 @@ const PerkPicker = (props: PerkPickerProps) => {
               slotNumber={i}
               isSelected={props.selectedPerks.includes(perk)}
               handleClick={perkPicked}
+              allowHover={false}
             />
           );
         })}

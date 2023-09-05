@@ -45,6 +45,7 @@ export interface IPerkSlot {
   key: number;
   slotNumber: number;
   isSelected: boolean;
+  allowHover: boolean;
   handleClick?: (slotNumber: number) => MouseEventHandler;
 }
 

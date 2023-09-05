@@ -136,6 +136,7 @@ const BuildPreview = (build: IBuildPreview) => {
         key={i}
         slotNumber={i}
         isSelected={false}
+        allowHover={true}
       />
     );
   }

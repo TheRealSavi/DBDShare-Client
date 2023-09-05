@@ -238,6 +238,7 @@ const PerkSelectionViewer = (props: PerkSelectionViewerProps) => {
         slotNumber={i}
         isSelected={props.insertPoint == i}
         handleClick={perkClicked}
+        allowHover={true}
       />
     );
   }

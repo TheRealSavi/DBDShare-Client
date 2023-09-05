@@ -109,6 +109,7 @@ const Randomizer = () => {
                   slotNumber={0}
                   isSelected={lockedPerks[0]}
                   handleClick={perkClicked}
+                  allowHover={true}
                 />
               </div>
               <div>
@@ -118,6 +119,7 @@ const Randomizer = () => {
                   slotNumber={1}
                   isSelected={lockedPerks[1]}
                   handleClick={perkClicked}
+                  allowHover={true}
                 />
               </div>
               <div>
@@ -127,6 +129,7 @@ const Randomizer = () => {
                   slotNumber={2}
                   isSelected={lockedPerks[2]}
                   handleClick={perkClicked}
+                  allowHover={true}
                 />
               </div>
               <div>
@@ -136,6 +139,7 @@ const Randomizer = () => {
                   slotNumber={3}
                   isSelected={lockedPerks[3]}
                   handleClick={perkClicked}
+                  allowHover={true}
                 />
               </div>
             </div>
