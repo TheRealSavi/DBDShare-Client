@@ -110,7 +110,7 @@ const PreviewGrid = (props: IPreviewGrid) => {
             </div>
           </div>
         )}
-        {expandable ? (
+        {expandable && contents && contents?.length > 4 ? (
           <div className="pl-5 pr-5">
             <button
               className="text-gray-200 button2 mt-4 mb-2 flex items-center justify-center w-full"
