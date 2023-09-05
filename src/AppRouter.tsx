@@ -11,6 +11,7 @@ import PerkInfoPage from "./pages/PerkInfoPage";
 import { useContext } from "react";
 import { UserContext } from "./components/UserContext";
 import { IUser } from "./types/types";
+import Devpage from "./pages/DevPage";
 
 function AppRouter() {
   const userDetails = useContext(UserContext) as IUser;
@@ -26,7 +27,7 @@ function AppRouter() {
       ) : (
         <Route path="/profile" element={<Profile />} />
       )}
-
+      <Route path="/devpage" element={<Devpage />}></Route>
       <Route path="/callback" element={<Profile />} />
       <Route path="/home" element={<Home />} />
       <Route path="/saved" element={<Saved />} />

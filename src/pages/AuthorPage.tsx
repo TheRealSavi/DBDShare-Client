@@ -145,7 +145,7 @@ const AuthorPage = (props: IAuthorPage) => {
         {genAuthorString() + "'s Page"}
       </h1>
       {authorUser?._id == userDetails._id && (
-        <div className="absolute z-50 top-2 right-2">
+        <div className="absolute z-50 top-2 right-2 opacity-10 hover:opacity-100">
           <SignIn />
         </div>
       )}
