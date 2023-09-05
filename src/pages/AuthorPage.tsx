@@ -1,18 +1,30 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PreviewGrid from "../components/PreviewGrid";
 import { useMatch } from "react-router-dom";
 import { IUser } from "../types/types";
 import axios from "axios";
 import Tooltip from "../components/Tooltip";
+import SignIn from "../components/SignIn";
+import { UserContext } from "../components/UserContext";
 
-const AuthorPage = () => {
+interface IAuthorPage {
+  authorID?: string;
+}
+
+const AuthorPage = (props: IAuthorPage) => {
   const match = useMatch("/author/:id");
-  const { id } = match?.params ?? {};
+  let { id } = match?.params ?? {};
+
+  if (id == undefined) {
+    id = props.authorID;
+  }
 
   const [authorUser, setAuthorUser] = useState<IUser>();
   const [followers, setFollowers] = useState(authorUser?.followers);
   const [followed, setFollowed] = useState<boolean>();
   const [shareSuccess, setShareSuccess] = useState<boolean>();
+
+  const userDetails = useContext(UserContext) as IUser;
 
   const genAuthorString = () => {
     if (!authorUser) {
@@ -132,6 +144,12 @@ const AuthorPage = () => {
       <h1 className="text-center text-gray-200 pt-2 mb-4">
         {genAuthorString() + "'s Page"}
       </h1>
+      {authorUser?._id == userDetails._id && (
+        <div className="absolute z-50 top-2 right-2">
+          <SignIn />
+        </div>
+      )}
+
       <div className="flex items-center justify-center w-full">
         {authorUser?.profilePic && (
           <img

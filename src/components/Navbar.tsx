@@ -4,7 +4,9 @@ import { BsFillBookmarkHeartFill, BsFillCalculatorFill } from "react-icons/bs";
 import { GiCardRandom } from "react-icons/gi";
 import { IoMdAdd } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
-import { ReactNode } from "react";
+import { ReactNode, useContext } from "react";
+import { UserContext } from "./UserContext";
+import { IUser } from "../types/types";
 
 interface ISideBarButton {
   to: string;
@@ -13,13 +15,25 @@ interface ISideBarButton {
 }
 
 const Navbar = () => {
+  const userDetails = useContext(UserContext) as IUser;
+
   return (
     <div className="fixed z-50 top-0 h-screen w-20 m-0 flex flex-col bg-gray-800">
       <div className="fixed z-50 top-2 left-2 bottom-1 w-16 m-0 flex flex-col bg-gray-900 shadow-xl rounded-xl">
         <SideBarButton
           to="/profile"
-          icon={<CgProfile size="28" />}
-          text="Profile"
+          icon={
+            userDetails.profilePic ? (
+              <img
+                className="m-3 w-12 h-12 rounded-full object-cover"
+                src={userDetails?.profilePic}
+                loading="lazy"
+              />
+            ) : (
+              <CgProfile size="28" />
+            )
+          }
+          text={userDetails.username ? userDetails.username : "Sign in"}
         />
 
         <hr className="navbar-hr" />
