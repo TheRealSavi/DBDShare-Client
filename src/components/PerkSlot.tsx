@@ -3,8 +3,8 @@ import veryrare from "../assets/very-rare.png";
 import selected from "../assets/selected.png";
 import emptySlot from "../assets/blank.png";
 import axios from "axios";
-import { IPerk, IPerkSlot } from "../types/types";
-import Tooltip from "./Tooltip";
+import { IPerkSlot } from "../types/types";
+import { Popover } from "antd";
 import PerkInfo from "./PerkInfo";
 
 const PerkSlot = (props: IPerkSlot) => {
@@ -40,45 +40,39 @@ const PerkSlot = (props: IPerkSlot) => {
   };
 
   return (
-    <div
-      className="relative w-full h-28 group"
-      onClick={() => {
-        if (props.handleClick) {
-          props.handleClick(props.slotNumber);
-        }
-      }}
-    >
-      <img
-        className="h-full w-full object-contain"
-        src={perkData?.imgUrl ? veryrare : emptySlot}
-        alt={perkData?.name ? perkData.name : "Empty Slot"}
-      />
-      {perkData?.imgUrl && (
-        <div className="flex justify-center">
+    <Popover content={perkData && <PerkInfo perkData={perkData}></PerkInfo>}>
+      <div
+        className="relative w-full h-28 group"
+        onClick={() => {
+          if (props.handleClick) {
+            props.handleClick(props.slotNumber);
+          }
+        }}
+      >
+        <img
+          className="h-full w-full object-contain"
+          src={perkData?.imgUrl ? veryrare : emptySlot}
+          alt={perkData?.name ? perkData.name : "Empty Slot"}
+        />
+        {perkData?.imgUrl && (
+          <div className="flex justify-center text-white">
+            <img
+              className="absolute top-0 left-0 w-full h-full object-contain"
+              src={import.meta.env.VITE_API_URL + "perkimg/" + perkData.imgUrl}
+              alt={perkData?.name ? perkData.name : "No name"}
+              loading="lazy"
+            />
+          </div>
+        )}
+        {props.isSelected && (
           <img
             className="absolute top-0 left-0 w-full h-full object-contain"
-            src={import.meta.env.VITE_API_URL + "perkimg/" + perkData.imgUrl}
-            alt={perkData?.name ? perkData.name : "No name"}
-            loading="lazy"
+            src={selected}
+            alt="Selected"
           />
-        </div>
-      )}
-      {props.isSelected && (
-        <img
-          className="absolute top-0 left-0 w-full h-full object-contain"
-          src={selected}
-          alt="Selected"
-        />
-      )}
-      <div className="flex justify-center">
-        {perkData?.imgUrl && props.allowHover && (
-          <Tooltip requireHover={true}>
-            {/* <p>{perkData?.name}</p> */}
-            <PerkInfo perkData={perkData} />
-          </Tooltip>
         )}
       </div>
-    </div>
+    </Popover>
   );
 };
 
