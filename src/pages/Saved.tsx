@@ -11,14 +11,10 @@ const Saved = () => {
       <h1 className="text-center text-gray-200 pt-2 mb-4">Saved Posts</h1>
 
       {userDetails._id ? (
-        <PreviewGrid
-          expandable={false}
-          name="Saved Builds:"
-          showMySaved={true}
-        />
+        <PreviewGrid name="Saved Builds:" showMySaved={true} />
       ) : (
         <h1 className="text-center text-gray-200 pt-2 mb-4">
-          Must be signed in to save posts
+          When you sign in with an account, your saved builds will show up here!
         </h1>
       )}
     </div>

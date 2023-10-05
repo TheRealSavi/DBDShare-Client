@@ -3,7 +3,6 @@ import PreviewGrid from "../components/PreviewGrid";
 import { useMatch } from "react-router-dom";
 import { IUser } from "../types/types";
 import axios from "axios";
-import Tooltip from "../components/Tooltip";
 import SignIn from "../components/SignIn";
 import { UserContext } from "../components/UserContext";
 
@@ -145,7 +144,7 @@ const AuthorPage = (props: IAuthorPage) => {
         {genAuthorString() + "'s Page"}
       </h1>
       {authorUser?._id == userDetails._id && (
-        <div className="absolute z-50 top-2 right-2 opacity-10 hover:opacity-100">
+        <div className="absolute z-50 top-2 right-2 opacity-50 hover:opacity-100">
           <SignIn />
         </div>
       )}
@@ -180,23 +179,13 @@ const AuthorPage = (props: IAuthorPage) => {
               >
                 Share
               </button>
-              {shareSuccess ? (
-                <Tooltip requireHover={false}>
-                  <p>Copied to clipboard!</p>
-                </Tooltip>
-              ) : (
-                <div></div>
-              )}
+              {shareSuccess ? <></> : <div></div>}
             </div>
           </div>
         </div>
       </div>
 
-      <PreviewGrid
-        name="Published Builds:"
-        expandable={true}
-        showFromAuthorID={id}
-      />
+      <PreviewGrid name="Published Builds:" showFromAuthorID={id} />
     </div>
   );
 };
