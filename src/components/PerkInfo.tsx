@@ -6,11 +6,13 @@ interface IPerkInfo {
 
 const PerkInfo = (props: IPerkInfo) => {
   return (
-    <div className="rounded-xl w-fit p-1 max-w-md">
+    <div className="rounded-xl w-fit p-1 max-w-sm bg-gradient-to-r from-cyan-900 to-blue-900">
       <div className="flex place-content-center">
         <div className="flex place-content-center flex-col w-fit">
-          <p className="text-white text-xl pl-4">{props.perkData?.name}</p>
-          <p className="text-gray-300 text-left pl-4 text-md">
+          <p className="text-white text-lg pl-4 font-bold">
+            {props.perkData?.name}
+          </p>
+          <p className="text-gray-300 text-left pl-4 text-sm">
             {props.perkData?.role + " : " + props.perkData?.owner}
           </p>
           <div className="flex flex-col text-left bg-gray-600 p-5 rounded-xl w-fit mt-2 shadow-lg">
@@ -29,7 +31,7 @@ interface IPerkDesc {
 const PerkDesc = (props: IPerkDesc) => {
   const lines = props.desc.split("\r").map((line, i) => {
     return (
-      <div className="flex flex-wrap" key={i}>
+      <div className="flex flex-wrap text-sm" key={i}>
         {line.split(/(\d+)\/(\d+)\/(\d+)/).map((part, j) => (
           <div key={j}>
             {j % 4 == 1 ? <span className="text-white">&nbsp;</span> : <></>}
