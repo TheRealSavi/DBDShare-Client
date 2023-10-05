@@ -11,6 +11,8 @@
     "dev-host": "vite --host"
   },
   "dependencies": {
+    "@floating-ui/react": "^0.25.4",
+    "antd": "^5.9.4",
     "axios": "^1.4.0",
     "dotenv": "^16.3.1",
     "fuse.js": "^6.6.2",
