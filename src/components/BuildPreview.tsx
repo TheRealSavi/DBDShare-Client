@@ -7,7 +7,7 @@ import { IBuildPreview, IPerk, IUser, RoleENUM } from "../types/types";
 import axios from "axios";
 import { UserContext } from "./UserContext";
 import { Link } from "react-router-dom";
-import Tooltip from "./Tooltip";
+import { Popover } from "antd";
 
 import AuthorPreview from "./AuthorPreview";
 
@@ -150,8 +150,9 @@ const BuildPreview = (build: IBuildPreview) => {
   };
 
   return (
-    <div className="relative mb-3 mt-1 ml-2 mr-2 min-w-sm max-w-md">
+    <div className="relative mb-3 mt-1 ml-2 mr-2 min-w-sm max-w-md flex-none">
       <h1 className="ml-2 text-gray-100">{build.name}</h1>
+
       <SavedCount
         isSaved={build.isSaved}
         buildId={build._id}
@@ -172,14 +173,22 @@ const BuildPreview = (build: IBuildPreview) => {
                 {build.description}
               </p>
             </div>
-            <div className="group">
-              <AuthorInfo authorID={build.authorID} />
-              <div className="relative z-[100]">
-                <Tooltip requireHover={true}>
-                  <AuthorPreview authorID={build.authorID}></AuthorPreview>
-                </Tooltip>
-              </div>
+
+            <div className="max-w-fit">
+              <Popover
+                content={
+                  <div>
+                    <AuthorPreview authorID={build.authorID}></AuthorPreview>
+                  </div>
+                }
+                arrow={false}
+              >
+                <div>
+                  <AuthorInfo authorID={build.authorID} />
+                </div>
+              </Popover>
             </div>
+
             <img
               className="absolute h-8 bottom-2 right-2"
               src={getBuildTypeImg()}
