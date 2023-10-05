@@ -55,7 +55,7 @@ const Navbar = () => {
         <SideBarButton
           to="/createnew"
           icon={<IoMdAdd size="28" />}
-          text="Create New"
+          text="Post a Build!"
         />
 
         <hr className="navbar-hr" />
