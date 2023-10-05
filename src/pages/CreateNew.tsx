@@ -171,19 +171,20 @@ const CreateNew = () => {
               }}
             />
           </div>
+          <div className="bg-gray-700 rounded-xl shadow-lg mt-4 m-2 ">
+            <div className="max-w-fit p-2">
+              <KSToggle start={buildType} onClick={handleKSToggle} />
+            </div>
 
-          <div className="absolute right-6 sm:right-6 md:right-11 lg:right-6 mt-3 lg:mt-5">
-            <KSToggle start={buildType} onClick={handleKSToggle} />
-          </div>
-
-          <div className="bg-gray-700 rounded-xl shadow-lg mt-4 m-2 max-h-96 overflow-y-scroll">
-            <PerkPicker
-              selectedPerks={selectedPerks}
-              role={buildType}
-              handlePerkSelect={(perk) => {
-                handlePerkSelect(perk);
-              }}
-            />
+            <div className="max-h-96 overflow-y-scroll">
+              <PerkPicker
+                selectedPerks={selectedPerks}
+                role={buildType}
+                handlePerkSelect={(perk) => {
+                  handlePerkSelect(perk);
+                }}
+              />
+            </div>
           </div>
 
           <div className="">
