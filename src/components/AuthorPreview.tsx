@@ -28,7 +28,7 @@ const AuthorPreview = (props: IAuthorPreview) => {
   }, [props.authorID]);
 
   return (
-    <div className="flex w-60 flex-col ring-2 ring-slate-100 rounded-md opacity">
+    <div className="flex w-60 flex-col ring-2 ring-slate-100 rounded-md bg-gradient-to-r from-cyan-900 to-blue-900">
       <Link to={"/author/" + authorUser?._id}>
         <div className="flex items-center justify-left w-full ">
           {authorUser?.profilePic && (
@@ -38,7 +38,9 @@ const AuthorPreview = (props: IAuthorPreview) => {
               loading="lazy"
             />
           )}
-          <p className="m-3 overflow-clip text-base ">{authorUser?.username}</p>
+          <p className="m-3 overflow-clip text-base text-white opacity-90">
+            {authorUser?.username}
+          </p>
         </div>
         <div className="flex grid-flow-col grid-cols-3 place-content-between w-full pb-4 text-center p-2 text-sm">
           <p className="text-white">Followers: {followers}</p>
@@ -46,7 +48,9 @@ const AuthorPreview = (props: IAuthorPreview) => {
           <p className="text-white">Posts: {authorUser?.postCount}</p>
         </div>
         <div className="pb-1 pl-1">
-          <p className="text-xs opacity-40">Member since: Aug 1st, 2023</p>
+          <p className="text-xs text-white opacity-40">
+            Member since: Aug 1st, 2023
+          </p>
         </div>
       </Link>
     </div>
