@@ -39,7 +39,7 @@ const AuthorPage = (props: IAuthorPage) => {
     const resolveAuthorIDtoUser = async () => {
       try {
         const response = await axios.get(
-          "http://api.gibbonsiv.com:5000/" + "users/" + id
+          "https://api.gibbonsiv.com/" + "users/" + id
         );
         setAuthorUser(response.data);
         setFollowers(response.data.followers);
@@ -58,7 +58,7 @@ const AuthorPage = (props: IAuthorPage) => {
           try {
             console.log("resolving");
             const response = await axios.get(
-              "http://api.gibbonsiv.com:5000/" + "following/",
+              "https://api.gibbonsiv.com/" + "following/",
               { withCredentials: true }
             );
             const tempfollowing = response.data as Array<string | undefined>;
@@ -82,7 +82,7 @@ const AuthorPage = (props: IAuthorPage) => {
     if (followed) {
       try {
         const response = await axios.post(
-          "http://api.gibbonsiv.com:5000/" + "unfollow",
+          "https://api.gibbonsiv.com/" + "unfollow",
           {
             authorID: authorUser?._id,
           },
@@ -103,7 +103,7 @@ const AuthorPage = (props: IAuthorPage) => {
     } else {
       try {
         const response = await axios.post(
-          "http://api.gibbonsiv.com:5000/" + "follow",
+          "https://api.gibbonsiv.com/" + "follow",
           {
             authorID: authorUser?._id,
           },

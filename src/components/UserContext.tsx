@@ -14,7 +14,7 @@ const UserProvider = (props: PropsWithChildren) => {
   const getUser = async () => {
     try {
       const response = await axios.get(
-        "http://api.gibbonsiv.com:5000/" + "getuser",
+        "https://api.gibbonsiv.com/" + "getuser",
         {
           withCredentials: true,
         }

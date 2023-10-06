@@ -15,7 +15,7 @@ const AuthorPreview = (props: IAuthorPreview) => {
     const resolveAuthorIDtoUser = async () => {
       try {
         const response = await axios.get(
-          "http://api.gibbonsiv.com:5000/" + "users/" + props.authorID
+          "https://api.gibbonsiv.com/" + "users/" + props.authorID
         );
         setAuthorUser(response.data);
         setFollowers(response.data.followers);

@@ -20,16 +20,16 @@ const SignIn = () => {
   // };
 
   const googleLogin = () => {
-    window.open("http://api.gibbonsiv.com:5000/" + "auth/google", "_self");
+    window.open("https://api.gibbonsiv.com/" + "auth/google", "_self");
   };
 
   const steamLogin = () => {
-    window.open("http://api.gibbonsiv.com:5000/" + "auth/steam", "_self");
+    window.open("https://api.gibbonsiv.com/" + "auth/steam", "_self");
   };
 
   const logout = () => {
     axios
-      .get("http://api.gibbonsiv.com:5000/" + "auth/logout", {
+      .get("https://api.gibbonsiv.com/" + "auth/logout", {
         withCredentials: true,
       })
       .then((res) => {

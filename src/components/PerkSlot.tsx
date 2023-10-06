@@ -29,7 +29,7 @@ const PerkSlot = (props: IPerkSlot) => {
     try {
       // Make an API call to fetch the missing perk data using the perk._id or any identifier
       const response = await axios.get(
-        "http://api.gibbonsiv.com:5000/" + "perk/" + perkId
+        "https://api.gibbonsiv.com/" + "perk/" + perkId
       );
       setIsLoading(false);
       const data = response.data;
@@ -63,7 +63,7 @@ const PerkSlot = (props: IPerkSlot) => {
               <img
                 className="absolute top-0 left-0 w-full h-full object-contain"
                 src={
-                  "http://api.gibbonsiv.com:5000/" + "perkimg/" + perkData.imgUrl
+                  "https://api.gibbonsiv.com/" + "perkimg/" + perkData.imgUrl
                 }
                 alt={perkData?.name ? perkData.name : "No name"}
                 loading="lazy"

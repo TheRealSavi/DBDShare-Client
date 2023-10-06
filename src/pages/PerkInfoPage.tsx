@@ -14,7 +14,7 @@ const PerkInfoPage = () => {
     try {
       // Make an API call to fetch the missing perk data using the perk._id or any identifier
       const response = await axios.get(
-        "http://api.gibbonsiv.com:5000/" + "perk/" + perkId
+        "https://api.gibbonsiv.com/" + "perk/" + perkId
       );
       const data = response.data;
       return data;

@@ -30,7 +30,7 @@ const PreviewGrid = (props: IPreviewGrid) => {
         let response;
         if (props.showFromAuthorID != undefined) {
           response = await axios.get(
-            "http://api.gibbonsiv.com:5000/" +
+            "https://api.gibbonsiv.com/" +
               "users/" +
               props.showFromAuthorID +
               "/posts",
@@ -40,14 +40,14 @@ const PreviewGrid = (props: IPreviewGrid) => {
           );
         } else if (props.showMySaved) {
           response = await axios.get(
-            "http://api.gibbonsiv.com:5000/" +
+            "https://api.gibbonsiv.com/" +
               "users/" +
               userDetails._id +
               "/savedposts",
             { withCredentials: true }
           );
         } else {
-          response = await axios.get("http://api.gibbonsiv.com:5000/" + "posts/", {
+          response = await axios.get("https://api.gibbonsiv.com/" + "posts/", {
             withCredentials: true,
           });
         }

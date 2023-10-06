@@ -25,7 +25,7 @@ const Randomizer = () => {
     const getPerks = async () => {
       try {
         const response = await axios.get(
-          "http://api.gibbonsiv.com:5000/" + "perks"
+          "https://api.gibbonsiv.com/" + "perks"
         );
         setIsLoading(false);
         setMasterPerkList(response.data);

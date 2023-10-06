@@ -28,7 +28,7 @@ const AuthorInfo = (props: IAuthorInfoProps) => {
     const resolveAuthorIDtoUser = async () => {
       try {
         const response = await axios.get(
-          "http://api.gibbonsiv.com:5000/" + "users/" + props.authorID
+          "https://api.gibbonsiv.com/" + "users/" + props.authorID
         );
         setAuthorUser(response.data);
       } catch (err) {
@@ -71,7 +71,7 @@ const SavedCount = (props: ISavedCountProps) => {
   const savePost = async () => {
     try {
       await axios.post(
-        "http://api.gibbonsiv.com:5000/" + "savepost",
+        "https://api.gibbonsiv.com/" + "savepost",
         {
           postId: props.buildId,
         },
@@ -87,7 +87,7 @@ const SavedCount = (props: ISavedCountProps) => {
   const unsavePost = async () => {
     try {
       await axios.post(
-        "http://api.gibbonsiv.com:5000/" + "unsavepost",
+        "https://api.gibbonsiv.com/" + "unsavepost",
         {
           postId: props.buildId,
         },
