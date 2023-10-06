@@ -21,7 +21,7 @@ const PerkPicker = (props: PerkPickerProps) => {
     const getPerks = async () => {
       try {
         const response = await axios.get(
-          "dbd.gibbonsiv.com:5000/" + "perks"
+          "api.gibbonsiv.com:5000/" + "perks"
         );
 
         setMasterPerkList(response.data);

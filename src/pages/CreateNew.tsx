@@ -114,7 +114,7 @@ const CreateNew = () => {
     };
 
     axios
-      .post("dbd.gibbonsiv.com:5000/" + "newpost", newPost, {
+      .post("api.gibbonsiv.com:5000/" + "newpost", newPost, {
         withCredentials: true,
       })
       .then((res) => {
