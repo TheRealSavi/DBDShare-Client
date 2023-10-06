@@ -9,8 +9,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "postinstall": "npm run build",
-    "serve-heroku": "vite preview",
+    "serve-heroku": "vite preview --port $PORT",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "dev-host": "vite --host"
