@@ -11,7 +11,7 @@ const PerkInfo = (props: IPerkInfo) => {
         {props.perkData?.imgUrl && (
           <img
             src={
-              import.meta.env.VITE_API_URL + "perkimg/" + props.perkData.imgUrl
+              "https://api.gibbonsiv.com/" + "perkimg/" + props.perkData.imgUrl
             }
           ></img>
         )}
