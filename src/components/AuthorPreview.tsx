@@ -15,7 +15,7 @@ const AuthorPreview = (props: IAuthorPreview) => {
     const resolveAuthorIDtoUser = async () => {
       try {
         const response = await axios.get(
-          import.meta.env.VITE_API_URL + "users/" + props.authorID
+          "dbd.gibbonsiv.com:5000/" + "users/" + props.authorID
         );
         setAuthorUser(response.data);
         setFollowers(response.data.followers);

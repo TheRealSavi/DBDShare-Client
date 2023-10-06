@@ -28,7 +28,7 @@ const AuthorInfo = (props: IAuthorInfoProps) => {
     const resolveAuthorIDtoUser = async () => {
       try {
         const response = await axios.get(
-          import.meta.env.VITE_API_URL + "users/" + props.authorID
+          "dbd.gibbonsiv.com:5000/" + "users/" + props.authorID
         );
         setAuthorUser(response.data);
       } catch (err) {
@@ -71,7 +71,7 @@ const SavedCount = (props: ISavedCountProps) => {
   const savePost = async () => {
     try {
       await axios.post(
-        import.meta.env.VITE_API_URL + "savepost",
+        "dbd.gibbonsiv.com:5000/" + "savepost",
         {
           postId: props.buildId,
         },
@@ -87,7 +87,7 @@ const SavedCount = (props: ISavedCountProps) => {
   const unsavePost = async () => {
     try {
       await axios.post(
-        import.meta.env.VITE_API_URL + "unsavepost",
+        "dbd.gibbonsiv.com:5000/" + "unsavepost",
         {
           postId: props.buildId,
         },

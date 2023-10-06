@@ -23,12 +23,12 @@ const PreviewGrid = (props: IPreviewGrid) => {
 
   useEffect(() => {
     const getGridItems = async () => {
-      let recieved: IBuildPreview[];
+      let recieved = [] as IBuildPreview[];
       try {
         let response;
         if (props.showFromAuthorID != undefined) {
           response = await axios.get(
-            import.meta.env.VITE_API_URL +
+            "dbd.gibbonsiv.com:5000/" +
               "users/" +
               props.showFromAuthorID +
               "/posts",
@@ -38,14 +38,14 @@ const PreviewGrid = (props: IPreviewGrid) => {
           );
         } else if (props.showMySaved) {
           response = await axios.get(
-            import.meta.env.VITE_API_URL +
+            "dbd.gibbonsiv.com:5000/" +
               "users/" +
               userDetails._id +
               "/savedposts",
             { withCredentials: true }
           );
         } else {
-          response = await axios.get(import.meta.env.VITE_API_URL + "posts/", {
+          response = await axios.get("dbd.gibbonsiv.com:5000/" + "posts/", {
             withCredentials: true,
           });
         }

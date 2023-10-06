@@ -114,7 +114,7 @@ const CreateNew = () => {
     };
 
     axios
-      .post(import.meta.env.VITE_API_URL + "newpost", newPost, {
+      .post("dbd.gibbonsiv.com:5000/" + "newpost", newPost, {
         withCredentials: true,
       })
       .then((res) => {
