@@ -28,7 +28,7 @@ const AuthorPreview = (props: IAuthorPreview) => {
   }, [props.authorID]);
 
   return (
-    <div className="flex w-60 flex-col ring-2 ring-slate-100 rounded-md bg-gradient-to-r from-cyan-900 to-blue-900">
+    <div className="flex w-60 flex-col ring-2 ring-slate-100 rounded-md bg-gradient-to-r from-cyan-900 to-blue-900 ring-opacity-80">
       <Link to={"/author/" + authorUser?._id}>
         <div className="flex items-center justify-left w-full ">
           {authorUser?.profilePic && (

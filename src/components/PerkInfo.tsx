@@ -6,16 +6,25 @@ interface IPerkInfo {
 
 const PerkInfo = (props: IPerkInfo) => {
   return (
-    <div className="rounded-xl w-fit p-1 max-w-sm bg-gradient-to-r from-cyan-900 to-blue-900">
+    <div className="rounded-xl w-fit p-2 max-w-xs md:max-w-sm bg-gradient-to-r from-cyan-900 to-blue-900 overflow-hidden drop-shadow-lg ring-2 ring-slate-100 ring-opacity-80">
+      <div className="absolute top-3 right-3 w-16 h-16 md:w-24 md:h-24 opacity-20">
+        {props.perkData?.imgUrl && (
+          <img
+            src={
+              import.meta.env.VITE_API_URL + "perkimg/" + props.perkData.imgUrl
+            }
+          ></img>
+        )}
+      </div>
       <div className="flex place-content-center">
         <div className="flex place-content-center flex-col w-fit">
-          <p className="text-white text-lg pl-4 font-bold">
+          <p className="text-white text-md md:text-lg pl-4 pt-2 font-bold">
             {props.perkData?.name}
           </p>
-          <p className="text-gray-300 text-left pl-4 text-sm">
+          <p className="text-gray-300 text-left pl-4 text-xs md:text-sm">
             {props.perkData?.role + " : " + props.perkData?.owner}
           </p>
-          <div className="flex flex-col text-left bg-gray-600 p-5 rounded-xl w-fit mt-2 shadow-lg">
+          <div className="flex flex-col text-left bg-gray-600 p-3 md:p-5 rounded-xl w-fit mt-2 shadow-lg bg-opacity-60">
             <PerkDesc desc={props.perkData?.desc ?? ""} />
           </div>
         </div>
@@ -31,7 +40,7 @@ interface IPerkDesc {
 const PerkDesc = (props: IPerkDesc) => {
   const lines = props.desc.split("\r").map((line, i) => {
     return (
-      <div className="flex flex-wrap text-sm" key={i}>
+      <div className="flex flex-wrap text-xs md:text-sm" key={i}>
         {line.split(/(\d+)\/(\d+)\/(\d+)/).map((part, j) => (
           <div key={j}>
             {j % 4 == 1 ? <span className="text-white">&nbsp;</span> : <></>}
