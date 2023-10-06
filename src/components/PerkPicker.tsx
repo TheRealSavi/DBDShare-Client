@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { IPerk, RoleENUM } from "../types/types";
 import PerkSlot from "./PerkSlot";
 import axios from "axios";
+import { Pagination, PaginationProps } from "antd";
 
 interface PerkPickerProps {
   selectedPerks: (IPerk | undefined)[];
@@ -12,6 +13,9 @@ interface PerkPickerProps {
 const PerkPicker = (props: PerkPickerProps) => {
   const [masterPerkList, setMasterPerkList] = useState<IPerk[]>();
   const [perkList, setPerkList] = useState<IPerk[]>([]);
+  const [contentPos, setContentPos] = useState(0);
+  const [pageSize, setPageSize] = useState(15);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     const getPerks = async () => {
@@ -45,10 +49,23 @@ const PerkPicker = (props: PerkPickerProps) => {
     };
   };
 
+  const handlePageChange: PaginationProps["onChange"] = (
+    newPage,
+    newPageSize
+  ) => {
+    setPage(newPage);
+    setPageSize(newPageSize);
+    setContentPos(newPageSize * (newPage - 1));
+  };
+
   return (
     <div className="h-full w-full">
       <div className="p-2 grid gap-2 grid-cols-4 sm:grid-cols-5">
-        {perkList.map((perk, i) => {
+        {perkList.sort((a, b) => {
+          const nameA = (a.name || '')
+          const nameB = (b.name || '')
+          return nameA.localeCompare(nameB, undefined, { sensitivity: 'base' });
+        }).slice(contentPos, contentPos + pageSize).map((perk, i) => {
           return (
             <PerkSlot
               perk={perk}
@@ -61,6 +78,16 @@ const PerkPicker = (props: PerkPickerProps) => {
           );
         })}
       </div>
+      <div className="flex place-content-center p-2">
+      <Pagination
+            current={page}
+            pageSize={pageSize}
+            total={perkList?.length}
+            onChange={handlePageChange}
+            showSizeChanger={false}
+          ></Pagination>
+      </div>
+
     </div>
   );
 };

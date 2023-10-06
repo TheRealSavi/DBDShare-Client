@@ -139,8 +139,8 @@ const CreateNew = () => {
         }
       >
         <h1 className="text-center text-gray-200 pt-2 mb-4">Make a Post</h1>
-        <div className="pl-2 pr-2 lg:grid lg:grid-cols-2 gap-2 md:mr-5 lg:mr-0 md:ml-5 lg:ml-0">
-          <div className="bg-gray-700 rounded-xl shadow-lg p-2 mt-4 m-2 pr-4">
+        <div className="flex pl-2 pr-2 flex-row items-start flex-wrap">
+          <div className="bg-gray-700 rounded-xl shadow-lg p-2 mt-4 pr-4 h-1/3 flex-none">
             <p className="pl-2 text-gray-300">Build Name:</p>
             <input
               className="ml-1 bg-gray-600 rounded-xl text-center shadow-md text-gray-300"
@@ -171,12 +171,12 @@ const CreateNew = () => {
               }}
             />
           </div>
-          <div className="bg-gray-700 rounded-xl shadow-lg mt-4 m-2 ">
+          <div className="bg-gray-700 rounded-xl shadow-lg mt-4 m-2 flex-none">
             <div className="max-w-fit p-2">
               <KSToggle start={buildType} onClick={handleKSToggle} />
             </div>
 
-            <div className="max-h-96 overflow-y-scroll">
+            <div className="">
               <PerkPicker
                 selectedPerks={selectedPerks}
                 role={buildType}
@@ -187,14 +187,14 @@ const CreateNew = () => {
             </div>
           </div>
 
-          <div className="">
+        </div>
+        <div className="">
             <div className="mt-5 grid place-items-center">
               <button className="button1" onClick={handleSave}>
-                Save
+                Publish
               </button>
             </div>
           </div>
-        </div>
       </div>
 
       <div className="">
