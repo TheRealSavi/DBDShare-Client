@@ -19,7 +19,7 @@ function App() {
           colorText: "rgba(255,255,255,1)",
           colorPrimary: "rgba(0,0,0,1)",
           colorBgTextActive: "rgba(255,255,255,1)",
-          colorFillAlter: "rgba(255,255,255,1)",
+          
           colorTextDisabled: "rgba(255,255,255,0.4)",
           colorBgContainer: "rgba(255,255,255,0.15)",
         },
