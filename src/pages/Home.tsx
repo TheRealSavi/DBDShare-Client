@@ -1,11 +1,13 @@
 import { useState } from "react";
 import PreviewGrid from "../components/PreviewGrid";
 import SearchInput from "../components/SearchInput";
+import { SearchProps } from "antd/es/input";
 
 const Home = () => {
   const [showingSearchResults, setShowingSearchResults] = useState(false)
 
-  const handleSearch = (value) => {
+  const handleSearch: SearchProps['onSearch'] = (value) => {
+    console.log(value)
     setShowingSearchResults(true)
   }
 
