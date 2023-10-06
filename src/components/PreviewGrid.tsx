@@ -4,12 +4,12 @@ import BuildPreview from "./BuildPreview";
 import { useContext, useEffect, useState } from "react";
 import { IBuildPreview, IUser } from "../types/types";
 import { UserContext } from "./UserContext";
-import { Pagination, PaginationProps } from "antd";
+import { Pagination, PaginationProps, Spin } from "antd";
 
 interface IPreviewGrid {
   showMySaved?: boolean;
   showFromAuthorID?: string | undefined;
-  contents?: JSX.Element[]
+  contents?: JSX.Element[];
   name: string;
 }
 
@@ -18,6 +18,8 @@ const PreviewGrid = (props: IPreviewGrid) => {
   const [contentPos, setContentPos] = useState(0);
   const [pageSize, setPageSize] = useState(4);
   const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isEmpty, setIsEmpty] = useState(true);
 
   const userDetails = useContext(UserContext) as IUser;
 
@@ -59,16 +61,26 @@ const PreviewGrid = (props: IPreviewGrid) => {
         }
       } catch (err) {
         console.log(err);
-        recieved = [] as IBuildPreview[];
+        setIsLoading(false);
+        setIsEmpty(true);
+        setContents([
+          <p key="0" className="text-gray-400 text-lg">
+            Error reaching API...
+          </p>,
+        ]);
+        return;
       }
 
+      setIsLoading(false);
       if (Object.keys(recieved).length === 0) {
+        setIsEmpty(true);
         setContents([
           <p key="0" className="text-gray-400 text-lg">
             Nothing to see here...
           </p>,
         ]);
       } else {
+        setIsEmpty(false);
         setContents(
           recieved.map((item) => <BuildPreview {...item} key={item._id} />)
         );
@@ -92,24 +104,27 @@ const PreviewGrid = (props: IPreviewGrid) => {
       <div className="flex">
         <h1 className="grow text-gray-200 text-2xl">{props.name}</h1>
       </div>
-
-      <div className="p-1 rounded-xl shadow-md">
-        <div className="">
-          <div className="sm:flex place-content-center flex-wrap">
-            {contents?.slice(contentPos, contentPos + pageSize)}
+      <Spin spinning={isLoading}>
+        <div className="p-1 rounded-xl shadow-md">
+          <div className="">
+            <div className="sm:flex place-content-center flex-wrap">
+              {contents?.slice(contentPos, contentPos + pageSize)}
+            </div>
           </div>
+          {!isEmpty && (
+            <div className="flex place-content-center">
+              <Pagination
+                current={page}
+                pageSize={pageSize}
+                total={contents?.length}
+                onChange={handlePageChange}
+                showSizeChanger={true}
+                pageSizeOptions={[2, 4, 6, 12]}
+              ></Pagination>
+            </div>
+          )}
         </div>
-        <div className="flex place-content-center">
-          <Pagination
-            current={page}
-            pageSize={pageSize}
-            total={contents?.length}
-            onChange={handlePageChange}
-            showSizeChanger={true}
-            pageSizeOptions={[2, 4, 6, 12]}
-          ></Pagination>
-        </div>
-      </div>
+      </Spin>
     </div>
   );
 };

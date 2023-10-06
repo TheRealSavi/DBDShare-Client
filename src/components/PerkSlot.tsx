@@ -4,75 +4,82 @@ import selected from "../assets/selected.png";
 import emptySlot from "../assets/blank.png";
 import axios from "axios";
 import { IPerkSlot } from "../types/types";
-import { Popover } from "antd";
+import { Popover, Spin } from "antd";
 import PerkInfo from "./PerkInfo";
 
 const PerkSlot = (props: IPerkSlot) => {
   const [perkData, setPerkData] = useState(props.perk);
-  const [attemptedResolve, setAttemptedResolve] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (perkData?._id && !perkData.imgUrl && !attemptedResolve) {
+    if (perkData?._id && !perkData.imgUrl) {
       // Fetch the missing data from the database
       fetchPerkData(perkData._id).then((data) => {
         setPerkData({ ...perkData, ...data });
       });
     }
-  }, [attemptedResolve, perkData]);
+  }, [perkData]);
 
   useEffect(() => {
     setPerkData(props.perk);
-    setAttemptedResolve(false);
   }, [props.perk]);
 
   const fetchPerkData = async (perkId: string) => {
-    setAttemptedResolve(true);
+    setIsLoading(true);
     try {
       // Make an API call to fetch the missing perk data using the perk._id or any identifier
       const response = await axios.get(
         "http://api.gibbonsiv.com:5000/" + "perk/" + perkId
       );
+      setIsLoading(false);
       const data = response.data;
       return data;
     } catch (error) {
+      setIsLoading(false);
       console.error("Error fetching perk data:", error);
+      const data = { imgUrl: emptySlot };
+      return data;
     }
   };
 
   return (
-    <Popover content={perkData && <PerkInfo perkData={perkData}></PerkInfo>}>
-      <div
-        className="relative w-full h-28 group"
-        onClick={() => {
-          if (props.handleClick) {
-            props.handleClick(props.slotNumber);
-          }
-        }}
-      >
-        <img
-          className="h-full w-full object-contain"
-          src={perkData?.imgUrl ? veryrare : emptySlot}
-          alt={perkData?.name ? perkData.name : "Empty Slot"}
-        />
-        {perkData?.imgUrl && (
-          <div className="flex justify-center text-white">
+    <Spin spinning={isLoading}>
+      <Popover content={perkData && <PerkInfo perkData={perkData}></PerkInfo>}>
+        <div
+          className="relative w-full h-28 group"
+          onClick={() => {
+            if (props.handleClick) {
+              props.handleClick(props.slotNumber);
+            }
+          }}
+        >
+          <img
+            className="h-full w-full object-contain"
+            src={perkData?.imgUrl ? veryrare : emptySlot}
+            alt={perkData?.name ? perkData.name : "Empty Slot"}
+          />
+          {perkData?.imgUrl && (
+            <div className="flex justify-center text-white">
+              <img
+                className="absolute top-0 left-0 w-full h-full object-contain"
+                src={
+                  "http://api.gibbonsiv.com:5000/" + "perkimg/" + perkData.imgUrl
+                }
+                alt={perkData?.name ? perkData.name : "No name"}
+                loading="lazy"
+              />
+            </div>
+          )}
+          {props.isSelected && (
             <img
               className="absolute top-0 left-0 w-full h-full object-contain"
-              src={"http://api.gibbonsiv.com:5000/" + "perkimg/" + perkData.imgUrl}
-              alt={perkData?.name ? perkData.name : "No name"}
-              loading="lazy"
+              src={selected}
+              alt="Selected"
             />
-          </div>
-        )}
-        {props.isSelected && (
-          <img
-            className="absolute top-0 left-0 w-full h-full object-contain"
-            src={selected}
-            alt="Selected"
-          />
-        )}
-      </div>
-    </Popover>
+          )}
+        </div>
+      </Popover>
+    </Spin>
   );
 };
 

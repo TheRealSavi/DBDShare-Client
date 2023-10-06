@@ -13,13 +13,21 @@ function App() {
         components: {
           Pagination: {
             itemActiveBg: "rgba(255,255,255,0.8)",
+            itemInputBg: "rgba(255,255,0,1)",
+          },
+          Popover: {
+            colorBgElevated: "rgba(0,0,0,0)",
+            borderRadiusLG: 0,
+            borderRadiusOuter: 0,
+            borderRadiusXS: 0,
+            boxShadowSecondary: "0",
           },
         },
         token: {
           colorText: "rgba(255,255,255,1)",
-          colorPrimary: "rgba(0,0,0,1)",
+          colorPrimary: "rgba(26, 69, 117, 1)",
           colorBgTextActive: "rgba(255,255,255,1)",
-          
+          colorBgElevated: "rgba(26, 69, 117, 1)",
           colorTextDisabled: "rgba(255,255,255,0.4)",
           colorBgContainer: "rgba(255,255,255,0.15)",
         },
