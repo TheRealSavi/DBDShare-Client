@@ -9,6 +9,7 @@ import { Pagination, PaginationProps } from "antd";
 interface IPreviewGrid {
   showMySaved?: boolean;
   showFromAuthorID?: string | undefined;
+  contents?: JSX.Element[]
   name: string;
 }
 

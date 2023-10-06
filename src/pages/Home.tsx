@@ -1,15 +1,41 @@
+import { useState } from "react";
 import PreviewGrid from "../components/PreviewGrid";
+import SearchInput from "../components/SearchInput";
 
 const Home = () => {
+  const [showingSearchResults, setShowingSearchResults] = useState(false)
+
+  const handleSearch = (value) => {
+    setShowingSearchResults(true)
+  }
+
+  const handleBacktoFeed = () => {
+    setShowingSearchResults(false)
+  }
+
   return (
     <div>
       <h1 className="text-center text-gray-200 pt-2 mb-4">Home</h1>
 
-      <PreviewGrid name="Recently Posted" />
+      <div className="flex place-content-center p-3 sticky top-0 z-50 bg-slate-800">
+      {showingSearchResults && <button className="button2 text-red-400 ml-2 mr-2" onClick={handleBacktoFeed}>Back to feed</button>}
+        <div className="flex-grow max-w-5xl ">
+          
+          <SearchInput placeholderText="Search builds..." onSearch={handleSearch} />
+        </div>
+      </div>
+
+      {showingSearchResults ? (<div>
+        
+        <PreviewGrid name="Search Results"></PreviewGrid>
+      </div>) : (<div>
+        <PreviewGrid name="Recently Posted" />
 
       <PreviewGrid name="Top builds" />
 
       <PreviewGrid name="New from users you follow" />
+      </div>)}
+      
     </div>
   );
 };
