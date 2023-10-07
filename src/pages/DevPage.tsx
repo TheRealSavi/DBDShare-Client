@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Fuse from "fuse.js";
-import { apiUrl } from "../apiConfig"
+import { apiUrl } from "../apiConfig";
 
 interface FinalPerk extends Perk {
   imgUrl?: string;
@@ -33,10 +33,9 @@ function Devpage() {
   useEffect(() => {
     const getPerkDefs = async () => {
       try {
-        const response = await axios.get(
-          apiUrl + "perkDefs",
-          { withCredentials: true }
-        );
+        const response = await axios.get(apiUrl + "perkDefs", {
+          withCredentials: true,
+        });
         setPerkDefs(response.data);
       } catch (err) {
         console.log(err);
@@ -45,10 +44,9 @@ function Devpage() {
 
     const getFiles = async () => {
       try {
-        const response = await axios.get(
-          apiUrl + "perkFileDirs",
-          { withCredentials: true }
-        );
+        const response = await axios.get(apiUrl + "perkFileDirs", {
+          withCredentials: true,
+        });
         setFiles(response.data);
       } catch (err) {
         console.log(err);
@@ -103,9 +101,7 @@ function Devpage() {
 
     for (let i = 0; i < newFuse.perks.length; i++) {
       const perk = newFuse.perks[i];
-      const res = await axios.get(
-        apiUrl + "perkByName/" + perk.name
-      );
+      const res = await axios.get(apiUrl + "perkByName/" + perk.name);
       if (res.data.length > 0) {
         if (res.data[0].imgUrl != perk.imgUrl) {
           perk.imgUrl = res.data[0].imgUrl;
@@ -406,10 +402,7 @@ const ImgInfo = ({ path, onClick }: ImgInfoProps) => {
       className="text-white bg-gray-500 hover:bg-gray-400 rounded-md shadow-xl max-w-fit transition-all duration-150 ease-linear p-3"
       onClick={handleClick}
     >
-      <img
-        className="h-24"
-        src={apiUrl + "perkimg/" + path}
-      ></img>
+      <img className="h-24" src={apiUrl + "perkimg/" + path}></img>
     </div>
   );
 };
@@ -442,11 +435,7 @@ const PerkInfo = ({ perk, onClick }: PerkInfoProps) => {
       <div className="flex place-items-center justify-center">
         <img
           className="h-32"
-          src={
-            perk.imgUrl
-              ? apiUrl + "perkimg/" + perk.imgUrl
-              : ""
-          }
+          src={perk.imgUrl ? apiUrl + "perkimg/" + perk.imgUrl : ""}
         ></img>
         {perk.imgUrl ? (
           imgChgd ? (

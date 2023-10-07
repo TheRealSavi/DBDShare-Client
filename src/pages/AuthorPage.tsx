@@ -5,7 +5,7 @@ import { IUser } from "../types/types";
 import axios from "axios";
 import SignIn from "../components/SignIn";
 import { UserContext } from "../components/UserContext";
-import { apiUrl } from "../apiConfig"
+import { apiUrl } from "../apiConfig";
 
 interface IAuthorPage {
   authorID?: string;
@@ -39,9 +39,7 @@ const AuthorPage = (props: IAuthorPage) => {
   useEffect(() => {
     const resolveAuthorIDtoUser = async () => {
       try {
-        const response = await axios.get(
-          apiUrl + "users/" + id
-        );
+        const response = await axios.get(apiUrl + "users/" + id);
         setAuthorUser(response.data);
         setFollowers(response.data.followers);
       } catch (err) {
@@ -58,10 +56,9 @@ const AuthorPage = (props: IAuthorPage) => {
         const resolveFollowed = async () => {
           try {
             console.log("resolving");
-            const response = await axios.get(
-              apiUrl + "following/",
-              { withCredentials: true }
-            );
+            const response = await axios.get(apiUrl + "following/", {
+              withCredentials: true,
+            });
             const tempfollowing = response.data as Array<string | undefined>;
             if (tempfollowing.indexOf(authorUser._id) !== -1) {
               setFollowed(true);

@@ -4,40 +4,51 @@ import SearchInput from "../components/SearchInput";
 import { SearchProps } from "antd/es/input";
 
 const Home = () => {
-  const [showingSearchResults, setShowingSearchResults] = useState(false)
+  const [showingSearchResults, setShowingSearchResults] = useState(false);
 
-  const handleSearch: SearchProps['onSearch'] = (value) => {
-    console.log(value)
-    setShowingSearchResults(true)
-  }
+  const handleSearch: SearchProps["onSearch"] = (value) => {
+    console.log(value);
+    setShowingSearchResults(true);
+  };
 
   const handleBacktoFeed = () => {
-    setShowingSearchResults(false)
-  }
+    setShowingSearchResults(false);
+  };
 
   return (
     <div>
       <h1 className="text-center text-gray-200 pt-2 mb-4">Home</h1>
 
       <div className="flex place-content-center p-3 sticky top-0 z-50 bg-slate-800">
-      {showingSearchResults && <button className="button2 text-red-400 ml-2 mr-2" onClick={handleBacktoFeed}>Back to feed</button>}
+        {showingSearchResults && (
+          <button
+            className="button2 text-red-400 ml-2 mr-2"
+            onClick={handleBacktoFeed}
+          >
+            Back to feed
+          </button>
+        )}
         <div className="flex-grow max-w-5xl ">
-          
-          <SearchInput placeholderText="Search builds..." onSearch={handleSearch} />
+          <SearchInput
+            placeholderText="Search builds..."
+            onSearch={handleSearch}
+          />
         </div>
       </div>
 
-      {showingSearchResults ? (<div>
-        
-        <PreviewGrid name="Search Results"></PreviewGrid>
-      </div>) : (<div>
-        <PreviewGrid name="Recently Posted" />
+      {showingSearchResults ? (
+        <div>
+          <PreviewGrid name="Search Results"></PreviewGrid>
+        </div>
+      ) : (
+        <div>
+          <PreviewGrid name="Recently Posted" />
 
-      <PreviewGrid name="Top builds" />
+          <PreviewGrid name="Top builds" />
 
-      <PreviewGrid name="New from users you follow" />
-      </div>)}
-      
+          <PreviewGrid name="New from users you follow" />
+        </div>
+      )}
     </div>
   );
 };

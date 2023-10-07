@@ -4,7 +4,7 @@ import { IUser } from "../types/types";
 import { UserContext } from "./UserContext";
 import { FcGoogle } from "react-icons/fc";
 import { BsSteam } from "react-icons/bs";
-import { apiUrl } from "../apiConfig"
+import { apiUrl } from "../apiConfig";
 
 const SignIn = () => {
   const userDetails = useContext(UserContext) as IUser;

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { IUser } from "../types/types";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { apiUrl } from "../apiConfig"
+import { apiUrl } from "../apiConfig";
 
 interface IAuthorPreview {
   authorID: string;
@@ -15,9 +15,7 @@ const AuthorPreview = (props: IAuthorPreview) => {
   useEffect(() => {
     const resolveAuthorIDtoUser = async () => {
       try {
-        const response = await axios.get(
-          apiUrl + "users/" + props.authorID
-        );
+        const response = await axios.get(apiUrl + "users/" + props.authorID);
         setAuthorUser(response.data);
         setFollowers(response.data.followers);
       } catch (err) {
