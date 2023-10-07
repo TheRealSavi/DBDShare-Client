@@ -8,7 +8,7 @@ import axios from "axios";
 import { UserContext } from "./UserContext";
 import { Link } from "react-router-dom";
 import { Popover } from "antd";
-import { apiUrl } from "../apiConfig"
+import { apiUrl } from "../apiConfig";
 
 import AuthorPreview from "./AuthorPreview";
 
@@ -28,9 +28,7 @@ const AuthorInfo = (props: IAuthorInfoProps) => {
   useEffect(() => {
     const resolveAuthorIDtoUser = async () => {
       try {
-        const response = await axios.get(
-          apiUrl + "users/" + props.authorID
-        );
+        const response = await axios.get(apiUrl + "users/" + props.authorID);
         setAuthorUser(response.data);
       } catch (err) {
         console.log(err);
@@ -51,11 +49,11 @@ const AuthorInfo = (props: IAuthorInfoProps) => {
   };
 
   return (
-    <div>
-      <p className="absolute text-gray-400 text-sm bottom-2 pl-1">Author:</p>
+    <div className="flex gap-2">
+      <p className="text-gray-400 text-sm">Author:</p>
       <Link
         to={"/author/" + authorUser?._id}
-        className="absolute text-gray-300 text-sm bottom-2 left-12 pl-4  hover:text-gray-100"
+        className=" text-gray-300 text-sm hover:text-gray-100"
       >
         {genAuthorString()}
       </Link>
@@ -112,13 +110,13 @@ const SavedCount = (props: ISavedCountProps) => {
   };
 
   return (
-    <div className="absolute top-0 right-0 w-1/3 h-10 flex justify-end">
-      <p className="text-gray-400 mr-2">{saves}</p>
+    <div className="flex gap-2 items-center pr-1 overflow-clip">
+      <p className="text-gray-400 pl-2">{saves}</p>
       <BsFillBookmarkHeartFill
         className={
           isSaved
-            ? "min-w-fit mt-1 mr-2 text-amber-400 hover:text-red-400"
-            : "min-w-fit mt-1 mr-2 text-gray-300 hover:text-amber-100 hover:rotate-12"
+            ? "  text-amber-400 hover:text-red-400"
+            : "  text-gray-300 hover:text-amber-100 hover:rotate-12"
         }
         onClick={() => {
           handleClickedSaved();
@@ -151,49 +149,51 @@ const BuildPreview = (build: IBuildPreview) => {
   };
 
   return (
-    <div className="relative mb-3 mt-1 ml-2 mr-2 min-w-sm max-w-md flex-none">
-      <h1 className="ml-2 text-gray-100">{build.name}</h1>
+    <div className="mb-3 mt-1 ml-2 mr-2 min-w-sm max-w-md flex-none">
+      <div className="flex justify-between items-center">
+        <h1 className="overflow-clip ml-1 text-sm sm:text-lg text-gray-100">
+          {build.name}
+        </h1>
+        <SavedCount
+          isSaved={build.isSaved}
+          buildId={build._id}
+          savedCount={build.saves}
+        />
+      </div>
 
-      <SavedCount
-        isSaved={build.isSaved}
-        buildId={build._id}
-        savedCount={build.saves}
-      />
-
-      <div className="relative h-56 w-full bg-gradient-to-br  from-gray-600 to-gray-700 rounded-xl shadow-lg">
-        <div className="grid grid-rows-2 h-full place-items-top p-2">
-          <div className="flex gap-2 pl-1 pr-1 grid-cols-4 rounded-lg justify-center place-items-center">
+      <div className="h-fit w-full bg-gradient-to-br  from-gray-600 to-gray-700 rounded-xl shadow-lg overflow-clip">
+        <div className="flex flex-col p-2">
+          <div className="w-full flex-none flex gap-2 p-1 grid-cols-4 rounded-lg justify-center place-items-center">
             {perkSlots.map((slot) => {
               return slot;
             })}
           </div>
-          <div className="pt-2">
-            <p className="text-gray-400 text-sm pl-1">Description: </p>
+          <div className="pt-1">
+            <p className="text-gray-400 text-sm pl-2">Description: </p>
             <div className="overflow-hidden h-12">
-              <p className="text-xs text-gray-100 pl-1 pr-1">
+              <p className="text-xs text-gray-100 pl-2 pr-2">
                 {build.description}
               </p>
             </div>
 
-            <div className="max-w-fit">
-              <Popover
-                content={
+            <div className="pt-1">
+              <div className="flex justify-between items-end pl-2 pr-0">
+                <Popover
+                  content={
+                    <div>
+                      <AuthorPreview authorID={build.authorID}></AuthorPreview>
+                    </div>
+                  }
+                  arrow={false}
+                >
                   <div>
-                    <AuthorPreview authorID={build.authorID}></AuthorPreview>
+                    <AuthorInfo authorID={build.authorID} />
                   </div>
-                }
-                arrow={false}
-              >
-                <div>
-                  <AuthorInfo authorID={build.authorID} />
-                </div>
-              </Popover>
-            </div>
+                </Popover>
 
-            <img
-              className="absolute h-8 bottom-2 right-2"
-              src={getBuildTypeImg()}
-            ></img>
+                <img className="h-8" src={getBuildTypeImg()}></img>
+              </div>
+            </div>
           </div>
         </div>
       </div>

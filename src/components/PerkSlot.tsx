@@ -6,7 +6,7 @@ import axios from "axios";
 import { IPerkSlot } from "../types/types";
 import { Popover, Spin } from "antd";
 import PerkInfo from "./PerkInfo";
-import { apiUrl } from "../apiConfig"
+import { apiUrl } from "../apiConfig";
 
 const PerkSlot = (props: IPerkSlot) => {
   const [perkData, setPerkData] = useState(props.perk);
@@ -29,9 +29,7 @@ const PerkSlot = (props: IPerkSlot) => {
     setIsLoading(true);
     try {
       // Make an API call to fetch the missing perk data using the perk._id or any identifier
-      const response = await axios.get(
-        apiUrl + "perk/" + perkId
-      );
+      const response = await axios.get(apiUrl + "perk/" + perkId);
       setIsLoading(false);
       const data = response.data;
       return data;
@@ -63,9 +61,7 @@ const PerkSlot = (props: IPerkSlot) => {
             <div className="flex justify-center text-white">
               <img
                 className="absolute top-0 left-0 w-full h-full object-contain"
-                src={
-                  apiUrl + "perkimg/" + perkData.imgUrl
-                }
+                src={apiUrl + "perkimg/" + perkData.imgUrl}
                 alt={perkData?.name ? perkData.name : "No name"}
                 loading="lazy"
               />

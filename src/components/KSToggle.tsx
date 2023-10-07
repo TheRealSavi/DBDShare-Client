@@ -44,7 +44,7 @@ const KSToggle = (props: IKSToggleProps) => {
       className="button1 flex place-items-center gap-2 text-white"
       onClick={handleClick}
     >
-      <img src={selection.img} className="h-12"></img>
+      <img src={selection.img} className="h-6 sm:h-12"></img>
       <p>Change Role</p>
     </div>
   );

@@ -25,9 +25,7 @@ const Randomizer = () => {
     setIsLoading(true);
     const getPerks = async () => {
       try {
-        const response = await axios.get(
-          apiUrl + "perks"
-        );
+        const response = await axios.get(apiUrl + "perks");
         setIsLoading(false);
         setMasterPerkList(response.data);
       } catch (err) {
@@ -105,8 +103,8 @@ const Randomizer = () => {
       <div className="flex justify-center">
         <div className="max-w-3xl">
           <Spin spinning={isLoading} tip={loadingStateTip}>
-            <div className="bg-gray-700 rounded-xl shadow-lg p-2 mt-4">
-              <div className="bg-gray-600 rounded-xl shadow-lg p-2 grid grid-cols-4 gap-2 md:gap-5 mt-5 md:ml-5 md:mr-5">
+            <div className="bg-gray-700 rounded-xl shadow-lg p-2 m-2">
+              <div className="bg-gray-600 rounded-xl shadow-lg p-1 grid grid-cols-4 gap-1 md:gap-5 mt-2 md:ml-5 md:mr-5 h-fit">
                 <div>
                   <PerkSlot
                     perk={randomPerks ? randomPerks[0] : undefined}
@@ -148,10 +146,10 @@ const Randomizer = () => {
                   />
                 </div>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 pl-1 pr-1 md:pl-5 md:pr-5 sm:gap-5 place-content-center">
+              <div className="grid grid-cols-1 sm:grid-cols-2 pl-1 pr-1 md:pl-5 md:pr-5 gap-4 place-content-center pt-4">
                 <div>
                   <button
-                    className="button1 mt-10 w-full object-contain"
+                    className="button1 w-full object-contain"
                     onClick={() => {
                       genRandomPerks();
                     }}
@@ -175,7 +173,7 @@ const Randomizer = () => {
                         buildType
                       }
                     >
-                      <button className="button1 mt-10 w-full object-contain">
+                      <button className="button1 w-full object-contain">
                         Save to new build
                       </button>
                     </Link>
@@ -189,7 +187,7 @@ const Randomizer = () => {
                   <KSToggle onClick={handleKSToggle} />
                 </div>
               </div>
-              <div className="flex justify-center mt-14 text-gray-400 bg-gray-800 rounded-xl shadow-lg ml-3 mr-3 mb-2">
+              <div className="flex justify-center mt-8 text-gray-400 bg-gray-800 rounded-xl shadow-lg ml-3 mr-3 mb-2">
                 <div className="grid grid-cols-1">
                   <p className="text-sm md:text-lg p-4">
                     Tip: You can press a perk to "Lock it in" and then press

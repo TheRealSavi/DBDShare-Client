@@ -5,7 +5,7 @@ import KSToggle from "../components/KSToggle";
 import { UserContext } from "../components/UserContext";
 import SignIn from "../components/SignIn";
 import axios from "axios";
-import { apiUrl } from "../apiConfig"
+import { apiUrl } from "../apiConfig";
 import {
   IKSToggleSelectionType,
   INewBuild,
@@ -139,12 +139,12 @@ const CreateNew = () => {
             : " z-10 blur-none top-0 bottom-0 left-0 right-0"
         }
       >
-        <h1 className="text-center text-gray-200 pt-2 mb-4">Make a Post</h1>
-        <div className="flex pl-2 pr-2 flex-row items-start flex-wrap">
-          <div className="bg-gray-700 rounded-xl shadow-lg p-2 mt-4 pr-4 h-1/3 flex-none">
-            <p className="pl-2 text-gray-300">Build Name:</p>
+        <h1 className="text-center text-gray-200 pt-2 mb-2">Make a Post</h1>
+        <div className="flex pl-2 pr-2 flex-row place-content-center flex-wrap gap-2">
+          <div className="bg-gray-700 rounded-xl shadow-lg p-2 h-1/3 flex-shrink">
+            <p className="pl-1 text-gray-300">Build Name:</p>
             <input
-              className="ml-1 bg-gray-600 rounded-xl text-center shadow-md text-gray-300"
+              className=" bg-gray-600 rounded-xl text-center shadow-md text-gray-300"
               type="text"
               id="buildName"
               value={buildName}
@@ -152,7 +152,7 @@ const CreateNew = () => {
                 setBuildName(e.target.value);
               }}
             />
-            <div className="mt-5 pb-2 bg-gray-600 max-w-fit shadow-xl rounded-lg">
+            <div className="pt-3">
               <PerkSelectionViewer
                 selectedPerks={selectedPerks}
                 insertPoint={perkInsertPoint}
@@ -162,9 +162,9 @@ const CreateNew = () => {
               />
             </div>
 
-            <p className="pl-2 pt-5 text-gray-300">Build Description:</p>
+            <p className="pl-1 pt-3 text-gray-300">Build Description:</p>
             <textarea
-              className="ml-1 bg-gray-600 rounded-xl w-full h-40 shadow-md text-gray-300"
+              className=" bg-gray-600 rounded-xl w-full h-40 shadow-md text-gray-300"
               id="description"
               value={description}
               onChange={(e) => {
@@ -172,7 +172,7 @@ const CreateNew = () => {
               }}
             />
           </div>
-          <div className="bg-gray-700 rounded-xl shadow-lg mt-4 m-2 flex-none">
+          <div className="bg-gray-700 rounded-xl shadow-lg flex-shrink">
             <div className="max-w-fit p-2">
               <KSToggle start={buildType} onClick={handleKSToggle} />
             </div>
@@ -187,15 +187,7 @@ const CreateNew = () => {
               />
             </div>
           </div>
-
         </div>
-        <div className="">
-            <div className="mt-5 grid place-items-center">
-              <button className="button1" onClick={handleSave}>
-                Publish
-              </button>
-            </div>
-          </div>
       </div>
 
       <div className="">
@@ -218,6 +210,14 @@ const CreateNew = () => {
         ) : (
           <div></div>
         )}
+      </div>
+
+      <div className="sticky bottom-0 bg-slate-800 p-2">
+        <div className="flex place-content-center">
+          <button className="button1" onClick={handleSave}>
+            Publish
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -246,8 +246,8 @@ const PerkSelectionViewer = (props: PerkSelectionViewerProps) => {
   }
 
   return (
-    <div className="grid h-full place-items-top p-2">
-      <div className="h-43 grid gap-2 grid-cols-4">
+    <div className=" bg-gray-600 h-fit shadow-xl rounded-lg">
+      <div className="flex gap-2 p-1 grid-cols-4 rounded-lg justify-center place-items-center">
         {perkSlots.map((slot) => {
           return slot;
         })}

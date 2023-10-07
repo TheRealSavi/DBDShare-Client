@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { IBuildPreview, IUser } from "../types/types";
 import { UserContext } from "./UserContext";
 import { Pagination, PaginationProps, Spin } from "antd";
-import { apiUrl } from "../apiConfig"
+import { apiUrl } from "../apiConfig";
 
 interface IPreviewGrid {
   showMySaved?: boolean;
@@ -30,20 +30,14 @@ const PreviewGrid = (props: IPreviewGrid) => {
         let response;
         if (props.showFromAuthorID != undefined) {
           response = await axios.get(
-            apiUrl +
-              "users/" +
-              props.showFromAuthorID +
-              "/posts",
+            apiUrl + "users/" + props.showFromAuthorID + "/posts",
             {
               withCredentials: true,
             }
           );
         } else if (props.showMySaved) {
           response = await axios.get(
-            apiUrl +
-              "users/" +
-              userDetails._id +
-              "/savedposts",
+            apiUrl + "users/" + userDetails._id + "/savedposts",
             { withCredentials: true }
           );
         } else {
@@ -120,6 +114,7 @@ const PreviewGrid = (props: IPreviewGrid) => {
                 onChange={handlePageChange}
                 showSizeChanger={true}
                 pageSizeOptions={[2, 4, 6, 12]}
+                responsive={true}
               ></Pagination>
             </div>
           )}
