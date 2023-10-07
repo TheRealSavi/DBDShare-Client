@@ -103,8 +103,8 @@ const Randomizer = () => {
       <div className="flex justify-center">
         <div className="max-w-3xl">
           <Spin spinning={isLoading} tip={loadingStateTip}>
-            <div className="bg-gray-700 rounded-xl shadow-lg p-2 m-2">
-              <div className="bg-gray-600 rounded-xl shadow-lg p-1 grid grid-cols-4 gap-1 md:gap-5 mt-2 md:ml-5 md:mr-5 h-fit">
+            <div className="bg-gradient-to-br  from-gray-600 to-gray-700 rounded-xl shadow-lg p-2 m-2">
+              <div className="bg-gray-700 rounded-xl shadow-lg p-1 grid grid-cols-4 gap-1 md:gap-5 mt-2 md:ml-5 md:mr-5 h-fit">
                 <div>
                   <PerkSlot
                     perk={randomPerks ? randomPerks[0] : undefined}
