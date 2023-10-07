@@ -3,6 +3,7 @@ import { IPerk, RoleENUM } from "../types/types";
 import PerkSlot from "./PerkSlot";
 import axios from "axios";
 import { Pagination, PaginationProps } from "antd";
+import { apiUrl } from "../apiConfig"
 
 interface PerkPickerProps {
   selectedPerks: (IPerk | undefined)[];
@@ -21,7 +22,7 @@ const PerkPicker = (props: PerkPickerProps) => {
     const getPerks = async () => {
       try {
         const response = await axios.get(
-          "https://api.gibbonsiv.com/" + "perks"
+          apiUrl + "perks"
         );
 
         setMasterPerkList(response.data);

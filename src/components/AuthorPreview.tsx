@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { IUser } from "../types/types";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { apiUrl } from "../apiConfig"
 
 interface IAuthorPreview {
   authorID: string;
@@ -15,7 +16,7 @@ const AuthorPreview = (props: IAuthorPreview) => {
     const resolveAuthorIDtoUser = async () => {
       try {
         const response = await axios.get(
-          "https://api.gibbonsiv.com/" + "users/" + props.authorID
+          apiUrl + "users/" + props.authorID
         );
         setAuthorUser(response.data);
         setFollowers(response.data.followers);

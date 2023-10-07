@@ -1,10 +1,10 @@
 import axios from "axios";
-
 import BuildPreview from "./BuildPreview";
 import { useContext, useEffect, useState } from "react";
 import { IBuildPreview, IUser } from "../types/types";
 import { UserContext } from "./UserContext";
 import { Pagination, PaginationProps, Spin } from "antd";
+import { apiUrl } from "../apiConfig"
 
 interface IPreviewGrid {
   showMySaved?: boolean;
@@ -30,7 +30,7 @@ const PreviewGrid = (props: IPreviewGrid) => {
         let response;
         if (props.showFromAuthorID != undefined) {
           response = await axios.get(
-            "https://api.gibbonsiv.com/" +
+            apiUrl +
               "users/" +
               props.showFromAuthorID +
               "/posts",
@@ -40,14 +40,14 @@ const PreviewGrid = (props: IPreviewGrid) => {
           );
         } else if (props.showMySaved) {
           response = await axios.get(
-            "https://api.gibbonsiv.com/" +
+            apiUrl +
               "users/" +
               userDetails._id +
               "/savedposts",
             { withCredentials: true }
           );
         } else {
-          response = await axios.get("https://api.gibbonsiv.com/" + "posts/", {
+          response = await axios.get(apiUrl + "posts/", {
             withCredentials: true,
           });
         }

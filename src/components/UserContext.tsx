@@ -1,6 +1,7 @@
 import { PropsWithChildren, createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { IUser } from "../types/types";
+import { apiUrl } from "../apiConfig"
 
 const UserContext = createContext({});
 
@@ -14,7 +15,7 @@ const UserProvider = (props: PropsWithChildren) => {
   const getUser = async () => {
     try {
       const response = await axios.get(
-        "https://api.gibbonsiv.com/" + "getuser",
+        apiUrl + "getuser",
         {
           withCredentials: true,
         }

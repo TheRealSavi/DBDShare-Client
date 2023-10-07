@@ -1,4 +1,5 @@
 import { IPerk } from "../types/types";
+import { apiUrl } from "../apiConfig";
 
 interface IPerkInfo {
   perkData?: IPerk;
@@ -11,7 +12,7 @@ const PerkInfo = (props: IPerkInfo) => {
         {props.perkData?.imgUrl && (
           <img
             src={
-              "https://api.gibbonsiv.com/" + "perkimg/" + props.perkData.imgUrl
+              apiUrl + "perkimg/" + props.perkData.imgUrl
             }
           ></img>
         )}

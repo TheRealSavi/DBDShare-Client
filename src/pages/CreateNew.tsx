@@ -5,6 +5,7 @@ import KSToggle from "../components/KSToggle";
 import { UserContext } from "../components/UserContext";
 import SignIn from "../components/SignIn";
 import axios from "axios";
+import { apiUrl } from "../apiConfig"
 import {
   IKSToggleSelectionType,
   INewBuild,
@@ -114,7 +115,7 @@ const CreateNew = () => {
     };
 
     axios
-      .post("https://api.gibbonsiv.com/" + "newpost", newPost, {
+      .post(apiUrl + "newpost", newPost, {
         withCredentials: true,
       })
       .then((res) => {

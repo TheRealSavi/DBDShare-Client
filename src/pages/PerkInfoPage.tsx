@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import PerkInfo from "../components/PerkInfo";
 import PerkSlot from "../components/PerkSlot";
+import { apiUrl } from "../apiConfig";
 
 const PerkInfoPage = () => {
   const match = useMatch("/perk/:id");
@@ -14,7 +15,7 @@ const PerkInfoPage = () => {
     try {
       // Make an API call to fetch the missing perk data using the perk._id or any identifier
       const response = await axios.get(
-        "https://api.gibbonsiv.com/" + "perk/" + perkId
+        apiUrl + "perk/" + perkId
       );
       const data = response.data;
       return data;

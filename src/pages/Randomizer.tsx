@@ -5,6 +5,7 @@ import KSToggle from "../components/KSToggle";
 import { IKSToggleSelectionType, IPerk, RoleENUM } from "../types/types";
 import axios from "axios";
 import { Spin } from "antd";
+import { apiUrl } from "../apiConfig";
 
 const Randomizer = () => {
   const [randomPerks, setRandomPerks] = useState<IPerk[]>([]);
@@ -25,7 +26,7 @@ const Randomizer = () => {
     const getPerks = async () => {
       try {
         const response = await axios.get(
-          "https://api.gibbonsiv.com/" + "perks"
+          apiUrl + "perks"
         );
         setIsLoading(false);
         setMasterPerkList(response.data);

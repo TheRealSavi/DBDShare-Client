@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Fuse from "fuse.js";
+import { apiUrl } from "../apiConfig"
 
 interface FinalPerk extends Perk {
   imgUrl?: string;
@@ -33,7 +34,7 @@ function Devpage() {
     const getPerkDefs = async () => {
       try {
         const response = await axios.get(
-          "https://api.gibbonsiv.com/" + "perkDefs",
+          apiUrl + "perkDefs",
           { withCredentials: true }
         );
         setPerkDefs(response.data);
@@ -45,7 +46,7 @@ function Devpage() {
     const getFiles = async () => {
       try {
         const response = await axios.get(
-          "https://api.gibbonsiv.com/" + "perkFileDirs",
+          apiUrl + "perkFileDirs",
           { withCredentials: true }
         );
         setFiles(response.data);
@@ -103,7 +104,7 @@ function Devpage() {
     for (let i = 0; i < newFuse.perks.length; i++) {
       const perk = newFuse.perks[i];
       const res = await axios.get(
-        "https://api.gibbonsiv.com/" + "perkByName/" + perk.name
+        apiUrl + "perkByName/" + perk.name
       );
       if (res.data.length > 0) {
         if (res.data[0].imgUrl != perk.imgUrl) {
@@ -192,7 +193,7 @@ const FuseFixer = ({ fuseResult, files }: FuseFixerProps) => {
   };
 
   const saveToDB = async (perks: FinalPerk[]) => {
-    const res = await axios.get("https://api.gibbonsiv.com/" + "perks");
+    const res = await axios.get(apiUrl + "perks");
     const dbPerks = res.data as FinalPerk[];
 
     const perksToUpdate = perks.filter((newPerk) => {
@@ -208,7 +209,7 @@ const FuseFixer = ({ fuseResult, files }: FuseFixerProps) => {
     console.log(perksToUpdate);
 
     axios
-      .post("https://api.gibbonsiv.com/" + "updatePerks", perksToUpdate, {
+      .post(apiUrl + "updatePerks", perksToUpdate, {
         withCredentials: true,
       })
       .then((res) => {
@@ -407,7 +408,7 @@ const ImgInfo = ({ path, onClick }: ImgInfoProps) => {
     >
       <img
         className="h-24"
-        src={"https://api.gibbonsiv.com/" + "perkimg/" + path}
+        src={apiUrl + "perkimg/" + path}
       ></img>
     </div>
   );
@@ -443,7 +444,7 @@ const PerkInfo = ({ perk, onClick }: PerkInfoProps) => {
           className="h-32"
           src={
             perk.imgUrl
-              ? "https://api.gibbonsiv.com/" + "perkimg/" + perk.imgUrl
+              ? apiUrl + "perkimg/" + perk.imgUrl
               : ""
           }
         ></img>

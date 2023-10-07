@@ -5,6 +5,7 @@ import { IUser } from "../types/types";
 import axios from "axios";
 import SignIn from "../components/SignIn";
 import { UserContext } from "../components/UserContext";
+import { apiUrl } from "../apiConfig"
 
 interface IAuthorPage {
   authorID?: string;
@@ -39,7 +40,7 @@ const AuthorPage = (props: IAuthorPage) => {
     const resolveAuthorIDtoUser = async () => {
       try {
         const response = await axios.get(
-          "https://api.gibbonsiv.com/" + "users/" + id
+          apiUrl + "users/" + id
         );
         setAuthorUser(response.data);
         setFollowers(response.data.followers);
@@ -58,7 +59,7 @@ const AuthorPage = (props: IAuthorPage) => {
           try {
             console.log("resolving");
             const response = await axios.get(
-              "https://api.gibbonsiv.com/" + "following/",
+              apiUrl + "following/",
               { withCredentials: true }
             );
             const tempfollowing = response.data as Array<string | undefined>;
@@ -82,7 +83,7 @@ const AuthorPage = (props: IAuthorPage) => {
     if (followed) {
       try {
         const response = await axios.post(
-          "https://api.gibbonsiv.com/" + "unfollow",
+          apiUrl + "unfollow",
           {
             authorID: authorUser?._id,
           },
@@ -103,7 +104,7 @@ const AuthorPage = (props: IAuthorPage) => {
     } else {
       try {
         const response = await axios.post(
-          "https://api.gibbonsiv.com/" + "follow",
+          apiUrl + "follow",
           {
             authorID: authorUser?._id,
           },

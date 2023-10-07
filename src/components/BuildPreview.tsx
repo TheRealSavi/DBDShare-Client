@@ -8,6 +8,7 @@ import axios from "axios";
 import { UserContext } from "./UserContext";
 import { Link } from "react-router-dom";
 import { Popover } from "antd";
+import { apiUrl } from "../apiConfig"
 
 import AuthorPreview from "./AuthorPreview";
 
@@ -28,7 +29,7 @@ const AuthorInfo = (props: IAuthorInfoProps) => {
     const resolveAuthorIDtoUser = async () => {
       try {
         const response = await axios.get(
-          "https://api.gibbonsiv.com/" + "users/" + props.authorID
+          apiUrl + "users/" + props.authorID
         );
         setAuthorUser(response.data);
       } catch (err) {
@@ -71,7 +72,7 @@ const SavedCount = (props: ISavedCountProps) => {
   const savePost = async () => {
     try {
       await axios.post(
-        "https://api.gibbonsiv.com/" + "savepost",
+        apiUrl + "savepost",
         {
           postId: props.buildId,
         },
@@ -87,7 +88,7 @@ const SavedCount = (props: ISavedCountProps) => {
   const unsavePost = async () => {
     try {
       await axios.post(
-        "https://api.gibbonsiv.com/" + "unsavepost",
+        apiUrl + "unsavepost",
         {
           postId: props.buildId,
         },

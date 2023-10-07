@@ -4,6 +4,7 @@ import { IUser } from "../types/types";
 import { UserContext } from "./UserContext";
 import { FcGoogle } from "react-icons/fc";
 import { BsSteam } from "react-icons/bs";
+import { apiUrl } from "../apiConfig"
 
 const SignIn = () => {
   const userDetails = useContext(UserContext) as IUser;
@@ -20,16 +21,16 @@ const SignIn = () => {
   // };
 
   const googleLogin = () => {
-    window.open("https://api.gibbonsiv.com/" + "auth/google", "_self");
+    window.open(apiUrl + "auth/google", "_self");
   };
 
   const steamLogin = () => {
-    window.open("https://api.gibbonsiv.com/" + "auth/steam", "_self");
+    window.open(apiUrl + "auth/steam", "_self");
   };
 
   const logout = () => {
     axios
-      .get("https://api.gibbonsiv.com/" + "auth/logout", {
+      .get(apiUrl + "auth/logout", {
         withCredentials: true,
       })
       .then((res) => {
