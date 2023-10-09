@@ -2,12 +2,15 @@ import { useState } from "react";
 import PreviewGrid from "../components/PreviewGrid";
 import SearchInput from "../components/SearchInput";
 import { SearchProps } from "antd/es/input";
+import { PreviewGridQueryType } from "../types/types";
 
 const Home = () => {
   const [showingSearchResults, setShowingSearchResults] = useState(false);
+  const [searchBarValue, setSearchBarValue] = useState("");
 
   const handleSearch: SearchProps["onSearch"] = (value) => {
     console.log(value);
+    setSearchBarValue(value);
     setShowingSearchResults(true);
   };
 
@@ -38,15 +41,28 @@ const Home = () => {
 
       {showingSearchResults ? (
         <div>
-          <PreviewGrid name="Search Results"></PreviewGrid>
+          <PreviewGrid
+            name="Search Results"
+            queryType={PreviewGridQueryType.searchPosts}
+            searchQuery={searchBarValue}
+          ></PreviewGrid>
         </div>
       ) : (
         <div>
-          <PreviewGrid name="Recently Posted" />
+          <PreviewGrid
+            name="Recently Posted"
+            queryType={PreviewGridQueryType.recentPosts}
+          />
 
-          <PreviewGrid name="Top builds" />
+          <PreviewGrid
+            name="Top builds"
+            queryType={PreviewGridQueryType.hotPosts}
+          />
 
-          <PreviewGrid name="New from users you follow" />
+          <PreviewGrid
+            name="New from users you follow"
+            queryType={PreviewGridQueryType.followingPosts}
+          />
         </div>
       )}
     </div>

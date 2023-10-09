@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import PreviewGrid from "../components/PreviewGrid";
 import { useMatch } from "react-router-dom";
-import { IUser } from "../types/types";
+import { IUser, PreviewGridQueryType } from "../types/types";
 import axios from "axios";
 import SignIn from "../components/SignIn";
 import { UserContext } from "../components/UserContext";
@@ -183,7 +183,11 @@ const AuthorPage = (props: IAuthorPage) => {
         </div>
       </div>
 
-      <PreviewGrid name="Published Builds:" showFromAuthorID={id} />
+      <PreviewGrid
+        name="Published Builds:"
+        queryType={PreviewGridQueryType.authorPosts}
+        showFromAuthorID={id}
+      />
     </div>
   );
 };

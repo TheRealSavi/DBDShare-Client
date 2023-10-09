@@ -1,14 +1,15 @@
 import axios from "axios";
 import BuildPreview from "./BuildPreview";
 import { useContext, useEffect, useState } from "react";
-import { IBuildPreview, IUser } from "../types/types";
+import { IBuildPreview, IUser, PreviewGridQueryType } from "../types/types";
 import { UserContext } from "./UserContext";
 import { Pagination, PaginationProps, Spin } from "antd";
 import { apiUrl } from "../apiConfig";
 
 interface IPreviewGrid {
-  showMySaved?: boolean;
+  queryType: PreviewGridQueryType;
   showFromAuthorID?: string | undefined;
+  searchQuery?: string | undefined;
   contents?: JSX.Element[];
   name: string;
 }
@@ -18,41 +19,30 @@ const PreviewGrid = (props: IPreviewGrid) => {
   const [contentPos, setContentPos] = useState(0);
   const [pageSize, setPageSize] = useState(4);
   const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isEmpty, setIsEmpty] = useState(true);
 
   const userDetails = useContext(UserContext) as IUser;
 
   useEffect(() => {
     const getGridItems = async () => {
+      setIsLoading(true);
       let recieved = [] as IBuildPreview[];
+      console.log(props.searchQuery);
       try {
         let response;
-        if (props.showFromAuthorID != undefined) {
-          response = await axios.get(
-            apiUrl + "users/" + props.showFromAuthorID + "/posts",
-            {
-              withCredentials: true,
-            }
-          );
-        } else if (props.showMySaved) {
-          response = await axios.get(
-            apiUrl + "users/" + userDetails._id + "/savedposts",
-            { withCredentials: true }
-          );
-        } else {
-          response = await axios.get(apiUrl + "posts/", {
+        response = await axios.get(
+          apiUrl +
+            props.queryType +
+            "?authorID=" +
+            props.showFromAuthorID +
+            "&query=" +
+            props.searchQuery,
+          {
             withCredentials: true,
-          });
-        }
-
-        if (props.showMySaved) {
-          recieved = response.data.filter(
-            (post: IBuildPreview) => post.isSaved === true
-          );
-        } else {
-          recieved = response.data;
-        }
+          }
+        );
+        recieved = response.data;
       } catch (err) {
         console.log(err);
         setIsLoading(false);
@@ -82,7 +72,7 @@ const PreviewGrid = (props: IPreviewGrid) => {
     };
 
     getGridItems();
-  }, [props.showFromAuthorID, props.showMySaved, userDetails._id]);
+  }, [props.showFromAuthorID, userDetails._id, props.searchQuery]);
 
   const handlePageChange: PaginationProps["onChange"] = (
     newPage,

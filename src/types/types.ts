@@ -40,6 +40,16 @@ export interface IKSToggleSelectionType {
   img: string;
 }
 
+export enum PreviewGridQueryType {
+  all = "posts",
+  savedPosts = "savedPosts",
+  authorPosts = "authorPosts",
+  recentPosts = "recentPosts",
+  hotPosts = "hotPosts",
+  followingPosts = "followingPosts",
+  searchPosts = "searchPosts",
+}
+
 export interface IPerkSlot {
   perk?: IPerk;
   key: number;
