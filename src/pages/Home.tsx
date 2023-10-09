@@ -22,7 +22,7 @@ const Home = () => {
     <div>
       <h1 className="text-center text-gray-200 pt-2 mb-4">Home</h1>
 
-      <div className="flex place-content-center p-3 sticky top-0 z-50 bg-slate-800">
+      <div className="flex place-content-center p-3 sticky top-0 z-40 bg-slate-800">
         {showingSearchResults && (
           <button
             className="button2 text-red-400 ml-2 mr-2"
