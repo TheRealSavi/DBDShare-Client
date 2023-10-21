@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import PerkSlot from "../components/PerkSlot";
-import KSToggle from "../components/KSToggle";
 import { UserContext } from "../components/UserContext";
 import SignIn from "../components/SignIn";
 import axios from "axios";
@@ -10,7 +9,6 @@ import {
   IKSToggleSelectionType,
   INewBuild,
   IPerk,
-  IUser,
   RoleENUM,
 } from "../types/types";
 import PerkPicker from "../components/PerkPicker";
@@ -32,7 +30,7 @@ const CreateNew = () => {
 
   const navigate = useNavigate();
 
-  const userDetails = useContext(UserContext) as IUser;
+  const { userDetails } = useContext(UserContext);
 
   useEffect(() => {
     const newPerks = [];
@@ -87,7 +85,7 @@ const CreateNew = () => {
   };
 
   const handleSave = () => {
-    if (userDetails._id == undefined) {
+    if (userDetails?._id == undefined) {
       window.scrollTo(0, 0);
       setErrorShown(true);
       return;
@@ -124,7 +122,7 @@ const CreateNew = () => {
       });
   };
 
-  const handleKSToggle = (selection: IKSToggleSelectionType) => {
+  const handlePerkPickerRoleChange = (selection: IKSToggleSelectionType) => {
     setBuildType(selection.role);
     setSelectedPerks([]);
     setPerkInsertPoint(0);
@@ -172,20 +170,15 @@ const CreateNew = () => {
               }}
             />
           </div>
-          <div className="bg-gray-700 rounded-xl shadow-lg flex-shrink">
-            <div className="max-w-fit p-2">
-              <KSToggle start={buildType} onClick={handleKSToggle} />
-            </div>
-
-            <div className="">
-              <PerkPicker
-                selectedPerks={selectedPerks}
-                role={buildType}
-                handlePerkSelect={(perk) => {
-                  handlePerkSelect(perk);
-                }}
-              />
-            </div>
+          <div className="">
+            <PerkPicker
+              selectedPerks={selectedPerks}
+              role={buildType}
+              onRoleChange={handlePerkPickerRoleChange}
+              handlePerkSelect={(perk) => {
+                handlePerkSelect(perk);
+              }}
+            />
           </div>
         </div>
       </div>

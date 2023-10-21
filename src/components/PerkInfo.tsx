@@ -10,7 +10,10 @@ const PerkInfo = (props: IPerkInfo) => {
     <div className="rounded-xl w-fit p-2 max-w-xs md:max-w-sm bg-gradient-to-r from-cyan-900 to-blue-900 overflow-hidden drop-shadow-lg ring-2 ring-slate-100 ring-opacity-80">
       <div className="absolute top-3 right-3 w-16 h-16 md:w-24 md:h-24 opacity-20">
         {props.perkData?.imgUrl && (
-          <img src={apiUrl + "perkimg/" + props.perkData.imgUrl}></img>
+          <img
+            className=""
+            src={apiUrl + "perkimg/" + props.perkData.imgUrl + "?skin=default"}
+          ></img>
         )}
       </div>
       <div className="flex place-content-center">

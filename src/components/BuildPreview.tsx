@@ -65,7 +65,7 @@ const SavedCount = (props: ISavedCountProps) => {
   const [isSaved, setIsSaved] = useState(props.isSaved);
   const [saves, setSaves] = useState(props.savedCount);
 
-  const userDetails = useContext(UserContext) as IUser;
+  const { userDetails } = useContext(UserContext);
 
   const savePost = async () => {
     try {
@@ -100,7 +100,7 @@ const SavedCount = (props: ISavedCountProps) => {
   };
 
   const handleClickedSaved = () => {
-    if (userDetails._id) {
+    if (userDetails?._id) {
       if (isSaved) {
         unsavePost();
       } else {
@@ -148,6 +148,12 @@ const BuildPreview = (build: IBuildPreview) => {
     }
   };
 
+  const handleSelfClicked = () => {
+    if (build.handleClick) {
+      build.handleClick(build);
+    }
+  };
+
   return (
     <div className="mb-3 mt-1 ml-2 mr-2 min-w-sm max-w-md flex-none">
       <div className="flex justify-between items-center">
@@ -161,7 +167,10 @@ const BuildPreview = (build: IBuildPreview) => {
         />
       </div>
 
-      <div className="h-fit w-full bg-gradient-to-br  from-gray-600 to-gray-700 rounded-xl shadow-lg overflow-clip">
+      <div
+        className="h-fit w-full bg-gradient-to-br  from-gray-600 to-gray-700 rounded-xl shadow-lg overflow-clip"
+        onClick={handleSelfClicked}
+      >
         <div className="flex flex-col p-2">
           <div className="w-full flex-none flex gap-2 p-1 grid-cols-4 rounded-lg justify-center place-items-center">
             {perkSlots.map((slot) => {
@@ -170,8 +179,18 @@ const BuildPreview = (build: IBuildPreview) => {
           </div>
           <div className="pt-1">
             <p className="text-gray-400 text-sm pl-2">Description: </p>
-            <div className="overflow-hidden h-12">
-              <p className="text-xs text-gray-100 pl-2 pr-2">
+            <div
+              className={
+                build.full ? "overflow-hideen" : "overflow-hidden h-12"
+              }
+            >
+              <p
+                className={
+                  build.full
+                    ? "text-sm text-gray-100 pl-2 pr-2"
+                    : "text-xs text-gray-100 pl-2 pr-2"
+                }
+              >
                 {build.description}
               </p>
             </div>

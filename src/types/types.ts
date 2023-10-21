@@ -5,6 +5,8 @@ export interface IBuildPreview extends INewBuild {
   isSaved: boolean;
   saves: number;
   author?: IAuthor;
+  handleClick?: (build: IBuildPreview) => void;
+  full?: boolean;
 }
 
 export interface INewBuild {
@@ -24,6 +26,11 @@ export interface IUser extends IAuthor {
   saveCount?: number;
   postCount?: number;
   following?: string[];
+  settings?: IUserSettings;
+}
+
+export interface IUserSettings {
+  perkSkin?: string;
 }
 
 export interface IAuthor {

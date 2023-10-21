@@ -10,16 +10,15 @@ import GenCalcPage from "./pages/GenCalcPage";
 import PerkInfoPage from "./pages/PerkInfoPage";
 import { useContext } from "react";
 import { UserContext } from "./components/UserContext";
-import { IUser } from "./types/types";
 import Devpage from "./pages/DevPage";
 
 function AppRouter() {
-  const userDetails = useContext(UserContext) as IUser;
+  const { userDetails } = useContext(UserContext);
 
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      {userDetails._id ? (
+      {userDetails?._id ? (
         <Route
           path="/profile"
           element={<AuthorPage authorID={userDetails._id} />}

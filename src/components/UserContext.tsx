@@ -3,14 +3,15 @@ import axios from "axios";
 import { IUser } from "../types/types";
 import { apiUrl } from "../apiConfig";
 
-const UserContext = createContext({});
+interface IUserContext {
+  userDetails: IUser | undefined;
+  reloadUser: () => void;
+}
+
+const UserContext = createContext<IUserContext>({} as IUserContext);
 
 const UserProvider = (props: PropsWithChildren) => {
-  const [userObj, setUserObj] = useState<IUser>({
-    username: undefined,
-    _id: undefined,
-    savedPosts: [],
-  });
+  const [userObj, setUserObj] = useState<IUser>();
 
   const getUser = async () => {
     try {
@@ -29,7 +30,7 @@ const UserProvider = (props: PropsWithChildren) => {
   }, []);
 
   return (
-    <UserContext.Provider value={userObj}>
+    <UserContext.Provider value={{ userDetails: userObj, reloadUser: getUser }}>
       {props.children}
     </UserContext.Provider>
   );

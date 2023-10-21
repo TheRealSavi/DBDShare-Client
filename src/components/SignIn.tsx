@@ -1,13 +1,14 @@
 import { useContext } from "react";
 import axios from "axios";
-import { IUser } from "../types/types";
+import { IUserSettings } from "../types/types";
 import { UserContext } from "./UserContext";
 import { FcGoogle } from "react-icons/fc";
 import { BsSteam } from "react-icons/bs";
 import { apiUrl } from "../apiConfig";
+import { Select } from "antd";
 
 const SignIn = () => {
-  const userDetails = useContext(UserContext) as IUser;
+  const { userDetails, reloadUser } = useContext(UserContext);
   console.log(userDetails);
 
   // const signInProvider = () => {
@@ -42,11 +43,35 @@ const SignIn = () => {
       });
   };
 
+  const handleSelectSkin = (value: string) => {
+    const newSettings = { perkSkin: value } as IUserSettings;
+    axios
+      .post(apiUrl + "setUserSettings", newSettings, {
+        withCredentials: true,
+      })
+      .then(() => {
+        reloadUser();
+      });
+  };
+
   return (
-    <div className="p-2 relative bg-slate-700 rounded-xl shadow-lg w-fit pb-1">
-      {userDetails._id ? (
+    <div className="p-2 relative bg-slate-700 rounded-xl shadow-lg pb-1">
+      {userDetails?._id ? (
         <div className="grid place-items-center pt-3 pb-3">
-          <button className="button1 object-contain" onClick={logout}>
+          <p className="place-self-start text-base text-gray-200">Perk Skin:</p>
+          <Select
+            className="w-56 place-self-start"
+            defaultValue={userDetails.settings?.perkSkin}
+            options={[
+              { value: "galaxy", label: "Galaxy" },
+              { value: "bunnyPink", label: "Pink Bunny" },
+              { value: "bunnyGreen", label: "Green Bunny" },
+              { value: "default", label: "Default" },
+            ]}
+            onChange={handleSelectSkin}
+          />
+
+          <button className="button1 object-contain mt-6" onClick={logout}>
             Log out
           </button>
         </div>

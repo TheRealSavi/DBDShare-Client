@@ -1,7 +1,7 @@
 import axios from "axios";
 import BuildPreview from "./BuildPreview";
 import { useContext, useEffect, useState } from "react";
-import { IBuildPreview, IUser, PreviewGridQueryType } from "../types/types";
+import { IBuildPreview, PreviewGridQueryType } from "../types/types";
 import { UserContext } from "./UserContext";
 import { Pagination, PaginationProps, Spin } from "antd";
 import { apiUrl } from "../apiConfig";
@@ -12,17 +12,19 @@ interface IPreviewGrid {
   searchQuery?: string | undefined;
   contents?: JSX.Element[];
   name: string;
+  handleBuildInspection?: (build: IBuildPreview) => void;
 }
 
 const PreviewGrid = (props: IPreviewGrid) => {
-  const [contents, setContents] = useState<JSX.Element[]>();
+  const [contents, setContents] = useState<IBuildPreview[]>();
+  const [errorMessage, setErrorMessage] = useState("Unknown Error");
   const [contentPos, setContentPos] = useState(0);
   const [pageSize, setPageSize] = useState(4);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [isEmpty, setIsEmpty] = useState(true);
 
-  const userDetails = useContext(UserContext) as IUser;
+  const { userDetails } = useContext(UserContext);
 
   useEffect(() => {
     const getGridItems = async () => {
@@ -47,32 +49,27 @@ const PreviewGrid = (props: IPreviewGrid) => {
         console.log(err);
         setIsLoading(false);
         setIsEmpty(true);
-        setContents([
-          <p key="0" className="text-gray-400 text-lg">
-            Error reaching API...
-          </p>,
-        ]);
+        setErrorMessage("Error reaching API...");
         return;
       }
 
       setIsLoading(false);
       if (Object.keys(recieved).length === 0) {
         setIsEmpty(true);
-        setContents([
-          <p key="0" className="text-gray-400 text-lg">
-            Nothing to see here...
-          </p>,
-        ]);
+        setErrorMessage("Nothing to see here...");
       } else {
         setIsEmpty(false);
-        setContents(
-          recieved.map((item) => <BuildPreview {...item} key={item._id} />)
-        );
+        const builds: IBuildPreview[] = recieved.map((item) => ({
+          ...item,
+          handleClick: handleInspectBuild,
+          key: item._id,
+        }));
+        setContents(builds);
       }
     };
 
     getGridItems();
-  }, [props.showFromAuthorID, userDetails._id, props.searchQuery]);
+  }, [props.showFromAuthorID, userDetails?._id, props.searchQuery]);
 
   const handlePageChange: PaginationProps["onChange"] = (
     newPage,
@@ -81,6 +78,12 @@ const PreviewGrid = (props: IPreviewGrid) => {
     setPage(newPage);
     setPageSize(newPageSize);
     setContentPos(newPageSize * (newPage - 1));
+  };
+
+  const handleInspectBuild = (build: IBuildPreview) => {
+    if (props.handleBuildInspection) {
+      props.handleBuildInspection(build);
+    }
   };
 
   return (
@@ -92,7 +95,15 @@ const PreviewGrid = (props: IPreviewGrid) => {
         <div className="p-1 rounded-xl shadow-md">
           <div className="">
             <div className="sm:flex place-content-center flex-wrap">
-              {contents?.slice(contentPos, contentPos + pageSize)}
+              {isEmpty && !isLoading ? (
+                <p className="text-gray-400 text-lg">{errorMessage}</p>
+              ) : (
+                contents
+                  ?.slice(contentPos, contentPos + pageSize)
+                  .map((build) => {
+                    return <BuildPreview {...build}></BuildPreview>;
+                  })
+              )}
             </div>
           </div>
           {!isEmpty && (

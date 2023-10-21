@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import veryrare from "../assets/very-rare.png";
 import selected from "../assets/selected.png";
 import emptySlot from "../assets/blank.png";
@@ -7,10 +7,15 @@ import { IPerkSlot } from "../types/types";
 import { Popover, Spin } from "antd";
 import PerkInfo from "./PerkInfo";
 import { apiUrl } from "../apiConfig";
+import { UserContext } from "./UserContext";
 
 const PerkSlot = (props: IPerkSlot) => {
   const [perkData, setPerkData] = useState(props.perk);
   const [isLoading, setIsLoading] = useState(false);
+  const { userDetails } = useContext(UserContext);
+  const [skin, setSkin] = useState(
+    userDetails?.settings?.perkSkin || "default"
+  );
 
   useEffect(() => {
     if (perkData?._id && !perkData.imgUrl) {
@@ -20,6 +25,10 @@ const PerkSlot = (props: IPerkSlot) => {
       });
     }
   }, [perkData]);
+
+  useEffect(() => {
+    setSkin(userDetails?.settings?.perkSkin || "default");
+  }, [userDetails]);
 
   useEffect(() => {
     setPerkData(props.perk);
@@ -53,7 +62,7 @@ const PerkSlot = (props: IPerkSlot) => {
           }}
         >
           <img
-            className="h-full w-full object-contain"
+            className="h-full w-full object-contain drop-shadow-md"
             src={perkData?.imgUrl ? veryrare : emptySlot}
             alt={perkData?.name ? perkData.name : "Empty Slot"}
           />
@@ -61,7 +70,7 @@ const PerkSlot = (props: IPerkSlot) => {
             <div className="flex justify-center text-white">
               <img
                 className="absolute top-0 left-0 w-full h-full object-contain"
-                src={apiUrl + "perkimg/" + perkData.imgUrl}
+                src={apiUrl + "perkimg/" + perkData.imgUrl + "?skin=" + skin}
                 alt={perkData?.name ? perkData.name : "No name"}
                 loading="lazy"
               />

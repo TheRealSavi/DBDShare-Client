@@ -24,7 +24,7 @@ const AuthorPage = (props: IAuthorPage) => {
   const [followed, setFollowed] = useState<boolean>();
   const [shareSuccess, setShareSuccess] = useState<boolean>();
 
-  const userDetails = useContext(UserContext) as IUser;
+  const { userDetails } = useContext(UserContext);
 
   const genAuthorString = () => {
     if (!authorUser) {
@@ -141,8 +141,8 @@ const AuthorPage = (props: IAuthorPage) => {
       <h1 className="text-center text-gray-200 pt-2 mb-4">
         {genAuthorString() + "'s Page"}
       </h1>
-      {authorUser?._id == userDetails._id && (
-        <div className="absolute z-50 top-2 right-2 opacity-50 hover:opacity-100">
+      {authorUser?._id == userDetails?._id && (
+        <div className="md:absolute p-5 z-50 top-2 right-2 opacity-50 hover:opacity-100 transition-all duration-300">
           <SignIn />
         </div>
       )}

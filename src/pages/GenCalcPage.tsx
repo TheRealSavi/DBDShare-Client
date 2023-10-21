@@ -49,6 +49,7 @@ const GenCalcPage = () => {
         <div className="text-white bg-gray-600 fixed bottom-2 right-2 rounded-md ">
           <PerkPicker
             selectedPerks={[]}
+            onRoleChange={() => {}}
             role={RoleENUM.Survivor}
             handlePerkSelect={function (): void {
               throw new Error("Function not implemented.");
