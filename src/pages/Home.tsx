@@ -51,7 +51,7 @@ const Home = () => {
       <div
         className={inspectingBuild ? "blur-lg max-h-screen overflow-clip" : ""}
       >
-        <div className="flex place-content-center p-3 sticky top-0 z-40 bg-slate-800">
+        <div className="flex place-content-center p-3 sticky top-0 z-40 backdrop-blur-3xl backdrop-opacity-100 backdrop-brightness-120 rounded-b-md">
           {showingSearchResults && (
             <button
               className="button2 text-red-400 ml-2 mr-2"
