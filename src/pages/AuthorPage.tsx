@@ -1,11 +1,9 @@
-import { useContext, useEffect, useState } from "react";
 import PreviewGrid from "../components/PreviewGrid";
 import { useMatch } from "react-router-dom";
 import { IUser, PreviewGridQueryType } from "../types/types";
 import axios from "axios";
-import SignIn from "../components/SignIn";
-import { UserContext } from "../components/UserContext";
 import { apiUrl } from "../apiConfig";
+import { useEffect, useState } from "react";
 
 interface IAuthorPage {
   authorID?: string;
@@ -23,8 +21,6 @@ const AuthorPage = (props: IAuthorPage) => {
   const [followers, setFollowers] = useState(authorUser?.followers);
   const [followed, setFollowed] = useState<boolean>();
   const [shareSuccess, setShareSuccess] = useState<boolean>();
-
-  const { userDetails } = useContext(UserContext);
 
   const genAuthorString = () => {
     if (!authorUser) {
