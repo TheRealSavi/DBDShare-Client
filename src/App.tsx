@@ -25,9 +25,9 @@ function App() {
         },
         token: {
           colorText: "rgba(255,255,255,1)",
-          colorPrimary: "rgba(26, 69, 117, 1)",
+          colorPrimary: "rgba(144, 226, 167, 1)",
           colorBgTextActive: "rgba(255,255,255,1)",
-          colorBgElevated: "rgba(26, 69, 117, 1)",
+          colorBgElevated: "rgba(109, 171, 127, 1)",
           colorTextDisabled: "rgba(255,255,255,0.4)",
           colorBgContainer: "rgba(255,255,255,0.15)",
         },
