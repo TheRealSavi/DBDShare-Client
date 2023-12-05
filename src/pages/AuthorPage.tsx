@@ -138,32 +138,56 @@ const AuthorPage = (props: IAuthorPage) => {
 
   return (
     <div className="">
-      <h1 className="text-center text-gray-200 pt-2 mb-4">
-        {genAuthorString() + "'s Page"}
-      </h1>
-      {authorUser?._id == userDetails?._id && (
-        <div className="md:absolute p-5 z-50 top-2 right-2 opacity-50 hover:opacity-100 transition-all duration-300">
-          <SignIn />
-        </div>
-      )}
+      <div className="pt-4">
+        <div className="flex items-start gap-2 justify-center w-full">
+          <div className="">
+            {authorUser?.profilePic && (
+              <img
+                className="rounded-full object-contain h-32"
+                src={authorUser?.profilePic}
+                loading="lazy"
+              />
+            )}
+          </div>
 
-      <div className="flex items-center justify-center w-full">
-        {authorUser?.profilePic && (
-          <img
-            className="w-24 h-24 rounded-full object-cover"
-            src={authorUser?.profilePic}
-            loading="lazy"
-          />
-        )}
+          <div className="flex flex-col items-start gap-2 min-h-fit">
+            <p className="text-white text-center text-xl pl-3">
+              {genAuthorString()}
+            </p>
+
+            <div className="bg-gradient-to-r from-cyan-900 to-blue-900 rounded-3xl max-w-full shadow-lg h-fit pl-4 pr-4 pb-1 pt-1">
+              <div className="flex gap-3 items-center">
+                <div className="">
+                  <p className="text-white opacity-50 text-center min-w-fit">
+                    Followers
+                  </p>
+                  <p className="text-white text-center">{followers}</p>
+                </div>
+                <div className="">
+                  <p className="text-white opacity-50 text-center min-w-fit">
+                    Saves
+                  </p>
+                  <p className="text-white text-center">
+                    {authorUser?.saveCount}
+                  </p>
+                </div>
+                <div className="">
+                  <p className="text-white opacity-50 text-center min-w-fit">
+                    Posts
+                  </p>
+                  <p className="text-white text-center">
+                    {authorUser?.postCount}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="flex justify-center items-center space-x-10">
-        <p className="text-white text-center">Followers: {followers}</p>
-        <p className="text-white text-center">Saves: {authorUser?.saveCount}</p>
-        <p className="text-white text-center">Posts: {authorUser?.postCount}</p>
-      </div>
-      <div className="flex items-center justify-evenly text-center">
-        <div className="bg-gradient-to-r from-cyan-900 to-blue-900 w-fit mt-5 rounded-3xl shadow-lg h-fit">
-          <div className="grid grid-cols-2 gap-4 ml-3 mr-3">
+
+      <div className="flex items-center justify-center text-center m-2">
+        <div className="bg-gradient-to-r from-cyan-900 to-blue-900 w-fit rounded-3xl shadow-lg h-fit pl-2 pr-2">
+          <div className="flex items-center justify-between gap-2">
             <button
               className="mt-1 mb-1 button2 text-white"
               onClick={handleClickedFollow}
@@ -183,11 +207,13 @@ const AuthorPage = (props: IAuthorPage) => {
         </div>
       </div>
 
-      <PreviewGrid
-        name="Published Builds:"
-        queryType={PreviewGridQueryType.authorPosts}
-        showFromAuthorID={id}
-      />
+      <div>
+        <PreviewGrid
+          name="Published Builds:"
+          queryType={PreviewGridQueryType.authorPosts}
+          showFromAuthorID={id}
+        />
+      </div>
     </div>
   );
 };
