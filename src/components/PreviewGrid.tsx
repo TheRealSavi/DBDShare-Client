@@ -89,14 +89,14 @@ const PreviewGrid = (props: IPreviewGrid) => {
   return (
     <div className="p-2">
       <div className="flex">
-        <h1 className="grow text-gray-200 text-2xl">{props.name}</h1>
+        <h1 className="grow text-gray-200 text-2xl pl-2">{props.name}</h1>
       </div>
       <Spin spinning={isLoading}>
         <div className="p-1 rounded-xl shadow-md">
           <div className="">
             <div className="sm:flex place-content-center flex-wrap">
               {isEmpty && !isLoading ? (
-                <p className="text-gray-400 text-lg">{errorMessage}</p>
+                <p className="text-gray-400 text-lg p-1">{errorMessage}</p>
               ) : (
                 contents
                   ?.slice(contentPos, contentPos + pageSize)
@@ -107,7 +107,7 @@ const PreviewGrid = (props: IPreviewGrid) => {
             </div>
           </div>
           {!isEmpty && (
-            <div className="flex place-content-center">
+            <div className="flex place-content-center p-1">
               <Pagination
                 current={page}
                 pageSize={pageSize}
