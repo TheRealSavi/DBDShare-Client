@@ -64,7 +64,7 @@ const Navbar = () => {
           text="Perk Randomizer"
         />
         <SideBarButton
-          to="/calc/gen"
+          to="/calc"
           icon={<BsFillCalculatorFill size="28" />}
           text="Calculators"
         />

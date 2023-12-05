@@ -11,6 +11,8 @@ import PerkInfoPage from "./pages/PerkInfoPage";
 import { useContext } from "react";
 import { UserContext } from "./components/UserContext";
 import Devpage from "./pages/DevPage";
+import CalculatorsPage from "./pages/CalculatorsPage";
+import BearTrapPage from "./pages/BearTrapPage";
 
 function AppRouter() {
   const { userDetails } = useContext(UserContext);
@@ -34,7 +36,9 @@ function AppRouter() {
       <Route path="/randomizer" element={<Randomizer />} />
       <Route path="/author/:id" element={<AuthorPage />} />
       <Route path="/perk/:id" element={<PerkInfoPage />} />
+      <Route path="/calc" element={<CalculatorsPage />} />
       <Route path="/calc/gen" element={<GenCalcPage />} />
+      <Route path="/calc/rbt" element={<BearTrapPage />} />
     </Routes>
   );
 }
