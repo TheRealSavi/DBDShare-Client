@@ -7,15 +7,27 @@ import { IBuildPreview, IPerk, IUser, RoleENUM } from "../types/types";
 import axios from "axios";
 import { UserContext } from "./UserContext";
 import { Link } from "react-router-dom";
-import { Popover } from "antd";
+import {
+  ConfigProvider,
+  Dropdown,
+  MenuProps,
+  Popconfirm,
+  Popover,
+  theme,
+} from "antd";
 import { apiUrl } from "../apiConfig";
-
+import { BsThreeDots } from "react-icons/bs";
+import { TbMessageReport } from "react-icons/tb";
+import { MdOutlineIosShare } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 import AuthorPreview from "./AuthorPreview";
 
 interface ISavedCountProps {
   isSaved: boolean;
   savedCount: number;
   buildId: string;
+  authorId: string;
 }
 
 interface IAuthorInfoProps {
@@ -109,6 +121,76 @@ const SavedCount = (props: ISavedCountProps) => {
     }
   };
 
+  const handleDeletePost = async () => {
+    try {
+      await axios.delete(apiUrl + "posts/" + props.buildId, {
+        withCredentials: true,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const items: MenuProps["items"] = [
+    {
+      key: "1",
+      label: (
+        <button
+          className="w-full"
+          onClick={() => {
+            console.log("I aint doin alat");
+          }}
+        >
+          Report
+        </button>
+      ),
+      icon: <TbMessageReport />,
+    },
+    {
+      key: "2",
+      label: <button className="w-full"> Share </button>,
+      icon: <MdOutlineIosShare />,
+    },
+    userDetails?._id == props.authorId
+      ? {
+          key: "3",
+          label: <button className="w-full"> Edit </button>,
+          icon: <MdEdit />,
+        }
+      : null,
+    userDetails?._id == props.authorId
+      ? {
+          key: "4",
+          danger: true,
+          label: (
+            <ConfigProvider
+              theme={{
+                algorithm: theme.darkAlgorithm,
+                components: {
+                  Popover: {
+                    colorBgElevated: "rgba(26, 67, 118, 1)",
+                    borderRadius: 32,
+                  },
+                },
+              }}
+            >
+              <Popconfirm
+                title="Are you sure you want to delete this post?"
+                description="This can not be undone."
+                onConfirm={handleDeletePost}
+                okText="Delete"
+                cancelText="Cancel"
+                style={{ borderRadius: "8px" }}
+              >
+                <button className="w-full"> Delete </button>
+              </Popconfirm>
+            </ConfigProvider>
+          ),
+          icon: <MdDelete />,
+        }
+      : null,
+  ].filter(Boolean);
+
   return (
     <div className="flex gap-2 items-center pr-1 overflow-clip">
       <p className="text-gray-400 pl-2">{saves}</p>
@@ -122,6 +204,9 @@ const SavedCount = (props: ISavedCountProps) => {
           handleClickedSaved();
         }}
       />
+      <Dropdown menu={{ items }} trigger={["click"]}>
+        <BsThreeDots className="text-gray-300 hover:text-blue-300 ml-2 text-lg"></BsThreeDots>
+      </Dropdown>
     </div>
   );
 };
@@ -164,6 +249,7 @@ const BuildPreview = (build: IBuildPreview) => {
           isSaved={build.isSaved}
           buildId={build._id}
           savedCount={build.saves}
+          authorId={build.authorID}
         />
       </div>
 
