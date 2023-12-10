@@ -3,7 +3,13 @@ import { useMatch } from "react-router-dom";
 import { IUser, PreviewGridQueryType } from "../types/types";
 import axios from "axios";
 import { apiUrl } from "../apiConfig";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Dropdown, MenuProps } from "antd";
+import { BsThreeDots } from "react-icons/bs";
+import { BiSolidPaintRoll } from "react-icons/bi";
+import { UserContext } from "../components/UserContext";
+import ThemePicker from "../components/ThemePicker";
+import { PiSignOutBold } from "react-icons/pi";
 
 interface IAuthorPage {
   authorID?: string;
@@ -21,6 +27,9 @@ const AuthorPage = (props: IAuthorPage) => {
   const [followers, setFollowers] = useState(authorUser?.followers);
   const [followed, setFollowed] = useState<boolean>();
   const [shareSuccess, setShareSuccess] = useState<boolean>();
+  const [authorMenuOpen, setAuthorMenuOpen] = useState(false);
+
+  const { userDetails } = useContext(UserContext);
 
   const genAuthorString = () => {
     if (!authorUser) {
@@ -132,6 +141,46 @@ const AuthorPage = (props: IAuthorPage) => {
     }
   };
 
+  const logout = () => {
+    axios
+      .get(apiUrl + "auth/logout", {
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (res.data) {
+          console.log(res.data);
+          localStorage.clear();
+          window.location.href = "/home";
+        }
+      });
+  };
+
+  const handleMenuClick: MenuProps["onClick"] = (e) => {
+    e.domEvent.stopPropagation();
+  };
+
+  const items: MenuProps["items"] = [
+    userDetails?._id == authorUser?._id
+      ? {
+          key: "1",
+          label: <ThemePicker />,
+          icon: <BiSolidPaintRoll />,
+        }
+      : null,
+    { key: 3, type: "divider" },
+    userDetails?._id == authorUser?._id
+      ? {
+          key: "2",
+          label: (
+            <button className="w-full" onClick={logout}>
+              Log out
+            </button>
+          ),
+          icon: <PiSignOutBold />,
+        }
+      : null,
+  ].filter(Boolean);
+
   return (
     <div className="">
       <div className="pt-4">
@@ -147,9 +196,25 @@ const AuthorPage = (props: IAuthorPage) => {
           </div>
 
           <div className="flex flex-col items-start gap-2 min-h-fit">
-            <p className="text-white text-center text-xl pl-3">
-              {genAuthorString()}
-            </p>
+            <div className="flex items-center justify-between w-full">
+              <p className="text-white text-center text-xl pl-3">
+                {genAuthorString()}
+              </p>
+              {userDetails?._id == authorUser?._id ? (
+                <div>
+                  <Dropdown
+                    menu={{ items, onClick: handleMenuClick }}
+                    open={authorMenuOpen}
+                    onOpenChange={(v) => setAuthorMenuOpen(v)}
+                    trigger={["click"]}
+                  >
+                    <BsThreeDots className="text-gray-300 hover:text-blue-300 ml-2 text-lg mr-4"></BsThreeDots>
+                  </Dropdown>
+                </div>
+              ) : (
+                <div></div>
+              )}
+            </div>
 
             <div className="bg-gradient-to-r from-cyan-900 to-blue-900 rounded-3xl max-w-full shadow-lg h-fit pl-4 pr-4 pb-1 pt-1">
               <div className="flex gap-3 items-center">
