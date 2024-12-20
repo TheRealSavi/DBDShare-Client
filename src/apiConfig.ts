@@ -9,10 +9,10 @@ interface Config {
 
 const config: Config = {
   development: {
-    apiUrl: "http://192.168.1.128:5000/",
+    apiUrl: "http://localhost:5000/",
   },
   production: {
-    apiUrl: "https://api.gibbonsiv.com/",
+    apiUrl: "http://localhost:5000/",
   },
 };
 
