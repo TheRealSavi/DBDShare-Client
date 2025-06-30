@@ -32,13 +32,12 @@ Essentially this is a full-stack CRUD application that I intended to host a prod
 
 ## 📷 Screenshots
 
-![App Screenshot](https://i.imgur.com/yTjSiDR.png)
-
-![App Screenshot](https://i.imgur.com/wUWxBgW.png)
-
-![App Screenshot](https://i.imgur.com/ffCheCw.png)
-
-![App Screenshot](https://i.imgur.com/xTYNmJi.png)
+![App Screenshot](https://github.com/TheRealSavi/DBDShare-Client/blob/master/public/ss1.png?raw=true)
+![App Screenshot](https://github.com/TheRealSavi/DBDShare-Client/blob/master/public/ss2.png?raw=true)
+![App Screenshot](https://github.com/TheRealSavi/DBDShare-Client/blob/master/public/ss3.png?raw=true)
+![App Screenshot](https://github.com/TheRealSavi/DBDShare-Client/blob/master/public/ss4.png?raw=true)
+![App Screenshot](https://github.com/TheRealSavi/DBDShare-Client/blob/master/public/ss5.png?raw=true)
+![App Screenshot](https://github.com/TheRealSavi/DBDShare-Client/blob/master/public/ss6.png?raw=true)
 
 ## 💾 Run Locally
 
